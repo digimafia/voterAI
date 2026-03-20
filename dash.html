@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>வாக்காளர் பட்டியல் | Voter List — Booth 304</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Noto+Sans+Tamil:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#0a0a0a; --bg2:#111111; --bg3:#1a1a1a; --bg4:#222222;
+  --card:#161616; --card2:#1e1e1e;
+  --border:#2a2a2a; --border2:#333333;
+  --red:#e63946; --red2:#ff6b74; --red3:#ff2d3a;
+  --red-dim:rgba(230,57,70,.15); --red-glow:rgba(230,57,70,.3);
+  --gold:#f0a500; --blue:#3b9eff; --purple:#a855f7; --green:#22c55e;
+  --text:#f0f0f0; --text2:#a0a0a0; --text3:#606060;
+  --male:#3b9eff; --female:#e63946; --other:#a855f7;
+  --shadow:0 2px 16px rgba(0,0,0,.6);
+  --shadow-lg:0 8px 40px rgba(0,0,0,.8);
+  --r:12px; --r-sm:8px; --r-xs:6px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{font-size:15px;scroll-behavior:smooth;}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:var(--red);}
+
+/* ── HEADER ── */
+header{
+  background:var(--bg2);border-bottom:2px solid var(--red);
+  box-shadow:0 2px 20px var(--red-glow);
+  padding:0 1.5rem;display:flex;align-items:center;
+  justify-content:space-between;height:60px;
+  position:sticky;top:0;z-index:200;gap:1rem;
+}
+.logo{display:flex;align-items:center;gap:.65rem;flex-shrink:0;}
+.logo-icon{
+  width:36px;height:36px;
+  background:linear-gradient(135deg,var(--red),var(--red3));
+  border-radius:8px;display:grid;place-items:center;font-size:1.1rem;
+  box-shadow:0 0 12px var(--red-glow);
+}
+.logo-text .main{color:var(--text);font-weight:800;font-size:.9rem;letter-spacing:.02em;}
+.logo-text .sub{color:var(--red2);font-size:.62rem;font-family:'JetBrains Mono',monospace;letter-spacing:.06em;}
+.nav-tabs{
+  display:flex;gap:.3rem;background:var(--bg3);
+  border:1px solid var(--border);border-radius:var(--r-sm);padding:.25rem;
+}
+.nav-btn{
+  background:transparent;border:none;color:var(--text2);
+  padding:.38rem .9rem;border-radius:var(--r-xs);cursor:pointer;
+  font-family:'Sora',sans-serif;font-size:.78rem;font-weight:600;
+  transition:all .2s;white-space:nowrap;
+}
+.nav-btn:hover{color:var(--text);background:var(--bg4);}
+.nav-btn.active{background:var(--red);color:#fff;box-shadow:0 0 10px var(--red-glow);}
+.header-right{display:flex;align-items:center;gap:.75rem;flex-shrink:0;}
+.badge-booth{
+  background:var(--red-dim);border:1px solid var(--red);
+  color:var(--red2);padding:.28rem .7rem;border-radius:20px;
+  font-size:.65rem;font-family:'JetBrains Mono',monospace;white-space:nowrap;
+}
+.hamburger{
+  display:none;flex-direction:column;gap:4px;
+  cursor:pointer;background:transparent;border:none;padding:.3rem;
+}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:all .3s;}
+
+/* ── LAYOUT ── */
+.app{display:flex;flex-direction:column;min-height:calc(100vh - 60px);}
+.main{flex:1;padding:1.25rem 1.5rem;}
+
+/* ── SECTION HEADER ── */
+.section-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:1.2rem;flex-wrap:wrap;gap:.75rem;
+}
+.section-title{
+  font-size:1rem;font-weight:800;color:var(--text);
+  display:flex;align-items:center;gap:.5rem;
+}
+.section-title::before{
+  content:'';display:inline-block;width:4px;height:18px;
+  background:var(--red);border-radius:2px;box-shadow:0 0 6px var(--red-glow);
+}
+
+/* ── STAT CARDS ── */
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(155px,1fr));
+  gap:.9rem;margin-bottom:1.4rem;
+}
+.stat-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);padding:1rem 1.1rem;
+  box-shadow:var(--shadow);position:relative;overflow:hidden;
+  cursor:pointer;transition:transform .2s,box-shadow .2s,border-color .2s;
+  user-select:none;
+}
+.stat-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,.7);border-color:var(--c,var(--red));}
+.stat-card.active-filter{
+  border-color:var(--c,var(--red));
+  box-shadow:0 0 0 2px var(--c,var(--red)),var(--shadow-lg);
+  background:var(--card2);
+}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--c,var(--red));}
+.stat-card .icon{font-size:1.5rem;margin-bottom:.5rem;filter:drop-shadow(0 0 6px var(--c,var(--red)));}
+.stat-label{font-size:.62rem;color:var(--text3);text-transform:uppercase;letter-spacing:.09em;font-weight:700;}
+.stat-value{font-size:1.85rem;font-weight:800;line-height:1;margin:.25rem 0 .15rem;color:var(--text);}
+.stat-sub{font-size:.65rem;color:var(--text2);}
+.stat-badge{
+  position:absolute;top:.65rem;right:.65rem;
+  background:var(--c,var(--red));color:#fff;
+  font-size:.55rem;font-weight:700;padding:.15rem .4rem;
+  border-radius:10px;font-family:'JetBrains Mono',monospace;opacity:.85;
+}
+
+/* ── CHART ROW ── */
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.4rem;}
+.chart-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r);padding:1.2rem 1.3rem;box-shadow:var(--shadow);
+}
+.chart-title{
+  font-size:.7rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.08em;color:var(--text3);margin-bottom:1.1rem;
+  display:flex;align-items:center;gap:.4rem;
+}
+.chart-title::before{
+  content:'';width:8px;height:8px;border-radius:50%;
+  background:var(--red);box-shadow:0 0 6px var(--red-glow);
+}
+.bar-chart{display:flex;flex-direction:column;gap:.65rem;}
+.bar-item{display:flex;align-items:center;gap:.7rem;}
+.bar-label{font-size:.7rem;font-weight:600;min-width:52px;color:var(--text2);}
+.bar-track{flex:1;height:24px;background:var(--bg3);border-radius:4px;overflow:hidden;border:1px solid var(--border);}
+.bar-fill{
+  height:100%;border-radius:4px;min-width:2px;
+  transition:width 1s cubic-bezier(.4,0,.2,1);
+  display:flex;align-items:center;justify-content:flex-end;
+  padding-right:.5rem;position:relative;
+}
+.bar-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.07));}
+.bar-count{font-size:.65rem;font-weight:700;color:#fff;font-family:'JetBrains Mono',monospace;position:relative;z-index:1;}
+.donut-wrap{display:flex;align-items:center;justify-content:center;gap:2rem;flex-wrap:wrap;}
+.donut-legend{display:flex;flex-direction:column;gap:.8rem;}
+.legend-item{display:flex;align-items:center;gap:.55rem;}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.legend-label{font-size:.75rem;color:var(--text);font-weight:500;}
+.legend-pct{font-size:.7rem;color:var(--text2);font-family:'JetBrains Mono',monospace;}
+
+/* ── FILTER BANNER ── */
+.filter-banner{
+  display:none;background:var(--red-dim);border:1px solid var(--red);
+  border-radius:var(--r-sm);padding:.7rem 1rem;margin-bottom:1rem;
+  align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap;
+}
+.filter-banner.show{display:flex;}
+.filter-banner-text{font-size:.78rem;color:var(--red2);font-weight:600;}
+.filter-banner-sub{font-size:.7rem;color:var(--text2);}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;align-items:center;gap:.65rem;margin-bottom:1rem;flex-wrap:wrap;}
+.search-wrap{position:relative;flex:1;min-width:180px;max-width:320px;}
+.search-wrap input{
+  width:100%;padding:.52rem .75rem .52rem 2.1rem;
+  border:1.5px solid var(--border);border-radius:var(--r-sm);
+  font-family:'Noto Sans Tamil',sans-serif;font-size:.82rem;
+  background:var(--card2);color:var(--text);outline:none;transition:border-color .2s;
+}
+.search-wrap input::placeholder{color:var(--text3);}
+.search-wrap input:focus{border-color:var(--red);}
+.search-icon{position:absolute;left:.68rem;top:50%;transform:translateY(-50%);color:var(--text3);font-size:.85rem;}
+.filter-sel{
+  padding:.52rem .7rem;border:1.5px solid var(--border);border-radius:var(--r-sm);
+  font-family:'Sora',sans-serif;font-size:.78rem;
+  background:var(--card2);color:var(--text);outline:none;cursor:pointer;min-width:115px;
+}
+.filter-sel:focus{border-color:var(--red);}
+.btn{
+  display:inline-flex;align-items:center;gap:.35rem;
+  padding:.5rem .9rem;border-radius:var(--r-sm);border:none;
+  cursor:pointer;font-family:'Sora',sans-serif;font-size:.78rem;
+  font-weight:600;transition:all .18s;white-space:nowrap;
+}
+.btn-red{background:var(--red);color:#fff;box-shadow:0 0 10px var(--red-glow);}
+.btn-red:hover{background:var(--red3);box-shadow:0 0 16px var(--red-glow);}
+.btn-ghost{background:transparent;color:var(--text2);border:1.5px solid var(--border);}
+.btn-ghost:hover{background:var(--bg3);color:var(--text);}
+.btn-danger{background:rgba(230,57,70,.15);color:var(--red);border:1.5px solid var(--red);}
+.btn-danger:hover{background:rgba(230,57,70,.25);}
+.btn-export{
+  display:inline-flex;align-items:center;gap:.35rem;
+  padding:.5rem .9rem;border-radius:var(--r-sm);
+  background:var(--bg3);color:var(--text2);border:1.5px solid var(--border);
+  cursor:pointer;font-family:'Sora',sans-serif;font-size:.78rem;font-weight:600;transition:all .18s;
+}
+.btn-export:hover{border-color:var(--gold);color:var(--gold);background:rgba(240,165,0,.08);}
+.results-info{font-size:.72rem;color:var(--text3);margin-left:auto;font-family:'JetBrains Mono',monospace;white-space:nowrap;}
+
+/* ── SCROLL HINT ── */
+.scroll-hint{display:none;font-size:.65rem;color:var(--text3);text-align:right;margin-bottom:.35rem;font-family:'JetBrains Mono',monospace;}
+
+/* ── TABLE with H-SCROLL ── */
+.table-outer{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);}
+.table-scroll{overflow-x:auto;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+table{width:100%;border-collapse:collapse;min-width:700px;}
+thead{background:var(--bg2);position:sticky;top:0;z-index:10;}
+thead th{
+  padding:.7rem 1rem;font-size:.65rem;font-weight:700;
+  color:var(--text3);text-transform:uppercase;letter-spacing:.08em;
+  text-align:left;cursor:pointer;user-select:none;white-space:nowrap;
+  border-bottom:1px solid var(--border);transition:color .15s;
+}
+thead th:hover{color:var(--red2);}
+thead th .si{margin-left:.25rem;opacity:.4;font-size:.6rem;}
+tbody tr{border-bottom:1px solid var(--border);transition:background .12s;}
+tbody tr:hover{background:var(--bg3);}
+tbody tr:last-child{border-bottom:none;}
+td{padding:.6rem 1rem;font-size:.78rem;vertical-align:middle;white-space:nowrap;}
+td.serial{
+  font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.72rem;
+  color:var(--text3);width:52px;text-align:center;
+}
+td.epic-col{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--text2);}
+td.name-col{min-width:180px;white-space:normal;}
+.name-ta{font-family:'Noto Sans Tamil',sans-serif;font-size:.9rem;font-weight:600;color:var(--text);line-height:1.3;}
+td.rel-col{min-width:170px;white-space:normal;}
+.rel-ta{font-family:'Noto Sans Tamil',sans-serif;font-size:.82rem;color:var(--text2);}
+td.house-col{max-width:110px;white-space:normal;font-size:.75rem;color:var(--text2);}
+.gender-badge{
+  display:inline-block;padding:.18rem .55rem;border-radius:20px;
+  font-size:.62rem;font-weight:700;letter-spacing:.04em;white-space:nowrap;
+}
+.gender-m{background:rgba(59,158,255,.15);color:var(--male);border:1px solid rgba(59,158,255,.3);}
+.gender-f{background:rgba(230,57,70,.15);color:var(--female);border:1px solid rgba(230,57,70,.3);}
+.gender-o{background:rgba(168,85,247,.15);color:var(--other);border:1px solid rgba(168,85,247,.3);}
+td.age-col{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.8rem;text-align:center;width:60px;}
+.age-old{color:var(--gold);}
+.age-senior{color:var(--green);}
+.age-youth{color:var(--purple);}
+.actions-cell{display:flex;gap:.35rem;align-items:center;}
+.act-btn{width:28px;height:28px;border-radius:var(--r-xs);border:none;cursor:pointer;display:grid;place-items:center;font-size:.78rem;transition:all .15s;flex-shrink:0;}
+.act-view{background:rgba(59,158,255,.12);color:var(--blue);border:1px solid rgba(59,158,255,.2);}
+.act-view:hover{background:rgba(59,158,255,.25);}
+.act-edit{background:rgba(240,165,0,.12);color:var(--gold);border:1px solid rgba(240,165,0,.2);}
+.act-edit:hover{background:rgba(240,165,0,.25);}
+.act-del{background:rgba(230,57,70,.12);color:var(--red);border:1px solid rgba(230,57,70,.2);}
+.act-del:hover{background:rgba(230,57,70,.25);}
+
+/* ── PAGINATION ── */
+.pagination{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.9rem 1.1rem;border-top:1px solid var(--border);
+  background:var(--card);flex-wrap:wrap;gap:.6rem;
+}
+.page-info{font-size:.7rem;color:var(--text3);font-family:'JetBrains Mono',monospace;}
+.page-btns{display:flex;gap:.25rem;flex-wrap:wrap;}
+.page-btn{
+  min-width:30px;height:30px;border-radius:var(--r-xs);
+  border:1px solid var(--border);background:var(--card2);
+  color:var(--text2);cursor:pointer;font-size:.72rem;font-weight:600;
+  display:grid;place-items:center;transition:all .15s;padding:0 .4rem;
+}
+.page-btn:hover:not(:disabled){background:var(--bg3);color:var(--text);}
+.page-btn.active{background:var(--red);color:#fff;border-color:var(--red);box-shadow:0 0 8px var(--red-glow);}
+.page-btn:disabled{opacity:.3;cursor:not-allowed;}
+.per-page{display:flex;align-items:center;gap:.5rem;font-size:.7rem;color:var(--text3);}
+.per-page select{padding:.25rem .4rem;border:1px solid var(--border);border-radius:var(--r-xs);font-family:'Sora',sans-serif;font-size:.7rem;background:var(--card2);color:var(--text);outline:none;}
+
+/* ── TABS ── */
+.tabs{
+  display:flex;gap:.25rem;margin-bottom:1rem;
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--r-sm);padding:.25rem;width:fit-content;flex-wrap:wrap;
+}
+.tab{padding:.4rem .9rem;border-radius:var(--r-xs);font-size:.75rem;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--text2);transition:all .15s;font-family:'Sora',sans-serif;white-space:nowrap;}
+.tab.active{background:var(--red);color:#fff;box-shadow:0 0 8px var(--red-glow);}
+.tab:hover:not(.active){background:var(--bg3);color:var(--text);}
+
+/* ── MODAL ── */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:300;display:none;place-items:center;padding:1rem;}
+.overlay.show{display:grid;}
+.modal{background:var(--card);border:1px solid var(--border2);border-radius:16px;width:min(560px,100%);max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,.8);animation:modalIn .22s ease-out;}
+@keyframes modalIn{from{transform:scale(.94) translateY(12px);opacity:0;}to{transform:none;opacity:1;}}
+.modal-header{padding:1.1rem 1.3rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg2);border-top:2px solid var(--red);}
+.modal-title{color:var(--text);font-weight:700;font-size:.9rem;display:flex;align-items:center;gap:.45rem;}
+.modal-close{width:28px;height:28px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-xs);color:var(--text2);cursor:pointer;font-size:1rem;display:grid;place-items:center;transition:all .15s;}
+.modal-close:hover{background:var(--red);color:#fff;border-color:var(--red);}
+.modal-body{padding:1.3rem;overflow-y:auto;flex:1;}
+.modal-footer{padding:.9rem 1.3rem;border-top:1px solid var(--border);display:flex;gap:.5rem;justify-content:flex-end;background:var(--bg2);}
+
+/* View modal */
+.voter-id-bar{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid var(--border2);border-left:3px solid var(--red);border-radius:var(--r-sm);padding:.75rem 1rem;margin-bottom:1.2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;}
+.vid-num{font-size:1.5rem;font-weight:800;color:var(--red2);font-family:'JetBrains Mono',monospace;}
+.vid-epic{font-size:.7rem;color:var(--text3);font-family:'JetBrains Mono',monospace;}
+.view-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.view-field{display:flex;flex-direction:column;gap:.28rem;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-sm);padding:.75rem .85rem;}
+.view-label{font-size:.6rem;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--text3);}
+.view-val-ta{font-family:'Noto Sans Tamil',sans-serif;font-size:.95rem;font-weight:600;color:var(--text);}
+.view-val-sub{font-size:.72rem;color:var(--text2);}
+
+/* Form */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;}
+.form-group{display:flex;flex-direction:column;gap:.35rem;}
+.form-group.full{grid-column:1/-1;}
+label.form-label{font-size:.65rem;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;}
+.form-input{padding:.58rem .75rem;border:1.5px solid var(--border);border-radius:var(--r-sm);font-family:'Sora',sans-serif;font-size:.8rem;outline:none;background:var(--bg2);color:var(--text);transition:border-color .2s;}
+.form-input::placeholder{color:var(--text3);}
+.form-input:focus{border-color:var(--red);box-shadow:0 0 0 3px var(--red-dim);}
+.form-input.ta{font-family:'Noto Sans Tamil',sans-serif;}
+select.form-input{cursor:pointer;}
+
+/* Delete confirm */
+.del-icon{font-size:2.5rem;text-align:center;margin:.5rem 0 1rem;}
+.del-msg{text-align:center;font-size:.85rem;color:var(--text2);line-height:1.7;}
+.del-name{font-weight:700;color:var(--red2);}
+
+/* Toast */
+.toast-wrap{position:fixed;bottom:1.2rem;right:1.2rem;z-index:400;display:flex;flex-direction:column;gap:.45rem;max-width:300px;}
+.toast{background:var(--bg2);color:var(--text);padding:.65rem 1rem;border-radius:var(--r-sm);font-size:.76rem;font-weight:500;box-shadow:var(--shadow-lg);animation:toastIn .3s ease-out;display:flex;align-items:center;gap:.45rem;border:1px solid var(--border);border-left:3px solid var(--red);transition:opacity .4s;}
+@keyframes toastIn{from{transform:translateX(30px);opacity:0;}to{transform:none;opacity:1;}}
+.toast.success{border-left-color:var(--green);}
+.toast.error{border-left-color:var(--red);}
+.toast.info{border-left-color:var(--blue);}
+
+/* Empty */
+.empty-state{text-align:center;padding:3rem 1rem;color:var(--text3);}
+.empty-icon{font-size:2.5rem;margin-bottom:.75rem;}
+.empty-msg{font-size:.82rem;}
+.new-row{animation:newRow .8s ease-out;}
+@keyframes newRow{from{background:rgba(230,57,70,.12);}to{background:transparent;}}
+
+/* Mobile nav */
+.mobile-nav{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:250;flex-direction:column;align-items:center;justify-content:center;gap:1rem;}
+.mobile-nav.open{display:flex;}
+.mobile-nav .nav-btn{font-size:1.1rem;padding:.75rem 2rem;border:1px solid var(--border);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){.chart-row{grid-template-columns:1fr;}}
+@media(max-width:768px){
+  .main{padding:1rem;}
+  header{padding:0 1rem;}
+  .badge-booth{display:none;}
+  .nav-tabs{display:none;}
+  .hamburger{display:flex;}
+  .stats-grid{grid-template-columns:repeat(2,1fr);gap:.75rem;}
+  .stat-value{font-size:1.5rem;}
+  .toolbar{gap:.5rem;}
+  .search-wrap{max-width:100%;min-width:120px;}
+  .scroll-hint{display:block;}
+  .results-info{display:none;}
+  .form-grid{grid-template-columns:1fr;}
+  .view-grid{grid-template-columns:1fr;}
+  .modal{max-height:95vh;}
+  .per-page{display:none;}
+}
+@media(max-width:480px){
+  .stats-grid{grid-template-columns:repeat(2,1fr);}
+  .stat-card{padding:.75rem .9rem;}
+  .stat-value{font-size:1.35rem;}
+  .tab{padding:.35rem .65rem;font-size:.7rem;}
+  .btn{padding:.45rem .7rem;font-size:.74rem;}
+  .toast-wrap{left:1rem;right:1rem;max-width:100%;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">🗳️</div>
+    <div class="logo-text">
+      <span class="main">VoterBase</span>
+      <span class="sub">தொகுதி 31-தாம்பரம்</span>
+    </div>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-btn active" id="navDash" onclick="showView('dashboard')">📊 Dashboard</button>
+    <button class="nav-btn" id="navRec"  onclick="showView('records')">🗂️ Records</button>
+  </div>
+  <div class="header-right">
+    <div class="badge-booth">BOOTH 304 · PART 304</div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- MOBILE NAV OVERLAY -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="nav-btn" onclick="showView('dashboard');toggleMenu()">📊 Dashboard</button>
+  <button class="nav-btn" onclick="showView('records');toggleMenu()">🗂️ Records</button>
+  <button class="btn-ghost btn" onclick="toggleMenu()" style="margin-top:.5rem;">✕ Close</button>
+</div>
+
+<div class="app"><div class="main">
+
+<!-- ── DASHBOARD VIEW ── -->
+<div id="view-dashboard">
+  <div class="section-header">
+    <div class="section-title">Voter Statistics — Booth 304</div>
+    <span id="clearFilterBtn" class="btn btn-ghost" style="display:none;font-size:.72rem;padding:.35rem .8rem;" onclick="clearStatFilter()">✕ Clear Filter</span>
+  </div>
+
+  <div class="stats-grid" id="statsGrid"></div>
+
+  <div class="filter-banner" id="filterBanner">
+    <div>
+      <div class="filter-banner-text" id="filterBannerText">Showing filtered voters</div>
+      <div class="filter-banner-sub"  id="filterBannerSub"></div>
+    </div>
+    <button class="btn btn-ghost" style="font-size:.72rem;" onclick="showView('records')">View in Records →</button>
+  </div>
+
+  <div class="chart-row">
+    <div class="chart-card">
+      <div class="chart-title">Age Distribution</div>
+      <div class="bar-chart" id="ageChart"></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Gender Breakdown</div>
+      <div class="donut-wrap">
+        <svg width="130" height="130" viewBox="0 0 130 130" id="donutSvg"></svg>
+        <div class="donut-legend" id="donutLegend"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Preview / Filtered table -->
+  <div class="chart-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;">
+      <div class="chart-title" style="margin:0;" id="dashTableTitle">Recent Records</div>
+      <button class="btn btn-ghost" onclick="showView('records')" style="font-size:.7rem;padding:.3rem .7rem;">View All →</button>
+    </div>
+    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+      <table style="min-width:540px;width:100%;border-collapse:collapse;">
+        <thead>
+          <tr>
+            <th style="padding:.5rem .8rem;font-size:.62rem;font-weight:700;color:var(--text3);text-align:left;text-transform:uppercase;letter-spacing:.07em;background:var(--bg2);border-bottom:1px solid var(--border);">வ.எண்</th>
+            <th style="padding:.5rem .8rem;font-size:.62rem;font-weight:700;color:var(--text3);text-align:left;text-transform:uppercase;letter-spacing:.07em;background:var(--bg2);border-bottom:1px solid var(--border);">EPIC</th>
+            <th style="padding:.5rem .8rem;font-size:.62rem;font-weight:700;color:var(--text3);text-align:left;text-transform:uppercase;letter-spacing:.07em;background:var(--bg2);border-bottom:1px solid var(--border);">பெயர்</th>
+            <th style="padding:.5rem .8rem;font-size:.62rem;font-weight:700;color:var(--text3);text-align:left;text-transform:uppercase;letter-spacing:.07em;background:var(--bg2);border-bottom:1px solid var(--border);">வீட்டு எண்</th>
+            <th style="padding:.5rem .8rem;font-size:.62rem;font-weight:700;color:var(--text3);text-align:left;text-transform:uppercase;letter-spacing:.07em;background:var(--bg2);border-bottom:1px solid var(--border);">வயது</th>
+            <th style="padding:.5rem .8rem;font-size:.62rem;font-weight:700;color:var(--text3);text-align:left;text-transform:uppercase;letter-spacing:.07em;background:var(--bg2);border-bottom:1px solid var(--border);">பால்</th>
+          </tr>
+        </thead>
+        <tbody id="dashTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ── RECORDS VIEW ── -->
+<div id="view-records" style="display:none;">
+  <div class="section-header">
+    <div class="section-title">Voter Records — Booth 304</div>
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+      <button class="btn-export" onclick="exportCSV()">⬇ Export CSV</button>
+      <button class="btn btn-red" onclick="openAdd()">＋ Add Voter</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="filterGender('all',this)">All</button>
+    <button class="tab" onclick="filterGender('male',this)">♂ Male</button>
+    <button class="tab" onclick="filterGender('female',this)">♀ Female</button>
+    <button class="tab" onclick="filterGender('other',this)">⚧ Other</button>
+  </div>
+
+  <div class="toolbar">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="பெயர், EPIC, வீட்டு எண்…" oninput="handleSearch()"/>
+    </div>
+    <select class="filter-sel" id="ageFilter" onchange="applyFilters()">
+      <option value="">All Ages</option>
+      <option value="youth">Youth (≤30)</option>
+      <option value="mid">Middle (31–60)</option>
+      <option value="senior">Senior (61–79)</option>
+      <option value="old">Elder (80+)</option>
+    </select>
+    <span class="results-info" id="resultsInfo"></span>
+  </div>
+
+  <p class="scroll-hint">← Scroll horizontally to view all columns →</p>
+
+  <div class="table-outer">
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th onclick="sortBy('id')" style="width:52px;">வ.எண்<span class="si" id="sort-id">↕</span></th>
+            <th onclick="sortBy('epic')">EPIC<span class="si" id="sort-epic">↕</span></th>
+            <th onclick="sortBy('nameTa')" style="min-width:180px;">பெயர் (Tamil)<span class="si" id="sort-nameTa">↕</span></th>
+            <th style="min-width:170px;">தந்தை / கணவர் பெயர்</th>
+            <th onclick="sortBy('house')" style="min-width:90px;">வீட்டு எண்<span class="si" id="sort-house">↕</span></th>
+            <th onclick="sortBy('age')" style="width:70px;">வயது<span class="si" id="sort-age">↕</span></th>
+            <th onclick="sortBy('genderEn')" style="width:100px;">பால்<span class="si" id="sort-genderEn">↕</span></th>
+            <th style="width:110px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+    <div class="pagination" id="pagination"></div>
+  </div>
+</div>
+
+</div></div><!-- .main .app -->
+
+<!-- ── MODALS ── -->
+<div class="overlay" id="overlay" onclick="closeModal(event)">
+
+  <!-- VIEW -->
+  <div class="modal" id="modalView" style="display:none;">
+    <div class="modal-header">
+      <span class="modal-title">👤 வாக்காளர் விவரங்கள்</span>
+      <button class="modal-close" onclick="closeAllModals()">✕</button>
+    </div>
+    <div class="modal-body" id="viewBody"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeAllModals()">Close</button>
+      <button class="btn btn-red" onclick="editFromView()">✏️ Edit</button>
+    </div>
+  </div>
+
+  <!-- ADD / EDIT FORM -->
+  <div class="modal" id="modalForm" style="display:none;">
+    <div class="modal-header">
+      <span class="modal-title" id="formTitle">＋ Add Voter</span>
+      <button class="modal-close" onclick="closeAllModals()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">வ.எண் / Serial No</label>
+          <input class="form-input" type="number" id="f-id" min="1"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">EPIC எண்</label>
+          <input class="form-input" type="text" id="f-epic"
+            placeholder="ZUQ1234567"
+            style="font-family:'JetBrains Mono',monospace;text-transform:uppercase;"/>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">பெயர் (Tamil Name)</label>
+          <input class="form-input ta" type="text" id="f-nameTa" placeholder="தமிழ் பெயர்"/>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">தந்தை / கணவர் பெயர்</label>
+          <input class="form-input ta" type="text" id="f-relTa" placeholder="தந்தை அல்லது கணவர் பெயர்"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">வீட்டு எண் / House No</label>
+          <input class="form-input" type="text" id="f-house" placeholder="e.g. 5 / 10A"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">வயது / Age</label>
+          <input class="form-input" type="number" id="f-age" min="18" max="120" placeholder="Age"/>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">பால் / Gender</label>
+          <select class="form-input" id="f-gender">
+            <option value="Male">Male / ஆண்</option>
+            <option value="Female">Female / பெண்</option>
+            <option value="Other">Other / மற்றவர்கள்</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeAllModals()">Cancel</button>
+      <button class="btn btn-red" id="formSaveBtn" onclick="saveForm()">💾 Save</button>
+    </div>
+  </div>
+
+  <!-- DELETE CONFIRM -->
+  <div class="modal" id="modalDelete" style="display:none;">
+    <div class="modal-header">
+      <span class="modal-title">🗑️ Delete Voter</span>
+      <button class="modal-close" onclick="closeAllModals()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="del-icon">⚠️</div>
+      <p class="del-msg">
+        Deleting voter record:<br/>
+        <span class="del-name" id="delName">—</span><br/>
+        <small style="color:var(--text3);">This action cannot be undone.</small>
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeAllModals()">Cancel</button>
+      <button class="btn btn-danger" onclick="confirmDelete()">🗑 Delete</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+// ── DATA ──
+let VOTERS = [{"id": 1, "epic": "FYL8427635", "nameTa": "ஜான்சன்", "nameEn": "", "relTa": "பாலகுரு", "relEn": "", "house": "1", "age": 55, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 2, "epic": "FYL4981833", "nameTa": "ஜெனிபர் ஜான்சன்", "nameEn": "", "relTa": "ஜான்சன்", "relEn": "", "house": "1", "age": 52, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 3, "epic": "ZUQ1393123", "nameTa": "ஜெனிஸ்", "nameEn": "", "relTa": "ஜான்சன்", "relEn": "", "house": "1", "age": 34, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 4, "epic": "FYL8438301", "nameTa": "சங்கரன்", "nameEn": "", "relTa": "மாதவன்", "relEn": "", "house": "1A", "age": 56, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 5, "epic": "FYL4987186", "nameTa": "ஜோதி", "nameEn": "", "relTa": "சங்கர்", "relEn": "", "house": "1A", "age": 50, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 6, "epic": "ZUQ2114643", "nameTa": "மதுமதி", "nameEn": "", "relTa": "சங்கரன்", "relEn": "", "house": "1a", "age": 30, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 7, "epic": "ZUQ3655347", "nameTa": "இலக்கியா ச", "nameEn": "", "relTa": "சங்கரன் மா", "relEn": "", "house": "1ஏ", "age": 26, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 8, "epic": "ZUQ1393099", "nameTa": "சை மு சையத் ஹறிலால்", "nameEn": "", "relTa": "முஸ்தபா", "relEn": "", "house": "1B", "age": 48, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 9, "epic": "ZUQ3489861", "nameTa": "லோகேஷ்", "nameEn": "", "relTa": "செல்வம்", "relEn": "", "house": "2", "age": 24, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 10, "epic": "FYL3065166", "nameTa": "ஜெரால்ஸீமா", "nameEn": "", "relTa": "ஜோசப்சீயா", "relEn": "", "house": "2-1", "age": 57, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 11, "epic": "FYL3064896", "nameTa": "பூங்கோதை", "nameEn": "", "relTa": "ஜெரால்சீமா", "relEn": "", "house": "2-1", "age": 54, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 12, "epic": "FYL8431397", "nameTa": "ராஜன்", "nameEn": "", "relTa": "மணி", "relEn": "", "house": "2A", "age": 45, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 13, "epic": "FYL8431041", "nameTa": "ஜென்சி", "nameEn": "", "relTa": "ராஜன்", "relEn": "", "house": "2A", "age": 43, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 14, "epic": "FYL8439531", "nameTa": "அஸ்மத்சுல்தானா", "nameEn": "", "relTa": "முகமதுபாசுல்லா", "relEn": "", "house": "3", "age": 58, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 15, "epic": "ZUQ1623263", "nameTa": "முகமது முனீர்", "nameEn": "", "relTa": "முகமது பசுலுல்லா", "relEn": "", "house": "3", "age": 54, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 16, "epic": "ZUQ1623248", "nameTa": "முகமது காதர்", "nameEn": "", "relTa": "முகமது பசுலுல்லா", "relEn": "", "house": "3", "age": 54, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 17, "epic": "ZUQ4143889", "nameTa": "சுபபையா", "nameEn": "", "relTa": "உய்காட்டான்", "relEn": "", "house": "3", "age": 51, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 18, "epic": "ZUQ2972032", "nameTa": "ஹஜீரா பேகம்", "nameEn": "", "relTa": "முகமது முனீர்", "relEn": "", "house": "3", "age": 44, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 19, "epic": "YCV0537001", "nameTa": "சுல்தானா பேகம்", "nameEn": "", "relTa": "முகமது காதர்", "relEn": "", "house": "3", "age": 43, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 20, "epic": "ZUQ1623255", "nameTa": "பாத்திமா தபசும்", "nameEn": "", "relTa": "சையது அகமது", "relEn": "", "house": "3", "age": 34, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 21, "epic": "ZUQ1392414", "nameTa": "அமானுல்லா", "nameEn": "", "relTa": "இப்ராகிம்", "relEn": "", "house": "5", "age": 75, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 22, "epic": "ZUQ2114759", "nameTa": "மல்லிகா பேகம்", "nameEn": "", "relTa": "அமானுல்லா", "relEn": "", "house": "5", "age": 71, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 23, "epic": "ZUQ1083724", "nameTa": "காத்தவராயன்", "nameEn": "", "relTa": "முத்து", "relEn": "", "house": "5-1", "age": 71, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 24, "epic": "ZUQ3655909", "nameTa": "ஜேகதீஸ்வர.ஏழம", "nameEn": "", "relTa": "முனுசாமி", "relEn": "", "house": "6", "age": 61, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 25, "epic": "ZUQ3655818", "nameTa": "மாரீஃ.ஜே", "nameEn": "", "relTa": "ஜேகதீஸ்நர.ஏழம", "relEn": "", "house": "6", "age": 55, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 26, "epic": "ZUQ3655925", "nameTa": "முருகு.ஜே", "nameEn": "", "relTa": "ஜேகதீஸ்நர.ஏழம", "relEn": "", "house": "6", "age": 37, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 27, "epic": "ZUQ3655792", "nameTa": "மர்ஜெவி.ஜே", "nameEn": "", "relTa": "ஜகதீஸ்நர.ஏழம", "relEn": "", "house": "6", "age": 34, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 28, "epic": "ZUQ3655487", "nameTa": "மஞ்சுளா நா", "nameEn": "", "relTa": "நாகராஜன்", "relEn": "", "house": "6", "age": 27, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 29, "epic": "ZUQ0128868", "nameTa": "அயதுவா சல்தான்", "nameEn": "", "relTa": "அப்துல் அஜீஸ்", "relEn": "", "house": "7", "age": 70, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 30, "epic": "ZUQ0779769", "nameTa": "ஆரிஃ நிஷா", "nameEn": "", "relTa": "உசேன்", "relEn": "", "house": "7", "age": 34, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 31, "epic": "FYL3060076", "nameTa": "ஆதி", "nameEn": "", "relTa": "மணி", "relEn": "", "house": "7-2", "age": 59, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 32, "epic": "ZUQ2660264", "nameTa": "பர்வீன் அ. லி", "nameEn": "", "relTa": "முஸ்தாக்", "relEn": "", "house": "7-4", "age": 40, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 33, "epic": "ZUQ3979671", "nameTa": "மஞ்சுளா", "nameEn": "", "relTa": "ரவி", "relEn": "", "house": "7/13", "age": 21, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 34, "epic": "ZUQ2660496", "nameTa": "சந்தோஷ்", "nameEn": "", "relTa": "தங்கராஜ்", "relEn": "", "house": "8", "age": 37, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 35, "epic": "ZUQ1885466", "nameTa": "அர்ஜுவீன்", "nameEn": "", "relTa": "ஏழுமலை", "relEn": "", "house": "8", "age": 30, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 36, "epic": "ZUQ3979665", "nameTa": "ஹேமாவதி", "nameEn": "", "relTa": "வீரராகவன்", "relEn": "", "house": "8/15", "age": 21, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 37, "epic": "ZUQ4138616", "nameTa": "சுந்தரி", "nameEn": "", "relTa": "ரவி", "relEn": "", "house": "9", "age": 55, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 38, "epic": "ZUQ1154996", "nameTa": "அர்ஜீன்", "nameEn": "", "relTa": "குமார்", "relEn": "", "house": "9", "age": 45, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 39, "epic": "ZUQ0780635", "nameTa": "தேவி", "nameEn": "", "relTa": "கண்ணன்", "relEn": "", "house": "9", "age": 39, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 40, "epic": "ZUQ2183432", "nameTa": "கயல்விழி", "nameEn": "", "relTa": "சதீஷ்", "relEn": "", "house": "9", "age": 39, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 41, "epic": "ZUQ0780221", "nameTa": "மணிவேண்ணண்", "nameEn": "", "relTa": "சேகர்", "relEn": "", "house": "9", "age": 37, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 42, "epic": "ZUQ3934486", "nameTa": "உதயகுமார்", "nameEn": "", "relTa": "கண்ணன்", "relEn": "", "house": "09", "age": 34, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 43, "epic": "ZUQ1885631", "nameTa": "ராஜேஷ்", "nameEn": "", "relTa": "சேகர்", "relEn": "", "house": "9", "age": 33, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 44, "epic": "FYL8428278", "nameTa": "சதீஷ்", "nameEn": "", "relTa": "சேகர்", "relEn": "", "house": "9-1", "age": 39, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 45, "epic": "ZUQ1392208", "nameTa": "வீரராகவலு", "nameEn": "", "relTa": "இராமசாமி", "relEn": "", "house": "10", "age": 53, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 46, "epic": "ZUQ1392117", "nameTa": "இராஜேஷ்வரி", "nameEn": "", "relTa": "வீரராகவலு", "relEn": "", "house": "10", "age": 48, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 47, "epic": "ZUQ1885607", "nameTa": "கோமதி", "nameEn": "", "relTa": "பிர்காஷ்", "relEn": "", "house": "10", "age": 38, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 48, "epic": "ZUQ1393578", "nameTa": "ஹேமலதா", "nameEn": "", "relTa": "தஷ்ணாமூர்த்தி", "relEn": "", "house": "10", "age": 34, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 49, "epic": "ZUQ1885334", "nameTa": "பாக்கியலட்சுமி", "nameEn": "", "relTa": "ராஜா", "relEn": "", "house": "10", "age": 31, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 50, "epic": "FYL8428526", "nameTa": "தட்சணாமூர்த்தி", "nameEn": "", "relTa": "வெங்கடாசலம்", "relEn": "", "house": "10", "age": 66, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 51, "epic": "FYL8428542", "nameTa": "சாவித்திரி", "nameEn": "", "relTa": "தட்சணாமூர்த்தி", "relEn": "", "house": "10", "age": 59, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 52, "epic": "FYL8435422", "nameTa": "பிர்காஷ்", "nameEn": "", "relTa": "தட்சணாமூர்த்தி", "relEn": "", "house": "10-3", "age": 41, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 53, "epic": "ZUQ4045639", "nameTa": "அறிவழகன் ராஜாராம்", "nameEn": "", "relTa": "ராஜாராம்", "relEn": "", "house": "10/5", "age": 47, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 54, "epic": "ZUQ4066205", "nameTa": "ஜூயலட்சுமி அறிவழகன்", "nameEn": "", "relTa": "அறிவழகன்", "relEn": "", "house": "10/5", "age": 42, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 55, "epic": "ZUQ3655255", "nameTa": "மோரிஷ்ஜா ஆர", "nameEn": "", "relTa": "ராஜா.ஏற", "relEn": "", "house": "10/15", "age": 27, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 56, "epic": "ZUQ3956646", "nameTa": "இலக்கியா", "nameEn": "", "relTa": "வீரராகவலு", "relEn": "", "house": "10-25", "age": 21, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 57, "epic": "ZUQ3655990", "nameTa": "மஹாலக்ஷ்மீ.ஏழம", "nameEn": "", "relTa": "முருகன்", "relEn": "", "house": "10/33", "age": 36, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 58, "epic": "ZUQ3895679", "nameTa": "சோபனா", "nameEn": "", "relTa": "பழனி", "relEn": "", "house": "10/33", "age": 21, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 59, "epic": "ZUQ0129312", "nameTa": "பார்த்தசாரதி", "nameEn": "", "relTa": "சண்முகம்", "relEn": "", "house": "11", "age": 51, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 60, "epic": "ZUQ0780346", "nameTa": "தெத்திலகுமாரன்", "nameEn": "", "relTa": "கதிரேசன்", "relEn": "", "house": "11", "age": 48, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 61, "epic": "ZUQ0781088", "nameTa": "ஜெளரி", "nameEn": "", "relTa": "செந்தில்குமார்", "relEn": "", "house": "11", "age": 37, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 62, "epic": "ZUQ4143905", "nameTa": "ரஞ்சித்ஹூரி", "nameEn": "", "relTa": "செந்தில்குமார்", "relEn": "", "house": "11/7", "age": 19, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 63, "epic": "ZUQ3959210", "nameTa": "ஷாமிலி", "nameEn": "", "relTa": "ரோசையா", "relEn": "", "house": "11/21", "age": 21, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 64, "epic": "ZUQ3655206", "nameTa": "குணசேகரன்", "nameEn": "", "relTa": "சந்தரபாண்டியன்", "relEn": "", "house": "12", "age": 23, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 65, "epic": "FYL3061314", "nameTa": "சேஷா", "nameEn": "", "relTa": "ஆறுமுகம்", "relEn": "", "house": "12/21", "age": 63, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 66, "epic": "ZUQ3497138", "nameTa": "கோமளா", "nameEn": "", "relTa": "சுகுமாரன்", "relEn": "", "house": "12/21", "age": 44, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 67, "epic": "FYL8430522", "nameTa": "கண்ணன்", "nameEn": "", "relTa": "ஜெயராமன்", "relEn": "", "house": "13", "age": 69, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 68, "epic": "FYL3064979", "nameTa": "கலா", "nameEn": "", "relTa": "கண்ணன்", "relEn": "", "house": "13", "age": 51, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 69, "epic": "ZUQ3655966", "nameTa": "புனிதா ராஜு டி", "nameEn": "", "relTa": "தேவா ராஜு", "relEn": "", "house": "13", "age": 43, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 70, "epic": "ZUQ0781146", "nameTa": "வீரமுத்து", "nameEn": "", "relTa": "மாணிக்கம்", "relEn": "", "house": "13-a", "age": 46, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 71, "epic": "ZUQ0780908", "nameTa": "சாந்தி", "nameEn": "", "relTa": "வீரமுத்து", "relEn": "", "house": "13-a", "age": 41, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 72, "epic": "FYL3062791", "nameTa": "கல்வத்பேகம்", "nameEn": "", "relTa": "அபுபக்கர்", "relEn": "", "house": "14", "age": 62, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 73, "epic": "FYL8428583", "nameTa": "சமீம்அன்சாரி", "nameEn": "", "relTa": "அபுபக்கர்", "relEn": "", "house": "14", "age": 42, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 74, "epic": "ZUQ0966648", "nameTa": "பாத்திமா", "nameEn": "", "relTa": "அபுபக்கர்", "relEn": "", "house": "14", "age": 38, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 75, "epic": "ZUQ0965655", "nameTa": "பர்வீன்", "nameEn": "", "relTa": "அபுபக்கர்", "relEn": "", "house": "14", "age": 35, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 76, "epic": "ZUQ3975471", "nameTa": "கலைவாணி", "nameEn": "", "relTa": "கார்த்திகேயன்", "relEn": "", "house": "14/25", "age": 21, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 77, "epic": "FYL3060118", "nameTa": "ராஜா", "nameEn": "", "relTa": "நடேசன்", "relEn": "", "house": "15", "age": 59, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 78, "epic": "FYL3060498", "nameTa": "ஜெயந்தி", "nameEn": "", "relTa": "ராஜா", "relEn": "", "house": "15", "age": 51, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 79, "epic": "ZUQ3956653", "nameTa": "பானு", "nameEn": "", "relTa": "ரமேஷ்", "relEn": "", "house": "15", "age": 47, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 80, "epic": "ZUQ3477502", "nameTa": "யாமினி", "nameEn": "", "relTa": "முனிராஜு", "relEn": "", "house": "15/27", "age": 25, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 81, "epic": "ZUQ3959038", "nameTa": "செல்வன்", "nameEn": "", "relTa": "பெரியசாமி", "relEn": "", "house": "16", "age": 40, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 82, "epic": "ZUQ3655263", "nameTa": "மோர்கா.ஏஸு", "nameEn": "", "relTa": "ஸூஸிமல.பீ", "relEn": "", "house": "16", "age": 23, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 83, "epic": "ZUQ3895323", "nameTa": "ஹேமலதா", "nameEn": "", "relTa": "முருகன்", "relEn": "", "house": "16", "age": 22, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 84, "epic": "ZUQ0780726", "nameTa": "தமிழ்செல்வி", "nameEn": "", "relTa": "கோபால்", "relEn": "", "house": "17", "age": 62, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 85, "epic": "ZUQ4142170", "nameTa": "ராஜா", "nameEn": "", "relTa": "முரளிதரன்", "relEn": "", "house": "17", "age": 28, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 86, "epic": "ZUQ3655438", "nameTa": "பகுருநிஷா", "nameEn": "", "relTa": "ஷேக் அப்துல்லா", "relEn": "", "house": "17/20", "age": 41, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 87, "epic": "ZUQ1384338", "nameTa": "ஜேசுதாஸ்", "nameEn": "", "relTa": "வசந்தா", "relEn": "", "house": "17/24", "age": 44, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 88, "epic": "ZUQ3262896", "nameTa": "முகமதுகாசிம்", "nameEn": "", "relTa": "அப்துல்கூர்", "relEn": "", "house": "18", "age": 71, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 89, "epic": "FYL8430407", "nameTa": "ஹதிஜாபீவி", "nameEn": "", "relTa": "முகமதுகாசிம்", "relEn": "", "house": "18", "age": 56, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 90, "epic": "ZUQ3655305", "nameTa": "விஷாலே.ஆஃ", "nameEn": "", "relTa": "ஏலூரமலை.ஆர", "relEn": "", "house": "18/3", "age": 23, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 91, "epic": "ZUQ3979663", "nameTa": "நர்மதா", "nameEn": "", "relTa": "ஏழுமலை", "relEn": "", "house": "18/3", "age": 20, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 92, "epic": "ZUQ3655362", "nameTa": "முஹம்மத் ரஜூல்", "nameEn": "", "relTa": "முஹம்மத் காஸிம்.செ.ஏ", "relEn": "", "house": "18/22", "age": 23, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 93, "epic": "ZUQ3956638", "nameTa": "அஸ்ரீன்பானு", "nameEn": "", "relTa": "அன்சாரி", "relEn": "", "house": "19", "age": 28, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 94, "epic": "ZUQ3895307", "nameTa": "அபிதா", "nameEn": "", "relTa": "அன்சாரி", "relEn": "", "house": "19", "age": 24, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 95, "epic": "ZUQ2284586", "nameTa": "ஸ்டெல்லா", "nameEn": "", "relTa": "நஜீன்", "relEn": "", "house": "19", "age": 39, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 96, "epic": "ZUQ3656162", "nameTa": "மோகன்", "nameEn": "", "relTa": "ஆறுமுகம்", "relEn": "", "house": "20இல/15", "age": 61, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 97, "epic": "ZUQ3656121", "nameTa": "செல்வி", "nameEn": "", "relTa": "மோகன்", "relEn": "", "house": "20இல/15", "age": 53, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 98, "epic": "ZUQ4043394", "nameTa": "சூரியகல", "nameEn": "", "relTa": "கோன்அப்பாராஜு ராஜு", "relEn": "", "house": "21", "age": 46, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 99, "epic": "ZUQ4066734", "nameTa": "வெங்கடசுப்ரமணியன்", "nameEn": "", "relTa": "சூரியகல கல", "relEn": "", "house": "21", "age": 26, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 100, "epic": "ZUQ4033163", "nameTa": "தாமோதரன் கே", "nameEn": "", "relTa": "சூரியகல கல", "relEn": "", "house": "21", "age": 22, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 101, "epic": "ZUQ2194561", "nameTa": "மல்லிகா", "nameEn": "", "relTa": "துரைராஜு", "relEn": "", "house": "21-13", "age": 72, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 102, "epic": "ZUQ2194579", "nameTa": "ராஜு பாரதி", "nameEn": "", "relTa": "நாகராஜன்", "relEn": "", "house": "21-13", "age": 39, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 103, "epic": "ZUQ4143269", "nameTa": "கவிதா", "nameEn": "", "relTa": "குணவேலன்", "relEn": "", "house": "21/40", "age": 31, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 104, "epic": "ZUQ3979770", "nameTa": "அபிராமி", "nameEn": "", "relTa": "செல்வகுமார்", "relEn": "", "house": "22", "age": 31, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 105, "epic": "FYL3065232", "nameTa": "அமுதவள்ளி", "nameEn": "", "relTa": "கமாலி", "relEn": "", "house": "22-1", "age": 59, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 106, "epic": "FYL8435174", "nameTa": "செல்வக்குமார்", "nameEn": "", "relTa": "கபாலி", "relEn": "", "house": "22-1", "age": 40, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 107, "epic": "ZUQ3656089", "nameTa": "திவ்யப்பிரியா", "nameEn": "", "relTa": "கோபாலகிருஷ்ணன்", "relEn": "", "house": "23", "age": 24, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 108, "epic": "ZUQ3975455", "nameTa": "ரத்தினி", "nameEn": "", "relTa": "ரமேஷ்", "relEn": "", "house": "23", "age": 20, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 109, "epic": "ZUQ3999596", "nameTa": "கற்பகம்", "nameEn": "", "relTa": "ராஜா", "relEn": "", "house": "23/27", "age": 44, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 110, "epic": "ZUQ2515153", "nameTa": "மணி", "nameEn": "", "relTa": "ஆதி", "relEn": "", "house": "23/27", "age": 45, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 111, "epic": "ZUQ2284537", "nameTa": "லதா", "nameEn": "", "relTa": "ஜேசுதாஸ்", "relEn": "", "house": "24", "age": 41, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 112, "epic": "ZUQ1154988", "nameTa": "செத்தில்", "nameEn": "", "relTa": "தமிழ் செல்வி", "relEn": "", "house": "24", "age": 39, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 113, "epic": "ZUQ2515161", "nameTa": "காயத்திரி", "nameEn": "", "relTa": "ஜயப்பன்", "relEn": "", "house": "24", "age": 32, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 114, "epic": "ZUQ0129338", "nameTa": "தாமஸ்", "nameEn": "", "relTa": "த", "relEn": "", "house": "25", "age": 49, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 115, "epic": "FYL8431942", "nameTa": "பாக்கியம்", "nameEn": "", "relTa": "தனுஷ்ராஜு", "relEn": "", "house": "25", "age": 42, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 116, "epic": "ZUQ0129106", "nameTa": "ஜிவாமோரி", "nameEn": "", "relTa": "தாமஸ்", "relEn": "", "house": "25", "age": 41, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 117, "epic": "FYL8431967", "nameTa": "அமல்ராஜு", "nameEn": "", "relTa": "தனுஷ்ராஜு", "relEn": "", "house": "25", "age": 40, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 118, "epic": "ZUQ1623222", "nameTa": "மேரி ஜெளரி", "nameEn": "", "relTa": "அமுல்ராஜு", "relEn": "", "house": "25", "age": 35, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 119, "epic": "ZUQ1623230", "nameTa": "விண்ணாரசி", "nameEn": "", "relTa": "ரவி", "relEn": "", "house": "25", "age": 32, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 120, "epic": "ZUQ2284636", "nameTa": "ஜெயசுதா", "nameEn": "", "relTa": "பெரியசாமி", "relEn": "", "house": "25", "age": 30, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 121, "epic": "ZUQ1885383", "nameTa": "குனன்பிர்காஷ்", "nameEn": "", "relTa": "ஜெயமாலா", "relEn": "", "house": "25", "age": 30, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 122, "epic": "ZUQ4163267", "nameTa": "போனிஷா", "nameEn": "", "relTa": "குனன்பிர்காஷ்", "relEn": "", "house": "25", "age": 23, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 123, "epic": "ZUQ4013066", "nameTa": "கோவிந்தம்சாள் வெள்ளைசாமி", "nameEn": "", "relTa": "வெள்ளைசாமி", "relEn": "", "house": "26", "age": 53, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 124, "epic": "ZUQ2972099", "nameTa": "வலிதா", "nameEn": "", "relTa": "பார்ஸ்கர்", "relEn": "", "house": "26/9", "age": 38, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 125, "epic": "ZUQ2114890", "nameTa": "துர்கா", "nameEn": "", "relTa": "விநாயகம்", "relEn": "", "house": "27", "age": 40, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 126, "epic": "ZUQ3737186", "nameTa": "தமிழ் அரசன்", "nameEn": "", "relTa": "ராஜேஷ் குமார்", "relEn": "", "house": "27", "age": 23, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 127, "epic": "ZUQ3929635", "nameTa": "பஷீரா பேகம் சையத் இலால்", "nameEn": "", "relTa": "சையத் இலால்", "relEn": "", "house": "27/1", "age": 42, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 128, "epic": "ZUQ3919917", "nameTa": "ஏழுமலை", "nameEn": "", "relTa": "ராமசாமி", "relEn": "", "house": "தமிழ் நாடு", "age": 55, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 129, "epic": "ZUQ3919933", "nameTa": "பார்வதி", "nameEn": "", "relTa": "ஏழுமலை", "relEn": "", "house": "27/8", "age": 49, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 130, "epic": "ZUQ2895498", "nameTa": "ஆனந்த", "nameEn": "", "relTa": "ஏழுமலை", "relEn": "", "house": "27/8", "age": 28, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 131, "epic": "ZUQ4210332", "nameTa": "தட்சணாமூர்த்தி முருகன்", "nameEn": "", "relTa": "முருகன்", "relEn": "", "house": "27/2,1வது தெரு", "age": 43, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 132, "epic": "ZUQ4210340", "nameTa": "வளர்மதி அ", "nameEn": "", "relTa": "தட்சணாமூர்த்தி", "relEn": "", "house": "27/2,1வது தெரு", "age": 32, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 133, "epic": "ZUQ3980133", "nameTa": "நந்தினி", "nameEn": "", "relTa": "ராஜா", "relEn": "", "house": "27/23", "age": 25, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 134, "epic": "ZUQ3999562", "nameTa": "சந்தோஷ்", "nameEn": "", "relTa": "ராஜா", "relEn": "", "house": "27/23", "age": 23, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 135, "epic": "ZUQ2114734", "nameTa": "கொஞல்யா", "nameEn": "", "relTa": "செந்தில் குமார்", "relEn": "", "house": "29", "age": 46, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 136, "epic": "ZUQ3975463", "nameTa": "விமல்", "nameEn": "", "relTa": "முருகன்", "relEn": "", "house": "29", "age": 20, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 137, "epic": "FYL3064086", "nameTa": "தயாளன்", "nameEn": "", "relTa": "தயாளன்", "relEn": "", "house": "29", "age": 72, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 138, "epic": "FYL3063773", "nameTa": "வசந்தா", "nameEn": "", "relTa": "தயாளன்", "relEn": "", "house": "29-4", "age": 65, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 139, "epic": "FYL3060571", "nameTa": "செந்தில்குமார்", "nameEn": "", "relTa": "தயாளன்", "relEn": "", "house": "29-4", "age": 47, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 140, "epic": "ZUQ3655404", "nameTa": "பிரகதி.ஏனீ", "nameEn": "", "relTa": "சீதார.பீ", "relEn": "", "house": "29-4", "age": 24, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 141, "epic": "ZUQ3959046", "nameTa": "சஞ்சய்", "nameEn": "", "relTa": "சந்தர்", "relEn": "", "house": "29", "age": 22, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 142, "epic": "ZUQ1885623", "nameTa": "கோகி லீமா", "nameEn": "", "relTa": "ஜெரால்டு லீமா", "relEn": "", "house": "30", "age": 31, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 143, "epic": "ZUQ2743904", "nameTa": "சிந்து வீமா", "nameEn": "", "relTa": "ஜெரால்ட் லீமா", "relEn": "", "house": "30", "age": 28, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 144, "epic": "ZUQ4143897", "nameTa": "பிரீதா", "nameEn": "", "relTa": "சுதாகர்", "relEn": "", "house": "31/14", "age": 30, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 145, "epic": "ZUQ3883303", "nameTa": "ஷாலினிதேவி", "nameEn": "", "relTa": "குமார்", "relEn": "", "house": "32/12", "age": 22, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 146, "epic": "ZUQ3956661", "nameTa": "சபரிஷ்ரி", "nameEn": "", "relTa": "குமார்", "relEn": "", "house": "32/12", "age": 20, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 147, "epic": "ZUQ3655511", "nameTa": "போகனா பிரியா", "nameEn": "", "relTa": "நடராஜன்", "relEn": "", "house": "32ஏ", "age": 25, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 148, "epic": "ZUQ0272898", "nameTa": "ஜெரின்ராபேகம்", "nameEn": "", "relTa": "இஸ்மாயில்", "relEn": "", "house": "34", "age": 51, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 149, "epic": "ZUQ3655289", "nameTa": "ஸ்டர்ட் கூலர்.ஏஸு", "nameEn": "", "relTa": "ஸூகூமாரந.கே", "relEn": "", "house": "35/17", "age": 23, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 150, "epic": "ZUQ3655271", "nameTa": "ரஸல.ஜே", "nameEn": "", "relTa": "ஜோசப்க் க.சல்விஏர", "relEn": "", "house": "37/14", "age": 24, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 151, "epic": "ZUQ3655248", "nameTa": "ஷ்ரிபாட.கே", "nameEn": "", "relTa": "சதனகுமாரி", "relEn": "", "house": "38", "age": 30, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 152, "epic": "ZUQ3959095", "nameTa": "முத்துபிரகாஷ்", "nameEn": "", "relTa": "அருணாசலபாண்டியன்", "relEn": "", "house": "38", "age": 20, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 153, "epic": "ZUQ3737178", "nameTa": "கார்த்திக்", "nameEn": "", "relTa": "ம.க லக்ஷ்மணன்", "relEn": "", "house": "39/4", "age": 36, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 154, "epic": "ZUQ2183416", "nameTa": "பேபி", "nameEn": "", "relTa": "ஆறுமுகம்", "relEn": "", "house": "39a", "age": 38, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 155, "epic": "ZUQ1885375", "nameTa": "தங்கலட்சுமி", "nameEn": "", "relTa": "விஸ்வநாதன்", "relEn": "", "house": "39a", "age": 38, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 156, "epic": "ZUQ3655230", "nameTa": "அனந்தா ராஜு.ஏழம", "nameEn": "", "relTa": "ஆரதநா.ஏ", "relEn": "", "house": "39a", "age": 47, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 157, "epic": "ZUQ3655321", "nameTa": "ஆரதநா.ஏ", "nameEn": "", "relTa": "அனந்தா ராஜு.ஏழம", "relEn": "", "house": "40/8", "age": 39, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 158, "epic": "ZUQ4165064", "nameTa": "லோகநாயகி சக்கரவர்த்தி", "nameEn": "", "relTa": "சக்கரவர்த்தி", "relEn": "", "house": "ஸ1 ஸ்ரி கேஷாத்ரி பிரிந்தாவந எபிபி", "age": 58, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 159, "epic": "ZUQ2183424", "nameTa": "சரன்யா", "nameEn": "", "relTa": "மனிவண்ணன்", "relEn": "", "house": "ஏஸ்ப2 பீ பிளாக்", "age": 31, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 160, "epic": "ZUQ3655388", "nameTa": "ஜீவா முருகன்", "nameEn": "", "relTa": "முருகன் ஏ", "relEn": "", "house": "ஏண்", "age": 23, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 161, "epic": "ZUQ3655743", "nameTa": "கோமேஸ்வரி", "nameEn": "", "relTa": "ராஜேஷ்", "relEn": "", "house": "40/8", "age": 30, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 162, "epic": "ZUQ3746229", "nameTa": "கண்ணன்", "nameEn": "", "relTa": "பார்த்தசாரதி", "relEn": "", "house": "எண்11", "age": 24, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 163, "epic": "ZUQ4038659", "nameTa": "கதீஜா பானு கதீஜு பானு", "nameEn": "", "relTa": "அமான்", "relEn": "", "house": "எண்.18/29", "age": 20, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 164, "epic": "SCY1704485", "nameTa": "நவ்னீதசேலவந", "nameEn": "", "relTa": "துரைராஜு", "relEn": "", "house": "NO 21", "age": 44, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 165, "epic": "SCY1704253", "nameTa": "சுபாஷினி", "nameEn": "", "relTa": "நவ்னீதசேலவந", "relEn": "", "house": "NO 21", "age": 38, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 166, "epic": "ZUQ4209128", "nameTa": "செ வில்லியம் செல்வி", "nameEn": "", "relTa": "கோ செந்தில்", "relEn": "", "house": "எண் 24/17", "age": 42, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 167, "epic": "ZUQ4042214", "nameTa": "அருணாசலம் அருணாசலம்", "nameEn": "", "relTa": "விநாயகம்", "relEn": "", "house": "எண் 27", "age": 20, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 168, "epic": "XKR0716720", "nameTa": "கணேஷ்", "nameEn": "", "relTa": "மோகன்", "relEn": "", "house": "எண்என் ஷ2", "age": 34, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 169, "epic": "FYL3060431", "nameTa": "பெரியசாமி", "nameEn": "", "relTa": "பச்சமாள்", "relEn": "", "house": "1", "age": 56, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 170, "epic": "ZUQ2515112", "nameTa": "செல்வம்", "nameEn": "", "relTa": "சுப்பரமணி", "relEn": "", "house": "1", "age": 52, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 171, "epic": "FYL3059912", "nameTa": "மாணிக்கவாசகம்", "nameEn": "", "relTa": "பச்சமாள்", "relEn": "", "house": "1", "age": 51, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 172, "epic": "FYL3059920", "nameTa": "அருணாச்சலபாண்டியன்", "nameEn": "", "relTa": "பச்சமாள்", "relEn": "", "house": "1", "age": 50, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 173, "epic": "FYL3059839", "nameTa": "புஷ்பகுமாரி", "nameEn": "", "relTa": "பெரியசாமி", "relEn": "", "house": "1", "age": 48, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 174, "epic": "FYL8441065", "nameTa": "ஜெயவாணி", "nameEn": "", "relTa": "மாணிக்கவாசகம்", "relEn": "", "house": "1", "age": 45, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 175, "epic": "FYL8441107", "nameTa": "கவிதா", "nameEn": "", "relTa": "அருணாச்சலபாண்டியன்", "relEn": "", "house": "1", "age": 41, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 176, "epic": "ZUQ2972065", "nameTa": "செல்வம்", "nameEn": "", "relTa": "துரைசாமி", "relEn": "", "house": "2", "age": 54, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 177, "epic": "ZUQ2972057", "nameTa": "அமிர்தவள்ளி", "nameEn": "", "relTa": "செல்வம்", "relEn": "", "house": "2", "age": 46, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 178, "epic": "ZUQ2972040", "nameTa": "கிருத்திகா", "nameEn": "", "relTa": "செல்வம்", "relEn": "", "house": "2", "age": 26, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 179, "epic": "ZUQ1392380", "nameTa": "செல்லதுரை", "nameEn": "", "relTa": "கிருஷ்ணன்", "relEn": "", "house": "3", "age": 64, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 180, "epic": "ZUQ1392372", "nameTa": "லஷ்மி", "nameEn": "", "relTa": "செல்லதுரை", "relEn": "", "house": "3", "age": 56, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 181, "epic": "FYL9899121", "nameTa": "லட்சுமி", "nameEn": "", "relTa": "சீனிவாசராய்", "relEn": "", "house": "4", "age": 76, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 182, "epic": "FYL9899139", "nameTa": "பெண்ணிலா", "nameEn": "", "relTa": "லட்சுமி", "relEn": "", "house": "4", "age": 51, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 183, "epic": "ZUQ1393446", "nameTa": "சூர்யா", "nameEn": "", "relTa": "கண்ணன்", "relEn": "", "house": "4", "age": 32, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 184, "epic": "ZUQ2284719", "nameTa": "அனிதா", "nameEn": "", "relTa": "செல்வகுமார்", "relEn": "", "house": "4", "age": 29, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 185, "epic": "FYL3065133", "nameTa": "முகமதுகஸ்கிகர்", "nameEn": "", "relTa": "முகமதுஇப்ராஹீம்", "relEn": "", "house": "6-1", "age": 57, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 186, "epic": "FYL8429722", "nameTa": "கஸ்துரி", "nameEn": "", "relTa": "மணி", "relEn": "", "house": "7", "age": 69, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 187, "epic": "FYL8429748", "nameTa": "சுந்தரி", "nameEn": "", "relTa": "கல்துரி", "relEn": "", "house": "7", "age": 41, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 188, "epic": "FYL8433344", "nameTa": "முருகன்", "nameEn": "", "relTa": "மணி", "relEn": "", "house": "7", "age": 41, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 189, "epic": "FYL3059177", "nameTa": "மல்லிகா", "nameEn": "", "relTa": "கிருஷ்ணமூர்த்தி", "relEn": "", "house": "7", "age": 64, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 190, "epic": "FYL2697027", "nameTa": "லாரவண்யா", "nameEn": "", "relTa": "கிருஷ்ணமூர்த்தி", "relEn": "", "house": "8", "age": 42, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 191, "epic": "ZUQ3055597", "nameTa": "ரவி", "nameEn": "", "relTa": "சுபரமணி", "relEn": "", "house": "9", "age": 60, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 192, "epic": "ZUQ2515104", "nameTa": "மகேஸ்வரி", "nameEn": "", "relTa": "ராபட்", "relEn": "", "house": "9", "age": 50, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 193, "epic": "ZUQ3055613", "nameTa": "ராம்குமார்", "nameEn": "", "relTa": "ரவி", "relEn": "", "house": "9", "age": 37, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 194, "epic": "ZUQ3655677", "nameTa": "திவ்யஜோஹ்றனஸந", "nameEn": "", "relTa": "சாமுவேல்", "relEn": "", "house": "9/15", "age": 27, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 195, "epic": "ZUQ3501129", "nameTa": "உதயகுமார்", "nameEn": "", "relTa": "பழனி", "relEn": "", "house": "10/33", "age": 24, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 196, "epic": "ZUQ0781187", "nameTa": "அப்துல்ஜவீல்", "nameEn": "", "relTa": "அப்துல்மஜீத்", "relEn": "", "house": "11", "age": 76, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 197, "epic": "ZUQ3497310", "nameTa": "அறவிந்தன்", "nameEn": "", "relTa": "செல்வகுமார்", "relEn": "", "house": "11", "age": 26, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 198, "epic": "ZUQ0128645", "nameTa": "சீனிவாசன்", "nameEn": "", "relTa": "நடேசன்", "relEn": "", "house": "13", "age": 67, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 199, "epic": "FYL3064755", "nameTa": "சிவகுமார்", "nameEn": "", "relTa": "பாலசுப்ரமணியம்", "relEn": "", "house": "13", "age": 49, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 200, "epic": "ZUQ2340883", "nameTa": "ஜெயபாலாஜி", "nameEn": "", "relTa": "ஜெயராமன்", "relEn": "", "house": "14", "age": 45, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 201, "epic": "FYL8436990", "nameTa": "யூபாலன்", "nameEn": "", "relTa": "பாலசுப்ரமணியம்", "relEn": "", "house": "13", "age": 44, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 202, "epic": "ZUQ2377547", "nameTa": "திவ்யா", "nameEn": "", "relTa": "ஜெயபாலாஜி", "relEn": "", "house": "14", "age": 34, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 203, "epic": "ZUQ1392760", "nameTa": "சுகுமார்", "nameEn": "", "relTa": "துரைக்கண்ணு", "relEn": "", "house": "14", "age": 72, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 204, "epic": "ZUQ1700756", "nameTa": "இளைய பெருமாள்", "nameEn": "", "relTa": "தாந்தோணி", "relEn": "", "house": "14", "age": 47, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 205, "epic": "ZUQ1392778", "nameTa": "சுதாகர்", "nameEn": "", "relTa": "யோவான்", "relEn": "", "house": "14", "age": 35, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 206, "epic": "FYL8438947", "nameTa": "நாகப்பன்", "nameEn": "", "relTa": "மேரி", "relEn": "", "house": "14-1", "age": 48, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 207, "epic": "FYL8438954", "nameTa": "சுமதி", "nameEn": "", "relTa": "நாகப்பன்", "relEn": "", "house": "14-1", "age": 41, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 208, "epic": "FYL3059425", "nameTa": "மாரியம்மாள்", "nameEn": "", "relTa": "யோவான்குமார்", "relEn": "", "house": "14-2", "age": 51, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 209, "epic": "FYL4099164", "nameTa": "சகிலாதேவி", "nameEn": "", "relTa": "ஜேம்ஸ்", "relEn": "", "house": "15", "age": 53, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 210, "epic": "ZUQ3262938", "nameTa": "ராமர்ட்", "nameEn": "", "relTa": "ஜேம்ஸ்", "relEn": "", "house": "15", "age": 51, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 211, "epic": "ZUQ3262946", "nameTa": "ஆரோக்கியராஜு", "nameEn": "", "relTa": "ஜேம்ஸ்", "relEn": "", "house": "15", "age": 49, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 212, "epic": "ZUQ0129320", "nameTa": "செல்வி", "nameEn": "", "relTa": "பாலசுந்தரம்", "relEn": "", "house": "15", "age": 37, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 213, "epic": "FYL8246496", "nameTa": "முருகன்", "nameEn": "", "relTa": "ரங்கநாதன்", "relEn": "", "house": "16-1", "age": 53, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 214, "epic": "FYL8426470", "nameTa": "கல்பனா", "nameEn": "", "relTa": "முருகன்", "relEn": "", "house": "16-1", "age": 42, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 215, "epic": "ZUQ3055357", "nameTa": "ஹரிணி", "nameEn": "", "relTa": "ஏழுமலை", "relEn": "", "house": "19/29", "age": 27, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 216, "epic": "ZUQ3055324", "nameTa": "ஹாம்ரிதா", "nameEn": "", "relTa": "ஏழுமலை", "relEn": "", "house": "16/29", "age": 25, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 217, "epic": "ZUQ4163275", "nameTa": "ராஜா", "nameEn": "", "relTa": "முரளிதரன்", "relEn": "", "house": "17", "age": 28, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 218, "epic": "ZUQ0780643", "nameTa": "தாரஜீன்", "nameEn": "", "relTa": "அமான்", "relEn": "", "house": "19", "age": 55, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 219, "epic": "ZUQ0780254", "nameTa": "தேவி", "nameEn": "", "relTa": "ஆறுமுகம்", "relEn": "", "house": "19", "age": 38, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 220, "epic": "ZUQ0780924", "nameTa": "முகமது தெரிப்", "nameEn": "", "relTa": "அமான்", "relEn": "", "house": "18", "age": 35, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 221, "epic": "ZUQ0780247", "nameTa": "சதாம்உசேன்", "nameEn": "", "relTa": "அமான்", "relEn": "", "house": "18", "age": 34, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 222, "epic": "ZUQ1885391", "nameTa": "நாசர்", "nameEn": "", "relTa": "அமான்", "relEn": "", "house": "18", "age": 32, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 223, "epic": "ZUQ2114668", "nameTa": "அசேன் ஒஷ்ரிப்", "nameEn": "", "relTa": "அமான்", "relEn": "", "house": "18", "age": 30, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 224, "epic": "ZUQ2515203", "nameTa": "அன்சாரி", "nameEn": "", "relTa": "அமான் செரிப்", "relEn": "", "house": "18", "age": 28, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 225, "epic": "ZUQ4201661", "nameTa": "புவனேஸ்வரி", "nameEn": "", "relTa": "கண்ணன்", "relEn": "", "house": "18/35", "age": 53, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 226, "epic": "ZUQ3055563", "nameTa": "புகழேந்தி", "nameEn": "", "relTa": "பாபு", "relEn": "", "house": "18/35", "age": 27, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 227, "epic": "ZUQ3055464", "nameTa": "விக்னெஷ்", "nameEn": "", "relTa": "பாபு", "relEn": "", "house": "18/35", "age": 25, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 228, "epic": "FYL8423063", "nameTa": "முருகன்", "nameEn": "", "relTa": "முனுசாமி", "relEn": "", "house": "18/15 1-வது தளம்", "age": 42, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 229, "epic": "FYL3060563", "nameTa": "ஜெயின்டன்பீவி", "nameEn": "", "relTa": "ஜைபீ", "relEn": "", "house": "19", "age": 71, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 230, "epic": "FYL3060472", "nameTa": "சிராஜீபி", "nameEn": "", "relTa": "அன்சாரி", "relEn": "", "house": "19", "age": 56, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 231, "epic": "ZUQ0780734", "nameTa": "அகமது பாஷா", "nameEn": "", "relTa": "அன்சாரி", "relEn": "", "house": "19", "age": 35, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 232, "epic": "FYL3060779", "nameTa": "சாரதா", "nameEn": "", "relTa": "ஏழுமலை", "relEn": "", "house": "20", "age": 56, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 233, "epic": "FYL8439507", "nameTa": "பிரபாகரன்", "nameEn": "", "relTa": "ஏழுமலை", "relEn": "", "house": "20", "age": 39, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 234, "epic": "ZUQ2114684", "nameTa": "உமா", "nameEn": "", "relTa": "மூர்த்தி", "relEn": "", "house": "20", "age": 38, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 235, "epic": "ZUQ0780940", "nameTa": "சத்யராஜு", "nameEn": "", "relTa": "ராணி", "relEn": "", "house": "21-34", "age": 35, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 236, "epic": "FYL8440307", "nameTa": "இந்திராணி", "nameEn": "", "relTa": "எத்திராஜு", "relEn": "", "house": "22", "age": 61, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 237, "epic": "FYL8423071", "nameTa": "விஜயகுமார்", "nameEn": "", "relTa": "இந்திராணி", "relEn": "", "house": "22", "age": 43, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 238, "epic": "ZUQ1392158", "nameTa": "விஜயகுமாரி", "nameEn": "", "relTa": "விஜினோத் குமார்", "relEn": "", "house": "22-27", "age": 33, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 239, "epic": "ZUQ1623347", "nameTa": "ரவிகுமார்", "nameEn": "", "relTa": "சீனிவாசன்", "relEn": "", "house": "23", "age": 40, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 240, "epic": "FYL8440430", "nameTa": "சுமதி", "nameEn": "", "relTa": "சீனிவாசன்", "relEn": "", "house": "23", "age": 38, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 241, "epic": "ZUQ1623321", "nameTa": "ராஜலட்சுமி", "nameEn": "", "relTa": "ரவிக்குமார்", "relEn": "", "house": "23", "age": 36, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 242, "epic": "FYL3059631", "nameTa": "நாகேஸ்வரி கருப்பையா01", "nameEn": "", "relTa": "கருப்பையா", "relEn": "", "house": "24 / 26", "age": 66, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 243, "epic": "FYL3060795", "nameTa": "கலா", "nameEn": "", "relTa": "தங்கவேலு", "relEn": "", "house": "25", "age": 57, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 244, "epic": "FYL8425498", "nameTa": "உதயகுமார்", "nameEn": "", "relTa": "தங்கவேலு", "relEn": "", "house": "25", "age": 39, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 245, "epic": "ZUQ2284693", "nameTa": "சந்தோஷ் குமாரி", "nameEn": "", "relTa": "அரிபிரபு", "relEn": "", "house": "26", "age": 44, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 246, "epic": "ZUQ2284685", "nameTa": "அரிபிரபு", "nameEn": "", "relTa": "கருணாகரன்", "relEn": "", "house": "26", "age": 42, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 247, "epic": "ZUQ0781153", "nameTa": "ராமசாமி", "nameEn": "", "relTa": "கருப்பையா", "relEn": "", "house": "26", "age": 35, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 248, "epic": "FYL3060530", "nameTa": "பாலசுந்தரம்", "nameEn": "", "relTa": "தர்மன்", "relEn": "", "house": "26", "age": 62, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 249, "epic": "FYL3060662", "nameTa": "சின்னபொன்னு", "nameEn": "", "relTa": "பாலசுந்தர்", "relEn": "", "house": "27", "age": 59, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 250, "epic": "FYL8426967", "nameTa": "கற்பகம்", "nameEn": "", "relTa": "ஆறுமுகம்", "relEn": "", "house": "28", "age": 47, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 251, "epic": "FYL8431504", "nameTa": "லட்சுமி", "nameEn": "", "relTa": "ஏழுமலை", "relEn": "", "house": "29", "age": 48, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 252, "epic": "ZUQ4186227", "nameTa": "போகளா", "nameEn": "", "relTa": "சிவகுமார்", "relEn": "", "house": "30-20", "age": 41, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 253, "epic": "ZUQ4163135", "nameTa": "ஆகாஷ்", "nameEn": "", "relTa": "நாகப்பன்", "relEn": "", "house": "31/14", "age": 19, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 254, "epic": "FYL3064904", "nameTa": "வேலு", "nameEn": "", "relTa": "பாபு", "relEn": "", "house": "32", "age": 55, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 255, "epic": "FYL3064839", "nameTa": "கம்லா", "nameEn": "", "relTa": "வேலு", "relEn": "", "house": "32", "age": 49, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 256, "epic": "ZUQ1392786", "nameTa": "முரளிதரன்", "nameEn": "", "relTa": "வேலு", "relEn": "", "house": "32", "age": 33, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 257, "epic": "ZUQ3925138", "nameTa": "நுக்கணி கு", "nameEn": "", "relTa": "குமார்", "relEn": "", "house": "32/12", "age": 50, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 258, "epic": "ZUQ0129866", "nameTa": "புஜணி", "nameEn": "", "relTa": "இராகவன்", "relEn": "", "house": "33", "age": 50, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 259, "epic": "FYL3061868", "nameTa": "ஆறுமுகம்", "nameEn": "", "relTa": "மாணிக்கவேல்", "relEn": "", "house": "33", "age": 48, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 260, "epic": "ZUQ0780650", "nameTa": "செல்வி", "nameEn": "", "relTa": "புஜணி", "relEn": "", "house": "33", "age": 46, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 261, "epic": "ZUQ0129908", "nameTa": "முருகன்", "nameEn": "", "relTa": "பாண்டுரங்கன்", "relEn": "", "house": "33", "age": 40, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 262, "epic": "FYL8427791", "nameTa": "குமார்", "nameEn": "", "relTa": "முத்து", "relEn": "", "house": "34", "age": 43, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 263, "epic": "ZUQ1885599", "nameTa": "செல்வி", "nameEn": "", "relTa": "குமார்", "relEn": "", "house": "34", "age": 41, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 264, "epic": "FYL8427247", "nameTa": "மூர்த்தி", "nameEn": "", "relTa": "முத்து", "relEn": "", "house": "34", "age": 39, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 265, "epic": "FYL3059060", "nameTa": "கிருஷ்ணமூர்த்தி", "nameEn": "", "relTa": "மயில்வாகனம்", "relEn": "", "house": "34/8", "age": 74, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 266, "epic": "FYL8427361", "nameTa": "புஷ்பா", "nameEn": "", "relTa": "பாபு", "relEn": "", "house": "35", "age": 46, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 267, "epic": "FYL9900226", "nameTa": "பன்னீர்செல்வம்", "nameEn": "", "relTa": "முனுசாமி", "relEn": "", "house": "35", "age": 46, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 268, "epic": "ZUQ3534419", "nameTa": "மொக்கியார் பேகம் டி", "nameEn": "", "relTa": "முகமது தஸ்தகீர்", "relEn": "", "house": "35/6", "age": 49, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 269, "epic": "ZUQ3849817", "nameTa": "இம்தியாஸ் டி", "nameEn": "", "relTa": "முஹம்மத் தஸ்தகீர்", "relEn": "", "house": "35/6", "age": 29, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 270, "epic": "FYL3062403", "nameTa": "லட்சுமணன்", "nameEn": "", "relTa": "சுப்ரமணி", "relEn": "", "house": "36", "age": 66, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 271, "epic": "FYL3061744", "nameTa": "இந்திரா", "nameEn": "", "relTa": "லட்சுமணன்", "relEn": "", "house": "36", "age": 61, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 272, "epic": "EZZ7977499", "nameTa": "வணிதா", "nameEn": "", "relTa": "லட்சுமணன்", "relEn": "", "house": "36", "age": 44, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 273, "epic": "ZUQ0780676", "nameTa": "சூலாமணி", "nameEn": "", "relTa": "லட்சுமணன்", "relEn": "", "house": "36", "age": 38, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 274, "epic": "ZUQ3262961", "nameTa": "முனுசாமி", "nameEn": "", "relTa": "ஜெயராமன்", "relEn": "", "house": "37-1", "age": 76, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 275, "epic": "ZUQ3262979", "nameTa": "ஆண்டாள்", "nameEn": "", "relTa": "முனுசாமி", "relEn": "", "house": "37-1", "age": 69, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 276, "epic": "ZUQ3262995", "nameTa": "ரமேஷ்", "nameEn": "", "relTa": "முனுசாமி", "relEn": "", "house": "37-1", "age": 48, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 277, "epic": "FYL9900374", "nameTa": "தீன்தயாளன்", "nameEn": "", "relTa": "முனுசாமி", "relEn": "", "house": "37-1", "age": 47, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 278, "epic": "FYL8426983", "nameTa": "லட்சுமி", "nameEn": "", "relTa": "ரமேஷ்", "relEn": "", "house": "37-1", "age": 41, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 279, "epic": "FYL8436800", "nameTa": "வெங்கடேசன்", "nameEn": "", "relTa": "பாலன்", "relEn": "", "house": "37", "age": 47, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 280, "epic": "FYL8427536", "nameTa": "மணிமேகலை", "nameEn": "", "relTa": "வெங்கடேசன்", "relEn": "", "house": "37-2", "age": 44, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 281, "epic": "ZUQ1155001", "nameTa": "பச்சமாள்", "nameEn": "", "relTa": "சுப்பையா", "relEn": "", "house": "38", "age": 84, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 282, "epic": "ZUQ0779777", "nameTa": "உலகநீதி", "nameEn": "", "relTa": "பச்சமாள்", "relEn": "", "house": "38", "age": 35, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 283, "epic": "ZUQ2515245", "nameTa": "முத்துராஜு", "nameEn": "", "relTa": "பெரியசாமி", "relEn": "", "house": "38", "age": 28, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 284, "epic": "ZUQ3838596", "nameTa": "ஸ்ர மதுரை", "nameEn": "", "relTa": "மாணிக்கவசகம்", "relEn": "", "house": "38", "age": 23, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 285, "epic": "ZUQ1393149", "nameTa": "ஜானகி", "nameEn": "", "relTa": "சகாதேவன்", "relEn": "", "house": "42", "age": 38, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 286, "epic": "ZUQ3732393", "nameTa": "பராசரன் கிருஷ்ணன்", "nameEn": "", "relTa": "கிருஷ்ணன்", "relEn": "", "house": "இ41", "age": 26, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 287, "epic": "ZUQ4052809", "nameTa": "புருஷோத்தமன்", "nameEn": "", "relTa": "வெங்கடேசன்", "relEn": "", "house": "எண் 4", "age": 22, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 288, "epic": "ZUQ4077749", "nameTa": "அன்பரசன்", "nameEn": "", "relTa": "செல்வகுமார்", "relEn": "", "house": "எண் 4", "age": 20, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 289, "epic": "ZUQ4208211", "nameTa": "அஜீத் அர்னால்டு சாம்சன்", "nameEn": "", "relTa": "சசிக்குமார்", "relEn": "", "house": "எண்.7", "age": 24, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 290, "epic": "ZUQ3655719", "nameTa": "விஜய்", "nameEn": "", "relTa": "இலய பெருமாள்", "relEn": "", "house": "எண் 14", "age": 24, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 291, "epic": "ZUQ3655693", "nameTa": "அஜய்", "nameEn": "", "relTa": "இல்லய பெருமாள்", "relEn": "", "house": "எண் 14", "age": 23, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 292, "epic": "ZUQ1392141", "nameTa": "மகாராஜா", "nameEn": "", "relTa": "தேனப்பன்", "relEn": "", "house": "எண் 14/25,", "age": 35, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 293, "epic": "ZUQ4172128", "nameTa": "காஞ்சனாதேவி வே", "nameEn": "", "relTa": "வேலு", "relEn": "", "house": "எண்ண 32", "age": 29, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 294, "epic": "ZUQ3754512", "nameTa": "ஆஷிகா பீ", "nameEn": "", "relTa": "முஹம்மத் தஸ்தாகீர்", "relEn": "", "house": "எண் 35/6", "age": 27, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 295, "epic": "FYL3065117", "nameTa": "ஜனார்த்தனன்", "nameEn": "", "relTa": "ஜெயராம்", "relEn": "", "house": "1", "age": 66, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 296, "epic": "FYL3065422", "nameTa": "ரேணுகா", "nameEn": "", "relTa": "ஜனார்த்தனன்", "relEn": "", "house": "1", "age": 59, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 297, "epic": "FYL8429391", "nameTa": "ஸ்ரீதர்", "nameEn": "", "relTa": "ஜானார்த்தனன்", "relEn": "", "house": "1", "age": 40, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 298, "epic": "FYL3062718", "nameTa": "சாந்தி", "nameEn": "", "relTa": "சின்னதம்பி", "relEn": "", "house": "1", "age": 56, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 299, "epic": "ZUQ2284552", "nameTa": "தங்கராஜு", "nameEn": "", "relTa": "சின்னத்தம்பி", "relEn": "", "house": "2", "age": 36, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 300, "epic": "ZUQ2284545", "nameTa": "தங்ககுமார்", "nameEn": "", "relTa": "சின்னத்தம்பி", "relEn": "", "house": "2", "age": 34, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 301, "epic": "ZUQ2284529", "nameTa": "சதீஷ்குமார்", "nameEn": "", "relTa": "சின்னத்தம்பி", "relEn": "", "house": "2", "age": 29, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 302, "epic": "FYL3061272", "nameTa": "ராஜமோமாள்", "nameEn": "", "relTa": "பலராமன்", "relEn": "", "house": "3", "age": 71, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 303, "epic": "FYL3059730", "nameTa": "அஞ்சலை", "nameEn": "", "relTa": "லட்சுமணன்", "relEn": "", "house": "4", "age": 54, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 304, "epic": "ZUQ0129015", "nameTa": "சங்கர்", "nameEn": "", "relTa": "பெருமாள்", "relEn": "", "house": "4", "age": 50, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 305, "epic": "ZUQ1393248", "nameTa": "அருண்", "nameEn": "", "relTa": "தணிகாச்சலம்", "relEn": "", "house": "4", "age": 47, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 306, "epic": "ZUQ2660389", "nameTa": "கவிதா", "nameEn": "", "relTa": "சங்கர்", "relEn": "", "house": "2", "age": 44, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 307, "epic": "ZUQ1885524", "nameTa": "அசோக்", "nameEn": "", "relTa": "லட்சுமணன்", "relEn": "", "house": "4", "age": 31, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 308, "epic": "ZUQ3804184", "nameTa": "கோபிநாத்", "nameEn": "", "relTa": "சங்கர்", "relEn": "", "house": "4/7", "age": 22, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 309, "epic": "FYL8430720", "nameTa": "தங்கமணி", "nameEn": "", "relTa": "சாபாதி", "relEn": "", "house": "5", "age": 44, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 310, "epic": "ZUQ0128694", "nameTa": "இராஜேஸ்வரி", "nameEn": "", "relTa": "சுரேஷ்", "relEn": "", "house": "5", "age": 40, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 311, "epic": "FYL9900424", "nameTa": "உஷா", "nameEn": "", "relTa": "வேணுகோபால்", "relEn": "", "house": "5-2", "age": 61, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 312, "epic": "ZUQ0128686", "nameTa": "சுமதி", "nameEn": "", "relTa": "ராஜீ", "relEn": "", "house": "7", "age": 37, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 313, "epic": "ZUQ2660488", "nameTa": "முஸ்தாக். சு", "nameEn": "", "relTa": "அப்துல் சுல்தான்", "relEn": "", "house": "7/2-13", "age": 42, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 314, "epic": "ZUQ4087144", "nameTa": "நித்யா அப்புன்", "nameEn": "", "relTa": "அப்புன்", "relEn": "", "house": "7/2-13", "age": 23, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 315, "epic": "ZUQ4087243", "nameTa": "நித்ய ஸ்ரீ அப்பூன்", "nameEn": "", "relTa": "அப்புன்", "relEn": "", "house": "7/2-13", "age": 23, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 316, "epic": "FYL3059698", "nameTa": "டேவிட்", "nameEn": "", "relTa": "தேவதானம்", "relEn": "", "house": "8", "age": 67, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 317, "epic": "FYL9900614", "nameTa": "சுரூதா", "nameEn": "", "relTa": "டேவிட்", "relEn": "", "house": "8", "age": 44, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 318, "epic": "FYL8435570", "nameTa": "விக்டோரியா", "nameEn": "", "relTa": "டேவிட்", "relEn": "", "house": "8", "age": 42, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 319, "epic": "ZUQ2515062", "nameTa": "போகநாயகி", "nameEn": "", "relTa": "சுரேஷ்", "relEn": "", "house": "8", "age": 31, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 320, "epic": "ZUQ3804143", "nameTa": "ரஜினி குமார்", "nameEn": "", "relTa": "வீரராகவன்", "relEn": "", "house": "8/15", "age": 22, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 321, "epic": "FYL8427452", "nameTa": "குமுதவள்ளி", "nameEn": "", "relTa": "கண்ணியப்பன்", "relEn": "", "house": "9", "age": 63, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 322, "epic": "ZUQ4160297", "nameTa": "திவாகர்", "nameEn": "", "relTa": "செல்வம்", "relEn": "", "house": "9", "age": 55, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 323, "epic": "ZUQ4160313", "nameTa": "சுபா", "nameEn": "", "relTa": "திவாகர்", "relEn": "", "house": "9", "age": 51, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 324, "epic": "FYL8438525", "nameTa": "சுரேஷ்", "nameEn": "", "relTa": "கண்ணியப்பன்", "relEn": "", "house": "9", "age": 44, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 325, "epic": "FYL3060712", "nameTa": "ஹாஜலுஹான்", "nameEn": "", "relTa": "அப்துல்கலீம்", "relEn": "", "house": "10", "age": 76, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 326, "epic": "FYL3062619", "nameTa": "பீமா", "nameEn": "", "relTa": "ஹாஜலுஹான்", "relEn": "", "house": "10", "age": 71, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 327, "epic": "FYL8427460", "nameTa": "ஆய்ஷாபானு", "nameEn": "", "relTa": "ஹாஜலுஹான்", "relEn": "", "house": "10", "age": 43, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 328, "epic": "ZUQ1393511", "nameTa": "பிரான்சிஸ்செவியர்", "nameEn": "", "relTa": "ஆசீர்வாதம்", "relEn": "", "house": "10", "age": 35, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 329, "epic": "ZUQ1885516", "nameTa": "ஜீனத்", "nameEn": "", "relTa": "செட்டூஷ்ரீப்", "relEn": "", "house": "10", "age": 39, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 330, "epic": "ZUQ2660462", "nameTa": "மணிகண்டன்", "nameEn": "", "relTa": "செல்வராஜு", "relEn": "", "house": "10", "age": 40, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 331, "epic": "ZUQ2515070", "nameTa": "தியா", "nameEn": "", "relTa": "மணிகண்டன்", "relEn": "", "house": "12", "age": 30, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 332, "epic": "FYL3059706", "nameTa": "ராஜி", "nameEn": "", "relTa": "மலையப்பன்", "relEn": "", "house": "13-1", "age": 63, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 333, "epic": "FYL3059375", "nameTa": "ராணி", "nameEn": "", "relTa": "ராஜி", "relEn": "", "house": "13-1", "age": 56, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 334, "epic": "FYL4954053", "nameTa": "அப்பணு", "nameEn": "", "relTa": "ராஜி", "relEn": "", "house": "13-1", "age": 43, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 335, "epic": "FYL8433765", "nameTa": "ரவி", "nameEn": "", "relTa": "மதுர்", "relEn": "", "house": "13-2", "age": 45, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 336, "epic": "FYL8427163", "nameTa": "சாந்தி", "nameEn": "", "relTa": "ரவி", "relEn": "", "house": "13-2", "age": 41, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 337, "epic": "FYL8429516", "nameTa": "கண்ணியப்பன்", "nameEn": "", "relTa": "சாபாதி", "relEn": "", "house": "14-1", "age": 56, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 338, "epic": "FYL8428054", "nameTa": "அம்ல்கா", "nameEn": "", "relTa": "கண்ணியப்பன்", "relEn": "", "house": "14-1", "age": 46, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 339, "epic": "FYL8428892", "nameTa": "வீரராகவன்", "nameEn": "", "relTa": "மணி", "relEn": "", "house": "15", "age": 49, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 340, "epic": "FYL8435620", "nameTa": "சுரேஷ்", "nameEn": "", "relTa": "மணி", "relEn": "", "house": "15", "age": 43, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 341, "epic": "FYL8426884", "nameTa": "வணிதா", "nameEn": "", "relTa": "வீரராகவன்", "relEn": "", "house": "15", "age": 42, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 342, "epic": "FYL8430589", "nameTa": "நுக்மணி", "nameEn": "", "relTa": "வடிவேலு", "relEn": "", "house": "15", "age": 40, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 343, "epic": "ZUQ0129080", "nameTa": "வசந்த்குமார்", "nameEn": "", "relTa": "பாலகிருஷ்ணன்", "relEn": "", "house": "15", "age": 38, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 344, "epic": "ZUQ0129445", "nameTa": "மதன்குமார்", "nameEn": "", "relTa": "பாலகிருஷ்ணன்", "relEn": "", "house": "15", "age": 37, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 345, "epic": "ZUQ2515179", "nameTa": "சுந்தரி", "nameEn": "", "relTa": "கதிரேசன்", "relEn": "", "house": "15", "age": 63, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 346, "epic": "FYL3059748", "nameTa": "மல்லிகா", "nameEn": "", "relTa": "மணி", "relEn": "", "house": "16", "age": 59, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 347, "epic": "ZUQ1393461", "nameTa": "முத்து", "nameEn": "", "relTa": "மணி", "relEn": "", "house": "16", "age": 33, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 348, "epic": "ZUQ0128850", "nameTa": "ஏழுமலை", "nameEn": "", "relTa": "ராமச்சந்திரன்", "relEn": "", "house": "18", "age": 48, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 349, "epic": "ZUQ0128884", "nameTa": "கீதா", "nameEn": "", "relTa": "ஏழுமலை", "relEn": "", "house": "18", "age": 47, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 350, "epic": "ZUQ2909349", "nameTa": "ஷபானா", "nameEn": "", "relTa": "முகமது ஹஷ்ரிப்", "relEn": "", "house": "18/19", "age": 35, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 351, "epic": "ZUQ1623362", "nameTa": "அல்போன்ஸ", "nameEn": "", "relTa": "சிவர்", "relEn": "", "house": "18-38", "age": 42, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 352, "epic": "FYL3059680", "nameTa": "சலத்மேரி", "nameEn": "", "relTa": "ஆசீர்வாதம்", "relEn": "", "house": "19", "age": 56, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 353, "epic": "ZUQ4044640", "nameTa": "மரியா நிஷா ம", "nameEn": "", "relTa": "மகனகோபால் ப", "relEn": "", "house": "19/39", "age": 23, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 354, "epic": "FYL8427080", "nameTa": "கிருஷ்ணவேணி", "nameEn": "", "relTa": "செல்வம்", "relEn": "", "house": "20", "age": 51, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 355, "epic": "ZUQ1155175", "nameTa": "பெஞ்சமின் பிராங்கிளின்", "nameEn": "", "relTa": "கார்த்திகேயன்", "relEn": "", "house": "20/39", "age": 37, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 356, "epic": "FYL3063443", "nameTa": "குருவம்மாள்", "nameEn": "", "relTa": "தேவையா", "relEn": "", "house": "21", "age": 73, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 357, "epic": "FYL3063278", "nameTa": "ரோசய்யா", "nameEn": "", "relTa": "குருவம்மாள்", "relEn": "", "house": "21-2", "age": 52, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 358, "epic": "FYL8429409", "nameTa": "சரோஜா", "nameEn": "", "relTa": "ரோசையா", "relEn": "", "house": "21-2", "age": 46, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 359, "epic": "FYL3059961", "nameTa": "வத்சலா", "nameEn": "", "relTa": "கிருஷ்ணன்", "relEn": "", "house": "21-2", "age": 72, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 360, "epic": "ZUQ2660447", "nameTa": "சுருதி", "nameEn": "", "relTa": "சுரேஷ்", "relEn": "", "house": "22", "age": 30, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 361, "epic": "FYL3061595", "nameTa": "சுரேஷ்", "nameEn": "", "relTa": "வேலாயுதம்", "relEn": "", "house": "22-1", "age": 54, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 362, "epic": "FYL3059904", "nameTa": "சுதா", "nameEn": "", "relTa": "சுரேஷ்", "relEn": "", "house": "22-1", "age": 49, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 363, "epic": "EZZ7977598", "nameTa": "பாலன்", "nameEn": "", "relTa": "வேலாயுதம்", "relEn": "", "house": "22-3", "age": 62, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 364, "epic": "FYL3065927", "nameTa": "லட்சுமி", "nameEn": "", "relTa": "அன்ரூஸ்", "relEn": "", "house": "23", "age": 71, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 365, "epic": "FYL8432817", "nameTa": "ராஜேஷ்", "nameEn": "", "relTa": "லட்சுமி", "relEn": "", "house": "24", "age": 44, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 366, "epic": "ZUQ0780684", "nameTa": "லூர்த்துமேரி", "nameEn": "", "relTa": "ராஜேஷ்", "relEn": "", "house": "22", "age": 41, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 367, "epic": "FYL3064318", "nameTa": "முருகம்மா", "nameEn": "", "relTa": "தேவேந்திரன்", "relEn": "", "house": "25", "age": 57, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 368, "epic": "ZUQ1393354", "nameTa": "போகன்", "nameEn": "", "relTa": "தேவேந்திரன்", "relEn": "", "house": "25", "age": 43, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 369, "epic": "FYL3059250", "nameTa": "ஸ்ரீதர்", "nameEn": "", "relTa": "வேலாயுதம்", "relEn": "", "house": "28", "age": 64, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 370, "epic": "FYL3059524", "nameTa": "ராஜி", "nameEn": "", "relTa": "ஸ்ரீதர்", "relEn": "", "house": "28", "age": 54, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 371, "epic": "ZUQ1154970", "nameTa": "சிஹஹி", "nameEn": "", "relTa": "ஸ்ரீதர்", "relEn": "", "house": "28", "age": 33, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 372, "epic": "FYL3063062", "nameTa": "செல்வி", "nameEn": "", "relTa": "நாராயணன்", "relEn": "", "house": "29", "age": 60, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 373, "epic": "ZUQ1155050", "nameTa": "பாபு", "nameEn": "", "relTa": "வேலாயுதம்", "relEn": "", "house": "29", "age": 49, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 374, "epic": "ZUQ0781179", "nameTa": "ஜேம்ஸ்", "nameEn": "", "relTa": "ஆண்ரோஸ்", "relEn": "", "house": "29", "age": 48, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 375, "epic": "ZUQ0780460", "nameTa": "கிரீசி", "nameEn": "", "relTa": "ஜேம்ஸ்", "relEn": "", "house": "29", "age": 47, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 376, "epic": "ZUQ1155043", "nameTa": "நிஜா", "nameEn": "", "relTa": "பாபு", "relEn": "", "house": "29", "age": 43, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 377, "epic": "FYL8427874", "nameTa": "சந்திரசேகர்", "nameEn": "", "relTa": "நாராயணன்", "relEn": "", "house": "29", "age": 41, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 378, "epic": "ZUQ3535415", "nameTa": "சுனில் குமார்", "nameEn": "", "relTa": "சுரேஷ்", "relEn": "", "house": "29/22", "age": 26, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 379, "epic": "ZUQ1885581", "nameTa": "திவ்யா", "nameEn": "", "relTa": "செல்வம்", "relEn": "", "house": "30", "age": 31, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 380, "epic": "ZUQ3055548", "nameTa": "திணேஷ் குமார்", "nameEn": "", "relTa": "செல்வம்", "relEn": "", "house": "30/20", "age": 28, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 381, "epic": "ZUQ3055498", "nameTa": "சஹஷ்", "nameEn": "", "relTa": "செல்வம்", "relEn": "", "house": "30/20", "age": 26, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 382, "epic": "ZUQ1623339", "nameTa": "கதிரேசன்", "nameEn": "", "relTa": "கதிரேசன்", "relEn": "", "house": "31", "age": 73, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 383, "epic": "FYL3066347", "nameTa": "லவிஜா", "nameEn": "", "relTa": "பாலகிருஷ்ணன்", "relEn": "", "house": "31", "age": 59, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 384, "epic": "FYL8435810", "nameTa": "நடராஜன்", "nameEn": "", "relTa": "பாலகிருஷ்ணன்", "relEn": "", "house": "31", "age": 41, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 385, "epic": "FYL8426959", "nameTa": "லதா", "nameEn": "", "relTa": "பாலகிருஷ்ணன்", "relEn": "", "house": "31", "age": 40, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 386, "epic": "ZUQ1623305", "nameTa": "மணிகண்டன்", "nameEn": "", "relTa": "கதிரேசன்", "relEn": "", "house": "31", "age": 38, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 387, "epic": "ZUQ1623313", "nameTa": "தமிழ்ச்செல்வி", "nameEn": "", "relTa": "கதிரேசன்", "relEn": "", "house": "32", "age": 36, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 388, "epic": "ZUQ0780288", "nameTa": "எத்திராஜு", "nameEn": "", "relTa": "முனுசாமி", "relEn": "", "house": "32", "age": 60, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 389, "epic": "ZUQ0780452", "nameTa": "மல்லிகா", "nameEn": "", "relTa": "கண்ணியப்பன்", "relEn": "", "house": "32", "age": 59, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 390, "epic": "ZUQ0128678", "nameTa": "சரசு", "nameEn": "", "relTa": "ராஜா", "relEn": "", "house": "32", "age": 53, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 391, "epic": "ZUQ0129569", "nameTa": "சுணிதா", "nameEn": "", "relTa": "பாலன்", "relEn": "", "house": "32", "age": 52, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 392, "epic": "ZUQ1155035", "nameTa": "பிரியா", "nameEn": "", "relTa": "பாலன்", "relEn": "", "house": "32", "age": 35, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 393, "epic": "ZUQ0128975", "nameTa": "முருகன்", "nameEn": "", "relTa": "எம்", "relEn": "", "house": "33", "age": 41, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 394, "epic": "FYL8425548", "nameTa": "ஹரிகுமார்", "nameEn": "", "relTa": "வீரராகவன்", "relEn": "", "house": "34", "age": 60, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 395, "epic": "FYL8435786", "nameTa": "மஞ்சுளா", "nameEn": "", "relTa": "ஹரிகுமார்", "relEn": "", "house": "34", "age": 55, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 396, "epic": "ZUQ2114775", "nameTa": "அப்துல் வஹாரப்", "nameEn": "", "relTa": "அமானுல்லா", "relEn": "", "house": "34", "age": 47, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 397, "epic": "ZUQ2114700", "nameTa": "பர்வீன்பேகம்", "nameEn": "", "relTa": "அப்துல் வகாப்", "relEn": "", "house": "34", "age": 45, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 398, "epic": "ZUQ1880160", "nameTa": "முஸ்தபா அ", "nameEn": "", "relTa": "அமானுல்லா", "relEn": "", "house": "34", "age": 44, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 399, "epic": "ZUQ0780049", "nameTa": "மேவர்", "nameEn": "", "relTa": "தங்கமணி", "relEn": "", "house": "34", "age": 43, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 400, "epic": "ZUQ0780270", "nameTa": "மகேஸ்வரி", "nameEn": "", "relTa": "ஹரிகுமார்", "relEn": "", "house": "34", "age": 35, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 401, "epic": "ZUQ3534393", "nameTa": "ராஜேஸ்வரி", "nameEn": "", "relTa": "ஹரிகுமார்", "relEn": "", "house": "33", "age": 33, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 402, "epic": "ZUQ3534385", "nameTa": "கார்த்திக்", "nameEn": "", "relTa": "ஹரிகுமார்", "relEn": "", "house": "34", "age": 29, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 403, "epic": "EZZ8367336", "nameTa": "வளர்மதி", "nameEn": "", "relTa": "மணி", "relEn": "", "house": "34-16", "age": 38, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 404, "epic": "ZUQ1885532", "nameTa": "அஸீனாபேகம்", "nameEn": "", "relTa": "இம்தியாஸ் அஹறமத்", "relEn": "", "house": "34", "age": 62, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 405, "epic": "FYL8436248", "nameTa": "ரேகா", "nameEn": "", "relTa": "சுகுமாரன்", "relEn": "", "house": "35", "age": 45, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 406, "epic": "ZUQ0129882", "nameTa": "சித்ரா", "nameEn": "", "relTa": "முத்துவேல்", "relEn": "", "house": "35", "age": 41, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 407, "epic": "ZUQ4192530", "nameTa": "தங்கமணி", "nameEn": "", "relTa": "குருநாதன்", "relEn": "", "house": "35", "age": 19, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 408, "epic": "ZUQ1155027", "nameTa": "சுகுமாரன்", "nameEn": "", "relTa": "கண்டமுத்தன்", "relEn": "", "house": "35-17", "age": 53, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 409, "epic": "ZUQ0780957", "nameTa": "பரமேஸ்வரி", "nameEn": "", "relTa": "சிவகுமார்", "relEn": "", "house": "36", "age": 44, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 410, "epic": "FYL8433963", "nameTa": "ராமு", "nameEn": "", "relTa": "பெருமாள்", "relEn": "", "house": "36-1", "age": 60, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 411, "epic": "FYL8434052", "nameTa": "விஜயா", "nameEn": "", "relTa": "ராமு", "relEn": "", "house": "36-2", "age": 49, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 412, "epic": "ZUQ1392653", "nameTa": "மேரி", "nameEn": "", "relTa": "டேவிட்", "relEn": "", "house": "37", "age": 38, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 413, "epic": "ZUQ3656105", "nameTa": "ஸ்வேதா", "nameEn": "", "relTa": "சிவா குமார்", "relEn": "", "house": "37", "age": 26, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 414, "epic": "EZZ4692505", "nameTa": "ஜூயணார்", "nameEn": "", "relTa": "சண்முகம்", "relEn": "", "house": "38", "age": 59, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 415, "epic": "EZZ4692513", "nameTa": "லட்சுமி", "nameEn": "", "relTa": "ஜயணார்", "relEn": "", "house": "38", "age": 56, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 416, "epic": "ZUQ2827913", "nameTa": "கல்வி", "nameEn": "", "relTa": "கபூர் பாஷா", "relEn": "", "house": "38", "age": 36, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 417, "epic": "ZUQ1885474", "nameTa": "சங்கீதா", "nameEn": "", "relTa": "அய்யனாரப்பன்", "relEn": "", "house": "38", "age": 35, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 418, "epic": "ZUQ1885482", "nameTa": "தேவி", "nameEn": "", "relTa": "அய்யனாரப்பன்", "relEn": "", "house": "38", "age": 33, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 419, "epic": "ZUQ2827921", "nameTa": "பர்வீன் பானு", "nameEn": "", "relTa": "கல்வி", "relEn": "", "house": "38", "age": 27, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 420, "epic": "ZUQ2114833", "nameTa": "திவ்யா", "nameEn": "", "relTa": "விஜயகுமார்", "relEn": "", "house": "38a", "age": 31, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 421, "epic": "FYL8442618", "nameTa": "முனியாண்டி", "nameEn": "", "relTa": "பாலகிருஷ்ணன்", "relEn": "", "house": "38-A", "age": 61, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 422, "epic": "FYL8428757", "nameTa": "தனலட்சுமி", "nameEn": "", "relTa": "முனியாண்டி", "relEn": "", "house": "38-A", "age": 57, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 423, "epic": "ZUQ3263035", "nameTa": "ஜோதி", "nameEn": "", "relTa": "பழனி", "relEn": "", "house": "39", "age": 56, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 424, "epic": "ZUQ0781005", "nameTa": "மதனகோபால்", "nameEn": "", "relTa": "பழனி", "relEn": "", "house": "39", "age": 34, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 425, "epic": "ZUQ2114809", "nameTa": "ஜோ பிராஷ்", "nameEn": "", "relTa": "பொன்ராஜு", "relEn": "", "house": "39", "age": 31, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 426, "epic": "ZUQ1885508", "nameTa": "சூர்யா", "nameEn": "", "relTa": "பழனி", "relEn": "", "house": "39", "age": 30, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 427, "epic": "ZUQ1393479", "nameTa": "பார்த்திபன்", "nameEn": "", "relTa": "லட்சுமணன்", "relEn": "", "house": "39-4", "age": 34, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 428, "epic": "ZUQ3263043", "nameTa": "மாடசாமி", "nameEn": "", "relTa": "சிவணாண்டி", "relEn": "", "house": "39A", "age": 67, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 429, "epic": "ZUQ3883105", "nameTa": "சாந்தன்", "nameEn": "", "relTa": "மாடசாமி", "relEn": "", "house": "39ஏ", "age": 21, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 430, "epic": "FYL8427429", "nameTa": "மாதத்தி", "nameEn": "", "relTa": "மாடசாமி", "relEn": "", "house": "39-A", "age": 47, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 431, "epic": "ZUQ2114825", "nameTa": "கனகு", "nameEn": "", "relTa": "பொன்ராஜு", "relEn": "", "house": "39b", "age": 64, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 432, "epic": "FYL2867661", "nameTa": "கல்பனா", "nameEn": "", "relTa": "அப்புன்", "relEn": "", "house": "எண்ண. 7/13,", "age": 42, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 433, "epic": "ZUQ3656063", "nameTa": "ஜீவா ரத்தினம்", "nameEn": "", "relTa": "இலய பெருமாள்", "relEn": "", "house": "39", "age": 45, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 434, "epic": "ZUQ4029088", "nameTa": "பால் டோமினிக்ஸ் சேவி ஜேம்ஸ்", "nameEn": "", "relTa": "ஜேம்ஸ்", "relEn": "", "house": "21", "age": 21, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 435, "epic": "ZUQ3655578", "nameTa": "கரீம்கான்", "nameEn": "", "relTa": "துராராகாந", "relEn": "", "house": "59", "age": 59, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 436, "epic": "ZUQ3656246", "nameTa": "அஸீம்", "nameEn": "", "relTa": "துராராபகாந", "relEn": "", "house": "எண் 27/13ஏ", "age": 55, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 437, "epic": "ZUQ3656204", "nameTa": "சாமிராபானு", "nameEn": "", "relTa": "கரீமகாந", "relEn": "", "house": "எண் 27/13ஏ", "age": 53, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 438, "epic": "ZUQ3656261", "nameTa": "இம்ரான்கான்", "nameEn": "", "relTa": "கரீமகாந", "relEn": "", "house": "எண் 27/13ஏ", "age": 34, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 439, "epic": "ZUQ3655545", "nameTa": "உதய பிராஷ்", "nameEn": "", "relTa": "சிவா குமார்", "relEn": "", "house": "எண் 37", "age": 27, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 440, "epic": "ZUQ3656097", "nameTa": "போகனா பிரியா", "nameEn": "", "relTa": "சிவா குமார்", "relEn": "", "house": "எண்ண 24", "age": 24, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 441, "epic": "ZUQ2660306", "nameTa": "பவித்ரா", "nameEn": "", "relTa": "முருகன்", "relEn": "", "house": "1", "age": 28, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 442, "epic": "ZUQ1716372", "nameTa": "முருகன்", "nameEn": "", "relTa": "ஆறுமுகம்", "relEn": "", "house": "1-1-296", "age": 50, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 443, "epic": "ZUQ2660322", "nameTa": "பெருமாள் சாமி", "nameEn": "", "relTa": "தங்கவேல்", "relEn": "", "house": "2", "age": 49, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 444, "epic": "ZUQ2660355", "nameTa": "பீட்டரம்மாள்", "nameEn": "", "relTa": "எட்டப்பன்", "relEn": "", "house": "2", "age": 32, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 445, "epic": "ZUQ2660330", "nameTa": "ஹேறுகுமார்", "nameEn": "", "relTa": "காளிமுத்து", "relEn": "", "house": "2", "age": 28, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 446, "epic": "FYL3060043", "nameTa": "பொன்ராஜு", "nameEn": "", "relTa": "வாசு", "relEn": "", "house": "2-1", "age": 46, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 447, "epic": "FYL8425803", "nameTa": "வெங்கடேஷ்", "nameEn": "", "relTa": "வாசு", "relEn": "", "house": "2-1", "age": 40, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 448, "epic": "FYL3573987", "nameTa": "காளிமுத்து", "nameEn": "", "relTa": "வில்ரன்", "relEn": "", "house": "2-2", "age": 53, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 449, "epic": "FYL3589686", "nameTa": "அமுதா", "nameEn": "", "relTa": "காளிமுத்து", "relEn": "", "house": "2-2", "age": 49, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 450, "epic": "ZUQ1393487", "nameTa": "தேவி", "nameEn": "", "relTa": "பெருமாள்", "relEn": "", "house": "2-45", "age": 42, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 451, "epic": "FYL3059722", "nameTa": "நாகரத்தினம்", "nameEn": "", "relTa": "சுந்தரம்", "relEn": "", "house": "3", "age": 81, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 452, "epic": "ZUQ0780742", "nameTa": "இரயீஸ்அகமது", "nameEn": "", "relTa": "இக்பால்முகமது", "relEn": "", "house": "2-1", "age": 48, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 453, "epic": "ZUQ1393529", "nameTa": "சரண்யா", "nameEn": "", "relTa": "இராஜசேகரன்", "relEn": "", "house": "4", "age": 39, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 454, "epic": "ZUQ2284677", "nameTa": "ரிஸ்வானாஅன்ஜீம்", "nameEn": "", "relTa": "இரயீஸ்அகமது", "relEn": "", "house": "4", "age": 38, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 455, "epic": "FYL8433195", "nameTa": "குபேந்திரன்", "nameEn": "", "relTa": "கண்ணன்", "relEn": "", "house": "6", "age": 60, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 456, "epic": "ZUQ3263050", "nameTa": "முனியம்மாள்", "nameEn": "", "relTa": "மணி", "relEn": "", "house": "6-A", "age": 73, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 457, "epic": "ZUQ4007738", "nameTa": "சாருமதி வரதராஜன்", "nameEn": "", "relTa": "வரதராஜன் மாரிமுத்து", "relEn": "", "house": "6ஏ அண்ணா 2 வது குறுக்கு தெரு", "age": 22, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 458, "epic": "ZUQ3537198", "nameTa": "பரணிதரன்", "nameEn": "", "relTa": "ராமசந்திரன்", "relEn": "", "house": "7", "age": 52, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 459, "epic": "ZUQ0780700", "nameTa": "பாலகிருஷ்ணன்", "nameEn": "", "relTa": "தியாகராஜன்", "relEn": "", "house": "7", "age": 35, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 460, "epic": "FYL8425290", "nameTa": "தியாகராஜன்", "nameEn": "", "relTa": "ஆறுமுகம்", "relEn": "", "house": "7", "age": 66, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 461, "epic": "FYL8425308", "nameTa": "புவனேஸ்வரி", "nameEn": "", "relTa": "தியாகராஜன்", "relEn": "", "house": "7", "age": 59, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 462, "epic": "FYL8428591", "nameTa": "விஜயலட்சுமி", "nameEn": "", "relTa": "தியாகராஜன்", "relEn": "", "house": "7-2", "age": 40, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 463, "epic": "ZUQ3263076", "nameTa": "சாரதா", "nameEn": "", "relTa": "பாலன்", "relEn": "", "house": "7-4", "age": 59, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 464, "epic": "ZUQ1885359", "nameTa": "ஜூயார் அலி இ", "nameEn": "", "relTa": "இஸ்மாயில்", "relEn": "", "house": "7/13", "age": 31, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 465, "epic": "ZUQ3655651", "nameTa": "சர்புதின்", "nameEn": "", "relTa": "ஸ்மாயில்", "relEn": "", "house": "7/13", "age": 29, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 466, "epic": "ZUQ3656147", "nameTa": "ஸ்டீஸ்பன் குமார்", "nameEn": "", "relTa": "ஆத்சையா", "relEn": "", "house": "7ஏ", "age": 46, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 467, "epic": "ZUQ2895506", "nameTa": "ஹயூஸ்", "nameEn": "", "relTa": "பால்", "relEn": "", "house": "7ஏ", "age": 26, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 468, "epic": "FYL8431082", "nameTa": "பவுஸ்", "nameEn": "", "relTa": "ஜூயங்கார்", "relEn": "", "house": "7-A", "age": 50, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 469, "epic": "FYL8430506", "nameTa": "பரிமளாதேவி", "nameEn": "", "relTa": "பவுஸ்", "relEn": "", "house": "7-A", "age": 44, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 470, "epic": "FYL3064169", "nameTa": "கர்ணன்", "nameEn": "", "relTa": "முனுசாமி", "relEn": "", "house": "8", "age": 70, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 471, "epic": "FYL3059821", "nameTa": "இராஜேஸ்வரி", "nameEn": "", "relTa": "கர்ணன்", "relEn": "", "house": "8", "age": 60, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 472, "epic": "ZUQ0129171", "nameTa": "அயாஸ்அலி", "nameEn": "", "relTa": "உஸ்மான்அலி", "relEn": "", "house": "8", "age": 49, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 473, "epic": "ZUQ0129122", "nameTa": "சோபியா ஆமீனா", "nameEn": "", "relTa": "அயாஸ் அலி", "relEn": "", "house": "8", "age": 46, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 474, "epic": "ZUQ1392430", "nameTa": "பிரவின்குமார்", "nameEn": "", "relTa": "கர்ணன்", "relEn": "", "house": "8", "age": 32, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 475, "epic": "FYL8431470", "nameTa": "கங்கா", "nameEn": "", "relTa": "மோகன்", "relEn": "", "house": "9", "age": 45, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 476, "epic": "ZUQ3055431", "nameTa": "கண்ணியப்பன்", "nameEn": "", "relTa": "மதுரை வீரன்", "relEn": "", "house": "9", "age": 25, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 477, "epic": "FYL8427866", "nameTa": "லோகநாதன்", "nameEn": "", "relTa": "தர்மபிள்ளை", "relEn": "", "house": "11", "age": 64, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 478, "epic": "ZUQ3656220", "nameTa": "ஆனந்தன்", "nameEn": "", "relTa": "மணிவேலு", "relEn": "", "house": "11", "age": 41, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 479, "epic": "ZUQ0780478", "nameTa": "மணிகண்டன்", "nameEn": "", "relTa": "லோகநாதன்", "relEn": "", "house": "11", "age": 36, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 480, "epic": "ZUQ0779801", "nameTa": "பரமேஸ்வரி", "nameEn": "", "relTa": "ஆனந்தன்", "relEn": "", "house": "11", "age": 35, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 481, "epic": "ZUQ3833639", "nameTa": "இம்மானுவேல் ஷியாம்", "nameEn": "", "relTa": "அரவிந்த்ஸ் ரோவ", "relEn": "", "house": "11/21", "age": 23, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 482, "epic": "FYL8426660", "nameTa": "ராமகர்", "nameEn": "", "relTa": "இஸ்ரேல்", "relEn": "", "house": "12", "age": 66, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 483, "epic": "ZUQ2284651", "nameTa": "ராஜலட்சுமி", "nameEn": "", "relTa": "சுப்ரமணி", "relEn": "", "house": "12", "age": 61, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 484, "epic": "FYL3062072", "nameTa": "இஸ்மாயில்", "nameEn": "", "relTa": "ஆமீர்ஜான்", "relEn": "", "house": "13", "age": 53, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 485, "epic": "FYL9901018", "nameTa": "மரியசெல்வி", "nameEn": "", "relTa": "அற்புதநாதன்", "relEn": "", "house": "14", "age": 79, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 486, "epic": "EZZ4692620", "nameTa": "ஜோசப்சேவியர்", "nameEn": "", "relTa": "அற்புதநாதன்", "relEn": "", "house": "14", "age": 51, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 487, "epic": "FYL8439101", "nameTa": "கிரேஸ்எலிசபெத்", "nameEn": "", "relTa": "ஜோசப்சேவியர்", "relEn": "", "house": "14", "age": 50, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 488, "epic": "ZUQ0780965", "nameTa": "ரேவதி", "nameEn": "", "relTa": "தயாளன்", "relEn": "", "house": "14", "age": 40, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 489, "epic": "ZUQ1623354", "nameTa": "சாந்தி", "nameEn": "", "relTa": "சக்திவேல்", "relEn": "", "house": "14", "age": 37, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 490, "epic": "FYL3059649", "nameTa": "சாந்தி", "nameEn": "", "relTa": "சார்லஸ்விஜயகுமார்", "relEn": "", "house": "15", "age": 61, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 491, "epic": "ZUQ1393040", "nameTa": "ஜான்சிராணி", "nameEn": "", "relTa": "சார்லஸ்", "relEn": "", "house": "15", "age": 38, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 492, "epic": "ZUQ4072856", "nameTa": "தர்வதி முனிர்ராஜு ராணி", "nameEn": "", "relTa": "முனிர்ராஜு", "relEn": "", "house": "15/27", "age": 20, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 493, "epic": "FYL3062858", "nameTa": "சுசிமால்", "nameEn": "", "relTa": "பெருமாள்", "relEn": "", "house": "16", "age": 60, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 494, "epic": "FYL3062189", "nameTa": "ஜெயம்", "nameEn": "", "relTa": "சுசிமால்", "relEn": "", "house": "16", "age": 56, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 495, "epic": "ZUQ1393024", "nameTa": "சிம்யா", "nameEn": "", "relTa": "சுசிமால்", "relEn": "", "house": "16", "age": 32, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 496, "epic": "ZUQ1393313", "nameTa": "வினீத்", "nameEn": "", "relTa": "கிருஷ்ணன்", "relEn": "", "house": "16-29", "age": 44, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 497, "epic": "ZUQ2515294", "nameTa": "பார்ஸ்கர்", "nameEn": "", "relTa": "வீராசாமி", "relEn": "", "house": "17", "age": 56, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 498, "epic": "ZUQ2515286", "nameTa": "செல்வி", "nameEn": "", "relTa": "பார்ஸ்கர்", "relEn": "", "house": "17", "age": 51, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 499, "epic": "ZUQ1393297", "nameTa": "சங்கீதா", "nameEn": "", "relTa": "வரதன்", "relEn": "", "house": "17", "age": 44, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 500, "epic": "ZUQ1623297", "nameTa": "திலகவதி", "nameEn": "", "relTa": "கண்ணன்", "relEn": "", "house": "17", "age": 32, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 501, "epic": "ZUQ2515278", "nameTa": "ஜெயபிரதா", "nameEn": "", "relTa": "பார்ஸ்கர்", "relEn": "", "house": "17", "age": 31, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 502, "epic": "ZUQ2114767", "nameTa": "குணசீலன்", "nameEn": "", "relTa": "முத்து", "relEn": "", "house": "17", "age": 31, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 503, "epic": "ZUQ2660348", "nameTa": "அர்ச்சனா தேவி", "nameEn": "", "relTa": "முத்து", "relEn": "", "house": "17", "age": 29, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 504, "epic": "ZUQ2515260", "nameTa": "பாலகிருஷ்ணன்", "nameEn": "", "relTa": "பார்ஸ்கர்", "relEn": "", "house": "17", "age": 28, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 505, "epic": "FYL3062163", "nameTa": "விஜயா", "nameEn": "", "relTa": "சாமி", "relEn": "", "house": "17-1", "age": 47, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 506, "epic": "FYL8439861", "nameTa": "முத்து", "nameEn": "", "relTa": "துரைராஜு", "relEn": "", "house": "17-2", "age": 56, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 507, "epic": "FYL3629235", "nameTa": "அருள்", "nameEn": "", "relTa": "துரைராஜு", "relEn": "", "house": "17-2", "age": 41, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 508, "epic": "ZUQ4080099", "nameTa": "செல்வி முத்து", "nameEn": "", "relTa": "முத்து", "relEn": "", "house": "17/7", "age": 54, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 509, "epic": "ZUQ4109344", "nameTa": "வரதன் வீ", "nameEn": "", "relTa": "சங்கீதா வ", "relEn": "", "house": "17/31", "age": 55, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 510, "epic": "ZUQ3849395", "nameTa": "நிதியகல்யாணி", "nameEn": "", "relTa": "வரதன்", "relEn": "", "house": "17/31", "age": 25, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 511, "epic": "ZUQ3845674", "nameTa": "சங்கர நாராயணன்", "nameEn": "", "relTa": "வரதன்", "relEn": "", "house": "17/31", "age": 22, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 512, "epic": "FYL8429664", "nameTa": "தனசேகர்", "nameEn": "", "relTa": "ருத்ரமூர்த்தி", "relEn": "", "house": "18-1", "age": 42, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 513, "epic": "FYL8426934", "nameTa": "வினாயகம்", "nameEn": "", "relTa": "ருத்ரமூர்த்தி", "relEn": "", "house": "18-1", "age": 39, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 514, "epic": "ZUQ2515385", "nameTa": "பிரியங்கா", "nameEn": "", "relTa": "சண்முகம்", "relEn": "", "house": "18-33", "age": 32, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 515, "epic": "ZUQ2114791", "nameTa": "கலைவாணி", "nameEn": "", "relTa": "முருகன்", "relEn": "", "house": "18/35, 1-வது தளம்", "age": 30, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 516, "epic": "ZUQ2660504", "nameTa": "அர்மாண்ணா", "nameEn": "", "relTa": "செந்தில்குமார்", "relEn": "", "house": "18A", "age": 36, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 517, "epic": "ZUQ3804416", "nameTa": "ராஜேஷ்வரி", "nameEn": "", "relTa": "செல்வம்", "relEn": "", "house": "19", "age": 26, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 518, "epic": "EZZ4692679", "nameTa": "சுரமணி", "nameEn": "", "relTa": "கோபால்", "relEn": "", "house": "21", "age": 71, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 519, "epic": "FYL3062346", "nameTa": "கௌளரி", "nameEn": "", "relTa": "தயாளன்", "relEn": "", "house": "21", "age": 59, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 520, "epic": "FYL8428252", "nameTa": "சுகுமாரன்", "nameEn": "", "relTa": "சுப்ரமணி", "relEn": "", "house": "21", "age": 43, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 521, "epic": "FYL8426793", "nameTa": "சதீஷ்குமார்", "nameEn": "", "relTa": "சுப்ரமணி", "relEn": "", "house": "21", "age": 40, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 522, "epic": "ZUQ2114874", "nameTa": "நாகராஜன் துரைராஜு", "nameEn": "", "relTa": "துரைராஜு", "relEn": "", "house": "21", "age": 40, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 523, "epic": "ZUQ0128736", "nameTa": "குணவேலன்", "nameEn": "", "relTa": "தயாளன்", "relEn": "", "house": "21", "age": 36, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 524, "epic": "FYL8433005", "nameTa": "கண்ணையன் பீ", "nameEn": "", "relTa": "பெருமாள்பிள்ளை", "relEn": "", "house": "22", "age": 75, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 525, "epic": "ZUQ1693258", "nameTa": "செந்தில்", "nameEn": "", "relTa": "தம்புசாமி", "relEn": "", "house": "22", "age": 46, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 526, "epic": "ZUQ0779793", "nameTa": "ரூவாசணி", "nameEn": "", "relTa": "செந்தில்", "relEn": "", "house": "22", "age": 45, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 527, "epic": "FYL3066974", "nameTa": "வாரசுகி", "nameEn": "", "relTa": "ராமு", "relEn": "", "house": "22-1", "age": 66, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 528, "epic": "ZUQ2515328", "nameTa": "கோபாலகிருஷ்ணன்", "nameEn": "", "relTa": "வீரராகவன்", "relEn": "", "house": "23", "age": 50, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 529, "epic": "ZUQ2114726", "nameTa": "வரதராஜன்", "nameEn": "", "relTa": "மாரிமுத்து", "relEn": "", "house": "23", "age": 49, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 530, "epic": "ZUQ2515377", "nameTa": "லவிஜா", "nameEn": "", "relTa": "கோபாலகிருஷ்ணன்", "relEn": "", "house": "23", "age": 48, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 531, "epic": "ZUQ2114635", "nameTa": "கோவாவதி", "nameEn": "", "relTa": "வரதராஜன்", "relEn": "", "house": "23", "age": 43, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 532, "epic": "FYL8429599", "nameTa": "தனலட்சுமி", "nameEn": "", "relTa": "செல்வராஜு", "relEn": "", "house": "25", "age": 67, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 533, "epic": "FYL8442691", "nameTa": "சுரேஷ்குமார்", "nameEn": "", "relTa": "செல்வராஜு", "relEn": "", "house": "24", "age": 42, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 534, "epic": "FYL8435117", "nameTa": "மணிகண்டன்", "nameEn": "", "relTa": "சோமலிங்கம்", "relEn": "", "house": "25", "age": 39, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 535, "epic": "ZUQ4142204", "nameTa": "மோனிஷா", "nameEn": "", "relTa": "குனாபிரகாஷ்", "relEn": "", "house": "25", "age": 23, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 536, "epic": "ZUQ0779942", "nameTa": "மகேஸ்வரி", "nameEn": "", "relTa": "லோகநாதன்", "relEn": "", "house": "26", "age": 37, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 537, "epic": "ZUQ1393164", "nameTa": "ஆனந்தன்", "nameEn": "", "relTa": "வீரய்யா", "relEn": "", "house": "27", "age": 64, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 538, "epic": "ZUQ1393156", "nameTa": "தமிழரசி", "nameEn": "", "relTa": "ஆனந்தன்", "relEn": "", "house": "27", "age": 51, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 539, "epic": "ZUQ2827889", "nameTa": "உச்சிமாகாளி", "nameEn": "", "relTa": "முறுகேசன்", "relEn": "", "house": "27", "age": 38, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 540, "epic": "ZUQ2515369", "nameTa": "தேவேந்திரன்", "nameEn": "", "relTa": "ஆனந்தன்", "relEn": "", "house": "27", "age": 30, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 541, "epic": "FYL9901141", "nameTa": "முனிராஜு", "nameEn": "", "relTa": "மணவாளன்", "relEn": "", "house": "27-1", "age": 46, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 542, "epic": "FYL2442341", "nameTa": "ராணி", "nameEn": "", "relTa": "முனிராஜு", "relEn": "", "house": "27-1", "age": 45, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 543, "epic": "FYL2442622", "nameTa": "தயாளன்", "nameEn": "", "relTa": "மணவாளன்", "relEn": "", "house": "27-1", "age": 43, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 544, "epic": "ZUQ3989969", "nameTa": "ராகவேந்திரன் ஆ", "nameEn": "", "relTa": "ஆனந்தன் ஆர வீ", "relEn": "", "house": "27/36", "age": 27, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 545, "epic": "YNK2372290", "nameTa": "நந்தினி", "nameEn": "", "relTa": "தேவேந்திரன் ஆனந்தன்", "relEn": "", "house": "27/36", "age": 25, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 546, "epic": "ZUQ3990041", "nameTa": "இந்துமதி ஆனந்தன்", "nameEn": "", "relTa": "ஆனந்தன்", "relEn": "", "house": "27/36", "age": 22, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 547, "epic": "FYL8424970", "nameTa": "வினோத்", "nameEn": "", "relTa": "விசாலு", "relEn": "", "house": "29", "age": 47, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 548, "epic": "ZUQ4134417", "nameTa": "சாமுவேல்", "nameEn": "", "relTa": "முருகன்", "relEn": "", "house": "29", "age": 19, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 549, "epic": "ZUQ2114817", "nameTa": "சந்தர்", "nameEn": "", "relTa": "பழனி", "relEn": "", "house": "29", "age": 55, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 550, "epic": "ZUQ2114841", "nameTa": "சுமதி", "nameEn": "", "relTa": "சந்தர்", "relEn": "", "house": "29", "age": 44, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 551, "epic": "ZUQ1885342", "nameTa": "சரவணராஜு", "nameEn": "", "relTa": "ரவி", "relEn": "", "house": "29", "age": 31, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 552, "epic": "FYL3061173", "nameTa": "சேகர்", "nameEn": "", "relTa": "நாராயணசாமி", "relEn": "", "house": "30-1", "age": 61, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 553, "epic": "FYL3061181", "nameTa": "சாந்தி", "nameEn": "", "relTa": "சேகர்", "relEn": "", "house": "30-1", "age": 59, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 554, "epic": "FYL9901174", "nameTa": "ஜீவராஜன்", "nameEn": "", "relTa": "சேகர்", "relEn": "", "house": "30-1", "age": 39, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 555, "epic": "FYL3061884", "nameTa": "ரவி", "nameEn": "", "relTa": "நாராயணசாமி", "relEn": "", "house": "30-2", "age": 56, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 556, "epic": "FYL3061876", "nameTa": "பவாணி", "nameEn": "", "relTa": "ரவி", "relEn": "", "house": "30-2", "age": 51, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 557, "epic": "ZUQ0780585", "nameTa": "பாபு", "nameEn": "", "relTa": "ராஜி", "relEn": "", "house": "31", "age": 60, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 558, "epic": "ZUQ0779736", "nameTa": "ராஜ லட்சுமி", "nameEn": "", "relTa": "பாபு", "relEn": "", "house": "31", "age": 50, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 559, "epic": "FYL8435059", "nameTa": "ராஜேந்திரன்", "nameEn": "", "relTa": "கிருஷ்ணசாமி", "relEn": "", "house": "32", "age": 66, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 560, "epic": "ZUQ1392133", "nameTa": "சந்தானகுமாரி", "nameEn": "", "relTa": "கோமகன்", "relEn": "", "house": "32", "age": 52, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 561, "epic": "FYL8438244", "nameTa": "சித்ரா", "nameEn": "", "relTa": "ராஜேந்திரன்", "relEn": "", "house": "32", "age": 55, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 562, "epic": "ZUQ1154947", "nameTa": "கங்கேஸ்வரி", "nameEn": "", "relTa": "ராஜேந்திரன்", "relEn": "", "house": "32", "age": 34, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 563, "epic": "ZUQ1392422", "nameTa": "ரேவதி", "nameEn": "", "relTa": "கோமகன்", "relEn": "", "house": "32", "age": 32, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 564, "epic": "ZUQ2660397", "nameTa": "பிரியங்கா", "nameEn": "", "relTa": "ராஜேந்திரன்", "relEn": "", "house": "32-1", "age": 29, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 565, "epic": "FYL9901273", "nameTa": "ஆறுமுகம்", "nameEn": "", "relTa": "ராஜவேல்", "relEn": "", "house": "32-1", "age": 48, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 566, "epic": "FYL9901299", "nameTa": "ஜெயகலா", "nameEn": "", "relTa": "ஆறுமுகம்", "relEn": "", "house": "32-1", "age": 47, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 567, "epic": "ZUQ3263092", "nameTa": "சுப்ரமணி", "nameEn": "", "relTa": "துரைசாமி", "relEn": "", "house": "32-2", "age": 73, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 568, "epic": "ZUQ3263100", "nameTa": "கிருஷ்வேணி", "nameEn": "", "relTa": "சுப்ரமணி", "relEn": "", "house": "32-3", "age": 64, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 569, "epic": "FYL3066214", "nameTa": "ரவி", "nameEn": "", "relTa": "ஜேம்ஸ்", "relEn": "", "house": "33", "age": 64, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 570, "epic": "ZUQ1392927", "nameTa": "சங்கர்", "nameEn": "", "relTa": "துரைக்கண்ணு", "relEn": "", "house": "33", "age": 57, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 571, "epic": "FYL3062486", "nameTa": "கவுரி", "nameEn": "", "relTa": "ரவி", "relEn": "", "house": "33", "age": 56, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 572, "epic": "ZUQ1392919", "nameTa": "நிர்மலா", "nameEn": "", "relTa": "சங்கர்", "relEn": "", "house": "33", "age": 50, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 573, "epic": "FYL8436909", "nameTa": "சண்முகம்", "nameEn": "", "relTa": "ரவி", "relEn": "", "house": "33", "age": 39, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 574, "epic": "FYL8428971", "nameTa": "ரவி", "nameEn": "", "relTa": "பலராமன்", "relEn": "", "house": "34", "age": 67, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 575, "epic": "FYL3066917", "nameTa": "சாந்தி", "nameEn": "", "relTa": "ரவி", "relEn": "", "house": "34", "age": 59, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 576, "epic": "ZUQ4134458", "nameTa": "திணேஷ்பாபு", "nameEn": "", "relTa": "மோகன்", "relEn": "", "house": "34-8", "age": 46, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 577, "epic": "FYL3060118", "nameTa": "கல்பனா", "nameEn": "", "relTa": "ராஜேந்தரன்", "relEn": "", "house": "34/20", "age": 37, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 578, "epic": "ZUQ3831583", "nameTa": "கணேஷ்", "nameEn": "", "relTa": "தியாகராஜன்", "relEn": "", "house": "35/18", "age": 24, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 579, "epic": "ZUQ2284602", "nameTa": "ஸ்ரீகுமார்", "nameEn": "", "relTa": "ராசையா", "relEn": "", "house": "36", "age": 42, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 580, "epic": "ZUQ2972024", "nameTa": "திவ்யா", "nameEn": "", "relTa": "சுசிமால்", "relEn": "", "house": "28", "age": 28, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 581, "epic": "ZUQ3831336", "nameTa": "ஆனந்தி", "nameEn": "", "relTa": "தியாகராஜன்", "relEn": "", "house": "40/8", "age": 54, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 582, "epic": "ZUQ3055514", "nameTa": "பரமேஸ்வரி", "nameEn": "", "relTa": "தியாகராஜன்", "relEn": "", "house": "37/14", "age": 27, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 583, "epic": "ZUQ3055373", "nameTa": "எப்சிபா", "nameEn": "", "relTa": "ஜோசப் சேவியர்", "relEn": "", "house": "37/14", "age": 26, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 584, "epic": "ZUQ2114742", "nameTa": "மாலதி", "nameEn": "", "relTa": "கோமகன்", "relEn": "", "house": "38", "age": 40, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 585, "epic": "FYL3060886", "nameTa": "கஜேந்திரன்", "nameEn": "", "relTa": "கோபால்", "relEn": "", "house": "39", "age": 69, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 586, "epic": "ZUQ0129239", "nameTa": "ரீனா", "nameEn": "", "relTa": "கஜேந்திரன்", "relEn": "", "house": "39", "age": 37, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 587, "epic": "ZUQ3655594", "nameTa": "சாந்தி", "nameEn": "", "relTa": "மோகன்", "relEn": "", "house": "40/8", "age": 69, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 588, "epic": "ZUQ1393339", "nameTa": "பிரியங்கா", "nameEn": "", "relTa": "சாலமன்", "relEn": "", "house": "41", "age": 33, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 589, "epic": "ZUQ2284669", "nameTa": "த மரியம் ஜெனிபர்", "nameEn": "", "relTa": "தனசேகர்", "relEn": "", "house": "41", "age": 30, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 590, "epic": "ZUQ3747292", "nameTa": "த பெர்சி மேக்தலென்", "nameEn": "", "relTa": "முதனசேகர்", "relEn": "", "house": "41", "age": 28, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 591, "epic": "ZUQ3752227", "nameTa": "சுஷ்மிதா", "nameEn": "", "relTa": "பிரவின்குமார்", "relEn": "", "house": "41/8", "age": 27, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 592, "epic": "FYL3062494", "nameTa": "முரளிராஜா", "nameEn": "", "relTa": "வசந்தா", "relEn": "", "house": "42", "age": 51, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 593, "epic": "FYL8432973", "nameTa": "ணணபகவள்ளி", "nameEn": "", "relTa": "முரளிராஜா", "relEn": "", "house": "42", "age": 47, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 594, "epic": "FYL3062510", "nameTa": "தனபாண்டியன்", "nameEn": "", "relTa": "வசந்தா", "relEn": "", "house": "42", "age": 46, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 595, "epic": "FYL8433864", "nameTa": "ஜெயந்தி", "nameEn": "", "relTa": "தனபாண்டியன்", "relEn": "", "house": "42", "age": 43, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 596, "epic": "ZUQ3804119", "nameTa": "தனசேகர்", "nameEn": "", "relTa": "பூங்காவனம்", "relEn": "", "house": "42", "age": 38, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 597, "epic": "ZUQ3804408", "nameTa": "லஷ்மி", "nameEn": "", "relTa": "தனசேகர்", "relEn": "", "house": "42", "age": 34, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 598, "epic": "ZUQ3501020", "nameTa": "பூவரசு விஜயகுமார்", "nameEn": "", "relTa": "முரளிராஜா", "relEn": "", "house": "42", "age": 25, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 599, "epic": "ZUQ3831542", "nameTa": "மாருதி குமார்", "nameEn": "", "relTa": "தன பாண்டியன்", "relEn": "", "house": "42", "age": 24, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 600, "epic": "FYL3065331", "nameTa": "செல்வபாண்டி", "nameEn": "", "relTa": "கட்பரை", "relEn": "", "house": "44", "age": 65, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 601, "epic": "FYL9901521", "nameTa": "செல்வி", "nameEn": "", "relTa": "செல்வபாண்டி", "relEn": "", "house": "44-1", "age": 60, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 602, "epic": "FYL9901570", "nameTa": "ஜோதி", "nameEn": "", "relTa": "செளந்தரம்", "relEn": "", "house": "45-1", "age": 66, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 603, "epic": "ZUQ3263118", "nameTa": "கீதா", "nameEn": "", "relTa": "ஜோதி", "relEn": "", "house": "45-1", "age": 56, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 604, "epic": "ZUQ1392216", "nameTa": "சசிகலா", "nameEn": "", "relTa": "பொன்ராஜு", "relEn": "", "house": "45-2", "age": 35, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 605, "epic": "FYL8426231", "nameTa": "முகம்மது யூசுப் அலி கான்", "nameEn": "", "relTa": "முகம்மது ஜாபர்", "relEn": "", "house": "46", "age": 59, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 606, "epic": "FYL8426249", "nameTa": "முதுதராஜு பேகம் முகம்மது யூசுப் அலி கான்", "nameEn": "", "relTa": "முகம்மது யூசுப் அலி கான்", "relEn": "", "house": "46", "age": 53, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 607, "epic": "FYL9901703", "nameTa": "முகமதுஜாபர்அலிகான்", "nameEn": "", "relTa": "முகமதுஜாபர்அலிகான்", "relEn": "", "house": "46", "age": 46, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 608, "epic": "ZUQ0780031", "nameTa": "சாந்தி", "nameEn": "", "relTa": "ஆறுமுகம்", "relEn": "", "house": "64", "age": 58, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 609, "epic": "ZUQ1716364", "nameTa": "மீனாட்சி", "nameEn": "", "relTa": "முருகன்", "relEn": "", "house": "47", "age": 47, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 610, "epic": "RTO1554930", "nameTa": "பாபு", "nameEn": "", "relTa": "அச்சயா", "relEn": "", "house": "எண்ண 7ஏ", "age": 48, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 611, "epic": "ZUQ3656071", "nameTa": "மவேதா", "nameEn": "", "relTa": "ராஜா", "relEn": "", "house": "எண் 17", "age": 25, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 612, "epic": "ZUQ4045423", "nameTa": "ஆகாஷ் சி", "nameEn": "", "relTa": "சிவா க", "relEn": "", "house": "எண்.18 வேலு நகர் 4வது தெரு", "age": 21, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 613, "epic": "ZUQ4227468", "nameTa": "சையத் ரிஹாரன் ஹறி", "nameEn": "", "relTa": "சையத் ஹறிலால்", "relEn": "", "house": "27/1பி", "age": 19, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 614, "epic": "ZUQ4240214", "nameTa": "சாய்பரத்", "nameEn": "", "relTa": "சுரேஷ்", "relEn": "", "house": "5/9", "age": 18, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 615, "epic": "ZUQ4240263", "nameTa": "நெந்தில்குமார்", "nameEn": "", "relTa": "வீரையன்", "relEn": "", "house": "18 ஏ", "age": 42, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 616, "epic": "ZUQ4240289", "nameTa": "அர்ச்சனா", "nameEn": "", "relTa": "வீரராகவலு", "relEn": "", "house": "18", "age": 18, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 617, "epic": "ZUQ4240933", "nameTa": "அருணா", "nameEn": "", "relTa": "கண்ணன்", "relEn": "", "house": "18", "age": 18, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 618, "epic": "ZUQ4242038", "nameTa": "ராமின் ஆண்ரூஸ் ரா", "nameEn": "", "relTa": "ராஜேஷ்", "relEn": "", "house": "28/24", "age": 18, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 619, "epic": "ZUQ4277026", "nameTa": "நான்சி", "nameEn": "", "relTa": "குழந்தைராஜு", "relEn": "", "house": "40/24", "age": 21, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 620, "epic": "ZUQ4277091", "nameTa": "வசந்தகுமார்", "nameEn": "", "relTa": "குழந்தைராஜு", "relEn": "", "house": "40/24", "age": 24, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 621, "epic": "ZUQ4280970", "nameTa": "ரேவதி", "nameEn": "", "relTa": "குருநாதன்", "relEn": "", "house": "20", "age": 39, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 622, "epic": "ZUQ4285672", "nameTa": "பிரவின்சரவணன்", "nameEn": "", "relTa": "சரவணன்", "relEn": "", "house": "10/25", "age": 22, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 623, "epic": "ZUQ4285938", "nameTa": "ரீயாஸ்குமார்", "nameEn": "", "relTa": "குழைந்தைராஜு", "relEn": "", "house": "40/24", "age": 25, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 624, "epic": "ZUQ4287603", "nameTa": "பர்வீன் குமார்", "nameEn": "", "relTa": "குழந்தைராஜு", "relEn": "", "house": "40/24", "age": 26, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 625, "epic": "ZUQ4287629", "nameTa": "சீமோன்மேரிடெய்சிவிமல்டா", "nameEn": "", "relTa": "குழந்தைராஜு", "relEn": "", "house": "40/24", "age": 46, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 626, "epic": "ZUQ4287645", "nameTa": "சத்தியமூர்த்தி", "nameEn": "", "relTa": "மாணிக்கம்", "relEn": "", "house": "19", "age": 81, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 627, "epic": "ZUQ4303780", "nameTa": "பாபு", "nameEn": "", "relTa": "ஆறுமுகம்", "relEn": "", "house": "35/6", "age": 39, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 628, "epic": "ZUQ4330791", "nameTa": "ராஜகுமார்", "nameEn": "", "relTa": "வீரமுத்து", "relEn": "", "house": "20டி", "age": 44, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 629, "epic": "ZUQ4330817", "nameTa": "மீனா", "nameEn": "", "relTa": "கார்த்திகேயன்", "relEn": "", "house": "14/25", "age": 56, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 630, "epic": "ZUQ4330833", "nameTa": "சருசய்", "nameEn": "", "relTa": "ரோசையா", "relEn": "", "house": "11/21", "age": 19, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 631, "epic": "ZUQ4331013", "nameTa": "தனலட்சுமி", "nameEn": "", "relTa": "வெங்கிடபதி", "relEn": "", "house": "19", "age": 61, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 632, "epic": "ZUQ4331682", "nameTa": "கலைவாணி வேலு", "nameEn": "", "relTa": "வேலு", "relEn": "", "house": "19", "age": 31, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 633, "epic": "ZUQ4335345", "nameTa": "மோகன்வேலு", "nameEn": "", "relTa": "சம்மந்தம்", "relEn": "", "house": "19", "age": 62, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 634, "epic": "ZUQ4335428", "nameTa": "தேவி", "nameEn": "", "relTa": "மோகன்", "relEn": "", "house": "13/23", "age": 39, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 635, "epic": "ZUQ4335741", "nameTa": "ராதா", "nameEn": "", "relTa": "சந்திரசேகர்", "relEn": "", "house": "29/14", "age": 36, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 636, "epic": "ZUQ4335758", "nameTa": "வள்ளி", "nameEn": "", "relTa": "அருண்", "relEn": "", "house": "4", "age": 42, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 637, "epic": "ZUQ4335840", "nameTa": "வேலுமயில்", "nameEn": "", "relTa": "கண்ணன்", "relEn": "", "house": "18/37", "age": 41, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 638, "epic": "ZUQ4341764", "nameTa": "ஜான் ரோடி", "nameEn": "", "relTa": "ஜான்சன்", "relEn": "", "house": "இலம்பருதி", "age": 18, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 639, "epic": "ZUQ4367678", "nameTa": "கார்த்திக்", "nameEn": "", "relTa": "மோகன்", "relEn": "", "house": "20டி", "age": 34, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 640, "epic": "ZUQ4371183", "nameTa": "சையத் உசேன் அ", "nameEn": "", "relTa": "சையத்,அலி", "relEn": "", "house": "7/4", "age": 27, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 641, "epic": "ZUQ4372447", "nameTa": "சண்முகவேல்", "nameEn": "", "relTa": "சூரிய கல", "relEn": "", "house": "21", "age": 24, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 642, "epic": "ZUQ4388245", "nameTa": "உமர்பருக்", "nameEn": "", "relTa": "செய்யது இஸாக்", "relEn": "", "house": "30", "age": 38, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 643, "epic": "ZUQ4388997", "nameTa": "மேவர் மு", "nameEn": "", "relTa": "பிரபாகரன்", "relEn": "", "house": "28/20 வேல் நகர் 2வது தெரு", "age": 29, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 644, "epic": "ZUQ4395034", "nameTa": "மும்தாஜு கஸ்பார்", "nameEn": "", "relTa": "கஸ்பார் அமானுல்லா", "relEn": "", "house": "எண் 5 1வது தளம்", "age": 37, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 645, "epic": "ZUQ4402319", "nameTa": "வினோத்குமார்", "nameEn": "", "relTa": "எத்திராஜு", "relEn": "", "house": "22", "age": 45, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 646, "epic": "ZUQ4404224", "nameTa": "கஸ்பார் அமானுல்லா", "nameEn": "", "relTa": "கஸ்பார் ஏ", "relEn": "", "house": "வேல் நகர் 5 1வது தளம்", "age": 46, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 647, "epic": "ZUQ3883303", "nameTa": "சஞ்சை ஆல்லவின் ஷட்டட", "nameEn": "", "relTa": "ரோசையா", "relEn": "", "house": "11/21", "age": 19, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 648, "epic": "ZUQ3883303", "nameTa": "ஷாலினிதேவி", "nameEn": "", "relTa": "குமார்", "relEn": "", "house": "32/12", "age": 22, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 649, "epic": "ZUQ3956661", "nameTa": "சபரிஷ்ரி", "nameEn": "", "relTa": "குமார்", "relEn": "", "house": "32/12", "age": 20, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 650, "epic": "ZUQ4227468", "nameTa": "சையத் ரிஹாரன் ஹறி", "nameEn": "", "relTa": "சையத்", "relEn": "", "house": "27/1பி", "age": 19, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 651, "epic": "ZUQ4160143", "nameTa": "சைய்யது", "nameEn": "", "relTa": "சர்புதீன்", "relEn": "", "house": "7", "age": 42, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 652, "epic": "ZUQ4462420", "nameTa": "நுல்ஸ்ரின்பானு", "nameEn": "", "relTa": "சைய்யது", "relEn": "", "house": "7", "age": 29, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 653, "epic": "ZUQ4464111", "nameTa": "புவனேஷ்வரி", "nameEn": "", "relTa": "இந்திராராணி", "relEn": "", "house": "41", "age": 18, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 654, "epic": "ZUQ4464129", "nameTa": "ஜெனிஸ்பர் குழந்தைராஜு", "nameEn": "", "relTa": "குழந்தைராஜு /", "relEn": "", "house": "40", "age": 22, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 655, "epic": "ZUQ4465555", "nameTa": "ஹரீஹரன்", "nameEn": "", "relTa": "விஜயலஸ்குமி", "relEn": "", "house": "7", "age": 18, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 656, "epic": "ZUQ4469094", "nameTa": "தீபிகா ராஜன்", "nameEn": "", "relTa": "ராஜன்", "relEn": "", "house": "24/2", "age": 23, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 657, "epic": "ZUQ4469169", "nameTa": "ஷியாம் பி", "nameEn": "", "relTa": "பால்", "relEn": "", "house": "7 ஏ", "age": 24, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 658, "epic": "ZUQ4469177", "nameTa": "ரியா பாத்திமா", "nameEn": "", "relTa": "அயாஸ்", "relEn": "", "house": "எண்.4", "age": 18, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 659, "epic": "ZUQ4473757", "nameTa": "கலா சி ஜே", "nameEn": "", "relTa": "சிவா சிவ", "relEn": "", "house": "எண்ண.18ஏ", "age": 42, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 660, "epic": "ZUQ4473971", "nameTa": "சி சார்லஸ்", "nameEn": "", "relTa": "கலா", "relEn": "", "house": "எண்ண.18ஏ", "age": 24, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 661, "epic": "ZUQ4489308", "nameTa": "ஜேகதிஷ்", "nameEn": "", "relTa": "ரமேஷ்", "relEn": "", "house": "18", "age": 18, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 662, "epic": "ZUQ4489316", "nameTa": "ஹரிபோவா", "nameEn": "", "relTa": "அகமதுபாஷா", "relEn": "", "house": "26", "age": 26, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 663, "epic": "ZUQ4492229", "nameTa": "வசந்தி", "nameEn": "", "relTa": "முரளிராஜா", "relEn": "", "house": "23", "age": 23, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 664, "epic": "ZUQ4494027", "nameTa": "குழந்தைராஜு", "nameEn": "", "relTa": "பெரியநாயகம்", "relEn": "", "house": "40/24", "age": 53, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 665, "epic": "ZUQ4494761", "nameTa": "ரம்யா", "nameEn": "", "relTa": "சங்கர்", "relEn": "", "house": "37", "age": 23, "genderTa": "பெண்", "genderEn": "Female"}, {"id": 666, "epic": "ZUQ4495990", "nameTa": "ராஜசேகர்", "nameEn": "", "relTa": "இந்திராராணி", "relEn": "", "house": "41", "age": 20, "genderTa": "ஆண்", "genderEn": "Male"}, {"id": 667, "epic": "ZUQ4497038", "nameTa": "கார்த்திகா அனீஷ்", "nameEn": "", "relTa": "தியாகராஜன்", "relEn": "", "house": "7", "age": 38, "genderTa": "பெண்", "genderEn": "Female"}];
+
+// ── STATE ──
+let filtered      = [...VOTERS];
+let sortKey       = 'id', sortDir = 1;
+let page          = 1,    perPage = 25;
+let genderFilter  = 'all';
+let deleteId      = null, editId = null, viewingId = null;
+let activeStatFilter = null, primedFilter = null;
+
+// ── BOOT ──
+function init(){
+  buildDashboard();
+  renderDashTable(VOTERS.slice(0, 10), 'Recent Records');
+  applyFilters();
+}
+
+function toggleMenu(){
+  document.getElementById('mobileNav').classList.toggle('open');
+}
+
+// ── VIEW SWITCHING ──
+function showView(v){
+  document.getElementById('view-dashboard').style.display = v === 'dashboard' ? '' : 'none';
+  document.getElementById('view-records').style.display   = v === 'records'   ? '' : 'none';
+  document.getElementById('navDash').classList.toggle('active', v === 'dashboard');
+  document.getElementById('navRec').classList.toggle('active',  v === 'records');
+  if(v === 'records'){
+    primedFilter ? applyPrimedFilter(primedFilter) : applyFilters();
+  }
+}
+
+// ── DASHBOARD ──
+function buildDashboard(){
+  const total   = VOTERS.length;
+  const males   = VOTERS.filter(v => v.genderEn === 'Male').length;
+  const females = VOTERS.filter(v => v.genderEn === 'Female').length;
+  const others  = VOTERS.filter(v => v.genderEn === 'Other').length;
+  const avgAge  = Math.round(VOTERS.reduce((s, v) => s + (parseInt(v.age) || 0), 0) / total);
+  const a80     = VOTERS.filter(v => parseInt(v.age) >= 80).length;
+  const a61     = VOTERS.filter(v => parseInt(v.age) >= 61).length;
+  const youth   = VOTERS.filter(v => parseInt(v.age) <= 30).length;
+  const senior  = a61 - a80;
+
+  const cards = [
+    { key:'total',  label:'Total Voters',   val:total,  sub:'All registered',                              icon:'🗳️', c:'var(--red)'    },
+    { key:'male',   label:'Male / ஆண்',     val:males,  sub:`${pct(males,total)}% of total`,               icon:'♂',  c:'var(--male)'   },
+    { key:'female', label:'Female / பெண்',  val:females,sub:`${pct(females,total)}% of total`,             icon:'♀',  c:'var(--female)' },
+    { key:'other',  label:'Third Gender',   val:others, sub:`${pct(others,total)}% of total`,              icon:'⚧',  c:'var(--other)'  },
+    { key:'avg',    label:'Avg. Age',        val:avgAge, sub:'Years average',                               icon:'📅', c:'var(--gold)'   },
+    { key:'youth',  label:'Youth (≤30)',     val:youth,  sub:`${pct(youth,total)}% of total`,               icon:'🌱', c:'var(--purple)' },
+    { key:'senior', label:'Senior (61–79)',  val:senior, sub:`${pct(senior,total)}% of total`,              icon:'🧓', c:'var(--green)'  },
+    { key:'age80',  label:'Elder (80+)',     val:a80,    sub:`${pct(a80,total)}% of total`,                 icon:'👴', c:'var(--gold)'   },
+  ];
+
+  document.getElementById('statsGrid').innerHTML = cards.map(c => `
+    <div class="stat-card ${activeStatFilter === c.key ? 'active-filter' : ''}"
+         style="--c:${c.c}" onclick="onStatClick('${c.key}')">
+      <div class="icon">${c.icon}</div>
+      <div class="stat-label">${c.label}</div>
+      <div class="stat-value">${c.val.toLocaleString()}</div>
+      <div class="stat-sub">${c.sub}</div>
+      ${activeStatFilter === c.key ? '<div class="stat-badge">Active</div>' : ''}
+    </div>`).join('');
+
+  // Age distribution bars
+  const bk = { '18–30':0, '31–45':0, '46–60':0, '61–79':0, '80+':0 };
+  VOTERS.forEach(v => {
+    const a = parseInt(v.age) || 0;
+    if     (a <= 30) bk['18–30']++;
+    else if(a <= 45) bk['31–45']++;
+    else if(a <= 60) bk['46–60']++;
+    else if(a <= 79) bk['61–79']++;
+    else             bk['80+'  ]++;
+  });
+  const maxC = Math.max(...Object.values(bk));
+  const bc   = ['#a855f7','var(--red)','#e67e22','var(--green)','var(--gold)'];
+  document.getElementById('ageChart').innerHTML = Object.entries(bk).map(([l, n], i) => `
+    <div class="bar-item">
+      <span class="bar-label">${l}</span>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${(n / maxC * 100).toFixed(1)}%;background:${bc[i]};">
+          <span class="bar-count">${n}</span>
+        </div>
+      </div>
+    </div>`).join('');
+
+  // Gender donut
+  const svg  = document.getElementById('donutSvg');
+  const cx = 65, cy = 65, r = 48, sw = 18, circ = 2 * Math.PI * r, gap = 3;
+  const segs = [
+    { n:males,   c:'var(--male)'   },
+    { n:females, c:'var(--female)' },
+    { n:others,  c:'var(--other)'  },
+  ];
+  let off = circ / 4;
+  let paths = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="var(--bg3)" stroke-width="${sw}"/>`;
+  segs.forEach(s => {
+    if(!s.n) return;
+    const len = circ * (s.n / total) - gap;
+    paths += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${s.c}"
+      stroke-width="${sw}" stroke-dasharray="${len} ${circ - len}"
+      stroke-dashoffset="${off}" stroke-linecap="round"/>`;
+    off -= (len + gap);
+  });
+  paths += `
+    <text x="${cx}" y="${cy - 4}" text-anchor="middle" font-size="18" font-weight="800"
+      fill="var(--text)" font-family="Sora">${total}</text>
+    <text x="${cx}" y="${cy + 12}" text-anchor="middle" font-size="8"
+      fill="var(--text3)" font-family="Sora">TOTAL</text>`;
+  svg.innerHTML = paths;
+
+  document.getElementById('donutLegend').innerHTML = [
+    { label:'ஆண் / Male',       n:males,   c:'var(--male)'   },
+    { label:'பெண் / Female',    n:females, c:'var(--female)' },
+    { label:'மற்றவர்கள்',       n:others,  c:'var(--other)'  },
+  ].map(l => `
+    <div class="legend-item">
+      <span class="legend-dot" style="background:${l.c};box-shadow:0 0 4px ${l.c};"></span>
+      <span class="legend-label">${l.label}</span>
+      <span class="legend-pct">${l.n} · ${pct(l.n, total)}%</span>
+    </div>`).join('');
+}
+
+function pct(n, total){ return total ? ((n / total) * 100).toFixed(1) : '0.0'; }
+
+// ── STAT CARD CLICK ──
+function onStatClick(key){
+  if(activeStatFilter === key){ clearStatFilter(); return; }
+  activeStatFilter = key;
+  buildDashboard();
+
+  let subset, label, sub;
+  switch(key){
+    case 'total':  subset = VOTERS;                                           label = 'All Voters';          sub = `${VOTERS.length} total records`;  break;
+    case 'male':   subset = VOTERS.filter(v => v.genderEn === 'Male');        label = 'Male Voters / ஆண்';  sub = `${subset.length} records`;        break;
+    case 'female': subset = VOTERS.filter(v => v.genderEn === 'Female');      label = 'Female Voters / பெண்'; sub = `${subset.length} records`;       break;
+    case 'other':  subset = VOTERS.filter(v => v.genderEn === 'Other');       label = 'Third Gender';        sub = `${subset.length} records`;        break;
+    case 'avg':    subset = VOTERS;                                           label = 'All Voters';          sub = 'Average age view';                break;
+    case 'youth':  subset = VOTERS.filter(v => parseInt(v.age) <= 30);        label = 'Youth Voters (≤30)';  sub = `${subset.length} records`;        break;
+    case 'senior': subset = VOTERS.filter(v => { const a=parseInt(v.age); return a>=61&&a<80; }); label='Senior Voters (61–79)'; sub=`${subset.length} records`; break;
+    case 'age80':  subset = VOTERS.filter(v => parseInt(v.age) >= 80);        label = 'Elder Voters (80+)';  sub = `${subset.length} records`;        break;
+    default:       subset = VOTERS; label = 'All Voters'; sub = '';
+  }
+
+  renderDashTable(subset, label);
+  document.getElementById('filterBannerText').textContent = `Showing: ${label}`;
+  document.getElementById('filterBannerSub').textContent  = sub;
+  document.getElementById('filterBanner').classList.add('show');
+  document.getElementById('clearFilterBtn').style.display = '';
+  primedFilter = key;
+}
+
+function clearStatFilter(){
+  activeStatFilter = null; primedFilter = null;
+  buildDashboard();
+  renderDashTable(VOTERS.slice(0, 10), 'Recent Records');
+  document.getElementById('filterBanner').classList.remove('show');
+  document.getElementById('clearFilterBtn').style.display = 'none';
+}
+
+// ── DASHBOARD TABLE ──
+function renderDashTable(data, title){
+  document.getElementById('dashTableTitle').textContent = `${title} (${data.length})`;
+  const show = data.slice(0, activeStatFilter ? Math.min(data.length, 100) : 10);
+  const tbody = document.getElementById('dashTableBody');
+  if(!show.length){
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--text3);">No records found</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = show.map(v => {
+    const a = parseInt(v.age) || 0;
+    const ageCls = a >= 80 ? 'age-old' : a >= 61 ? 'age-senior' : a <= 30 ? 'age-youth' : '';
+    const gb = v.genderEn === 'Male' ? 'gender-m' : v.genderEn === 'Female' ? 'gender-f' : 'gender-o';
+    const gi = v.genderEn === 'Male' ? '♂ ஆண்' : v.genderEn === 'Female' ? '♀ பெண்' : '⚧ மற்றவர்';
+    return `<tr style="border-bottom:1px solid var(--border);">
+      <td style="padding:.5rem .8rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--text3);">${v.id}</td>
+      <td style="padding:.5rem .8rem;font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--text3);">${v.epic}</td>
+      <td style="padding:.5rem .8rem;"><div class="name-ta" style="font-size:.88rem;">${v.nameTa}</div></td>
+      <td style="padding:.5rem .8rem;font-size:.72rem;color:var(--text2);">${v.house}</td>
+      <td style="padding:.5rem .8rem;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.75rem;" class="${ageCls}">${v.age}</td>
+      <td style="padding:.5rem .8rem;"><span class="gender-badge ${gb}">${gi}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+// ── FILTERS & SEARCH ──
+function filterGender(g, btn){
+  genderFilter = g; page = 1;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function handleSearch(){ page = 1; applyFilters(); }
+
+function applyFilters(){
+  const q  = (document.getElementById('searchInput')?.value || '').toLowerCase();
+  const af = document.getElementById('ageFilter')?.value || '';
+  filtered = VOTERS.filter(v => {
+    if(genderFilter === 'male'   && v.genderEn !== 'Male'  ) return false;
+    if(genderFilter === 'female' && v.genderEn !== 'Female') return false;
+    if(genderFilter === 'other'  && v.genderEn !== 'Other' ) return false;
+    const a = parseInt(v.age) || 0;
+    if(af === 'youth'  &&  a > 30         ) return false;
+    if(af === 'mid'    && (a <= 30||a > 60)) return false;
+    if(af === 'senior' && (a <= 60||a >= 80)) return false;
+    if(af === 'old'    &&  a < 80         ) return false;
+    if(q){
+      const hay = [v.id, v.epic, v.nameTa, v.relTa, v.house].join(' ').toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  sortData();
+  renderTable();
+}
+
+function applyPrimedFilter(key){
+  document.getElementById('searchInput').value = '';
+  document.getElementById('ageFilter').value   = '';
+  genderFilter = 'all';
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('.tab').classList.add('active');
+  switch(key){
+    case 'male':   genderFilter = 'male';   document.querySelectorAll('.tab')[1].classList.add('active'); document.querySelectorAll('.tab')[0].classList.remove('active'); break;
+    case 'female': genderFilter = 'female'; document.querySelectorAll('.tab')[2].classList.add('active'); document.querySelectorAll('.tab')[0].classList.remove('active'); break;
+    case 'other':  genderFilter = 'other';  document.querySelectorAll('.tab')[3].classList.add('active'); document.querySelectorAll('.tab')[0].classList.remove('active'); break;
+    case 'youth':  document.getElementById('ageFilter').value = 'youth';  break;
+    case 'senior': document.getElementById('ageFilter').value = 'senior'; break;
+    case 'age80':  document.getElementById('ageFilter').value = 'old';    break;
+  }
+  page = 1;
+  applyFilters();
+}
+
+// ── SORT ──
+function sortBy(key){
+  sortDir = sortKey === key ? sortDir * -1 : 1;
+  sortKey = key;
+  document.querySelectorAll('.si').forEach(el => el.textContent = '↕');
+  const el = document.getElementById('sort-' + key);
+  if(el) el.textContent = sortDir === 1 ? '↑' : '↓';
+  sortData();
+  renderTable();
+}
+
+function sortData(){
+  filtered.sort((a, b) => {
+    let av = a[sortKey], bv = b[sortKey];
+    if(sortKey === 'age' || sortKey === 'id'){ av = parseInt(av)||0; bv = parseInt(bv)||0; }
+    else { av = String(av||'').toLowerCase(); bv = String(bv||'').toLowerCase(); }
+    return av < bv ? -sortDir : av > bv ? sortDir : 0;
+  });
+}
+
+// ── RENDER TABLE ──
+function renderTable(){
+  const total = filtered.length, pages = Math.ceil(total / perPage) || 1;
+  if(page > pages) page = pages;
+  const start = (page - 1) * perPage;
+  const slice = filtered.slice(start, start + perPage);
+  document.getElementById('resultsInfo').textContent = `${total.toLocaleString()} records`;
+
+  const tbody = document.getElementById('tableBody');
+  if(!slice.length){
+    tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-msg">No voters found</div></div></td></tr>`;
+  } else {
+    tbody.innerHTML = slice.map(v => {
+      const a   = parseInt(v.age) || 0;
+      const ageCls = a >= 80 ? 'age-old' : a >= 61 ? 'age-senior' : a <= 30 ? 'age-youth' : '';
+      const gb  = v.genderEn === 'Male' ? 'gender-m' : v.genderEn === 'Female' ? 'gender-f' : 'gender-o';
+      const gi  = v.genderEn === 'Male' ? '♂ ஆண்'   : v.genderEn === 'Female' ? '♀ பெண்'   : '⚧ மற்றவர்';
+      return `<tr id="row-${v.id}">
+        <td class="serial">${v.id}</td>
+        <td class="epic-col">${v.epic}</td>
+        <td class="name-col"><div class="name-ta">${v.nameTa}</div></td>
+        <td class="rel-col"><div class="rel-ta">${v.relTa}</div></td>
+        <td class="house-col">${v.house}</td>
+        <td class="age-col ${ageCls}">${v.age}</td>
+        <td><span class="gender-badge ${gb}">${gi}</span></td>
+        <td>
+          <div class="actions-cell">
+            <button class="act-btn act-view" title="Browse / View" onclick="openView(${v.id})">👁</button>
+            <button class="act-btn act-edit" title="Edit"          onclick="openEdit(${v.id})">✏️</button>
+            <button class="act-btn act-del"  title="Delete"        onclick="openDelete(${v.id})">🗑</button>
+          </div>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+  renderPagination(total, pages);
+}
+
+function renderPagination(total, pages){
+  const ppSel = `<select onchange="changePerPage(this.value)"
+    style="padding:.2rem .35rem;border:1px solid var(--border);border-radius:4px;
+           font-size:.68rem;background:var(--card2);color:var(--text);outline:none;">
+    ${[10,25,50,100].map(n => `<option value="${n}" ${n === perPage ? 'selected' : ''}>${n}</option>`).join('')}
+  </select>`;
+  let pb = '';
+  const max = 5, sp = Math.max(1, Math.min(page - 2, pages - max + 1)), ep = Math.min(pages, sp + max - 1);
+  if(sp > 1) pb += `<button class="page-btn" onclick="goPage(1)">1</button>${sp > 2 ? '<span style="padding:0 .2rem;font-size:.65rem;color:var(--text3)">…</span>' : ''}`;
+  for(let p = sp; p <= ep; p++) pb += `<button class="page-btn ${p === page ? 'active' : ''}" onclick="goPage(${p})">${p}</button>`;
+  if(ep < pages) pb += `${ep < pages-1 ? '<span style="padding:0 .2rem;font-size:.65rem;color:var(--text3)">…</span>' : ''}<button class="page-btn" onclick="goPage(${pages})">${pages}</button>`;
+  document.getElementById('pagination').innerHTML = `
+    <div class="per-page">Rows: ${ppSel}</div>
+    <div class="page-info">${Math.min((page-1)*perPage+1,total)}–${Math.min(page*perPage,total)} / ${total}</div>
+    <div class="page-btns">
+      <button class="page-btn" onclick="goPage(${page-1})" ${page<=1?'disabled':''}>‹</button>
+      ${pb}
+      <button class="page-btn" onclick="goPage(${page+1})" ${page>=pages?'disabled':''}>›</button>
+    </div>`;
+}
+function goPage(p){ page = p; renderTable(); }
+function changePerPage(v){ perPage = parseInt(v); page = 1; renderTable(); }
+
+// ── BROWSE / VIEW (Read) ──
+function openView(id){
+  const v = VOTERS.find(x => x.id === id); if(!v) return;
+  viewingId = id;
+  const a = parseInt(v.age) || 0;
+  const ageLbl = a >= 80 ? 'Elder (80+)' : a >= 61 ? 'Senior Citizen' : a <= 30 ? 'Young Voter' : 'Adult Voter';
+  const gb = v.genderEn === 'Male' ? 'gender-m' : v.genderEn === 'Female' ? 'gender-f' : 'gender-o';
+  const gLabel = v.genderEn === 'Male' ? '♂ Male / ஆண்' : v.genderEn === 'Female' ? '♀ Female / பெண்' : '⚧ Other / மற்றவர்கள்';
+  document.getElementById('viewBody').innerHTML = `
+    <div class="voter-id-bar">
+      <span class="vid-num">#${v.id}</span>
+      <span class="vid-epic">${v.epic}</span>
+    </div>
+    <div class="view-grid">
+      <div class="view-field" style="grid-column:1/-1;">
+        <span class="view-label">பெயர் / Name</span>
+        <span class="view-val-ta">${v.nameTa}</span>
+      </div>
+      <div class="view-field" style="grid-column:1/-1;">
+        <span class="view-label">தந்தை / கணவர் பெயர்</span>
+        <span class="view-val-ta">${v.relTa}</span>
+      </div>
+      <div class="view-field">
+        <span class="view-label">வீட்டு எண் / House No</span>
+        <span class="view-val-ta" style="font-family:'JetBrains Mono',monospace;">${v.house}</span>
+      </div>
+      <div class="view-field">
+        <span class="view-label">வயது / Age</span>
+        <span class="view-val-ta" style="font-family:'JetBrains Mono',monospace;font-size:1.6rem;">${v.age}</span>
+        <span class="view-val-sub">${ageLbl}</span>
+      </div>
+      <div class="view-field" style="grid-column:1/-1;">
+        <span class="view-label">பால் / Gender</span>
+        <span style="margin-top:.3rem;">
+          <span class="gender-badge ${gb}" style="font-size:.78rem;padding:.3rem .9rem;">${gLabel}</span>
+        </span>
+      </div>
+    </div>`;
+  showModal('modalView');
+}
+function editFromView(){ closeAllModals(); setTimeout(() => openEdit(viewingId), 120); }
+
+// ── ADD ──
+function openAdd(){
+  editId = null;
+  document.getElementById('formTitle').textContent = '＋ Add Voter';
+  document.getElementById('formSaveBtn').textContent = '💾 Save';
+  const nextId = VOTERS.length ? Math.max(...VOTERS.map(v => v.id)) + 1 : 1;
+  document.getElementById('f-id').value = nextId;
+  ['epic','nameTa','relTa','house','age'].forEach(f => document.getElementById('f-' + f).value = '');
+  document.getElementById('f-gender').value = 'Male';
+  showModal('modalForm');
+}
+
+// ── EDIT ──
+function openEdit(id){
+  const v = VOTERS.find(x => x.id === id); if(!v) return;
+  editId = id;
+  document.getElementById('formTitle').textContent      = '✏️ Edit Voter #' + id;
+  document.getElementById('formSaveBtn').textContent    = '💾 Update';
+  document.getElementById('f-id').value                 = v.id;
+  document.getElementById('f-epic').value               = v.epic;
+  document.getElementById('f-nameTa').value             = v.nameTa;
+  document.getElementById('f-relTa').value              = v.relTa;
+  document.getElementById('f-house').value              = v.house;
+  document.getElementById('f-age').value                = v.age;
+  document.getElementById('f-gender').value             = v.genderEn || 'Male';
+  showModal('modalForm');
+}
+
+// ── SAVE (Add or Edit) ──
+function saveForm(){
+  const nameTa = document.getElementById('f-nameTa').value.trim();
+  const age    = parseInt(document.getElementById('f-age').value);
+  if(!nameTa)          { toast('பெயர் உள்ளிடவும்.', 'error'); return; }
+  if(!age||age<1||age>120){ toast('சரியான வயது உள்ளிடவும்.', 'error'); return; }
+  const gEn = document.getElementById('f-gender').value;
+  const gTa = gEn === 'Male' ? 'ஆண்' : gEn === 'Female' ? 'பெண்' : 'மற்றவர்கள்';
+  const record = {
+    id     : parseInt(document.getElementById('f-id').value) || (VOTERS.length ? Math.max(...VOTERS.map(v=>v.id))+1 : 1),
+    epic   : document.getElementById('f-epic').value.trim().toUpperCase(),
+    nameTa,
+    nameEn : '',
+    relTa  : document.getElementById('f-relTa').value.trim(),
+    relEn  : '',
+    house  : document.getElementById('f-house').value.trim(),
+    age, genderEn:gEn, genderTa:gTa
+  };
+  if(editId !== null){
+    const idx = VOTERS.findIndex(v => v.id === editId);
+    if(idx >= 0) VOTERS[idx] = record;
+    toast(`Updated: ${record.nameTa}`, 'success');
+  } else {
+    VOTERS.push(record);
+    toast(`Added: ${record.nameTa}`, 'success');
+  }
+  closeAllModals();
+  buildDashboard();
+  renderDashTable(VOTERS.slice(-10).reverse(), 'Recent Records');
+  applyFilters();
+  if(editId === null) setTimeout(() => { const r = document.getElementById('row-' + record.id); if(r) r.classList.add('new-row'); }, 150);
+}
+
+// ── DELETE ──
+function openDelete(id){
+  const v = VOTERS.find(x => x.id === id); if(!v) return;
+  deleteId = id;
+  document.getElementById('delName').textContent = `${v.nameTa} (${v.epic})`;
+  showModal('modalDelete');
+}
+
+function confirmDelete(){
+  if(deleteId === null) return;
+  const v = VOTERS.find(x => x.id === deleteId);
+  VOTERS  = VOTERS.filter(x => x.id !== deleteId);
+  filtered = filtered.filter(x => x.id !== deleteId);
+  toast(`Deleted: ${v?.nameTa}`, 'error');
+  deleteId = null;
+  closeAllModals();
+  buildDashboard();
+  renderTable();
+}
+
+// ── EXPORT CSV ──
+function exportCSV(){
+  const headers = ['வ.எண்','EPIC எண்','பெயர் (Tamil)','தந்தை/கணவர் பெயர்','வீட்டு எண்','வயது','பால் (Tamil)','Gender (English)'];
+  const rows    = filtered.map(v => [v.id, v.epic, v.nameTa, v.relTa, v.house, v.age, v.genderTa, v.genderEn]);
+  const csv     = [headers, ...rows].map(r => r.map(c => `"${String(c||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a       = document.createElement('a');
+  a.href        = 'data:text/csv;charset=utf-8,\uFEFF' + encodeURIComponent(csv);
+  a.download    = 'VoterList_Booth304_' + Date.now() + '.csv';
+  a.click();
+  toast('CSV exported successfully!', 'success');
+}
+
+// ── MODAL HELPERS ──
+function showModal(id){
+  document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+  document.getElementById(id).style.display = 'flex';
+  document.getElementById('overlay').classList.add('show');
+}
+function closeAllModals(){
+  document.getElementById('overlay').classList.remove('show');
+  document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+  editId = null; viewingId = null;
+}
+function closeModal(e){ if(e.target.id === 'overlay') closeAllModals(); }
+
+// ── TOAST ──
+function toast(msg, type = 'info'){
+  const el  = document.createElement('div');
+  el.className = `toast ${type}`;
+  const icon = { success:'✅', error:'❌', info:'ℹ️' }[type] || 'ℹ️';
+  el.innerHTML = `${icon} ${msg}`;
+  document.getElementById('toastWrap').appendChild(el);
+  setTimeout(() => el.style.opacity = '0', 2800);
+  setTimeout(() => el.remove(), 3200);
+}
+
+// ── START ──
+init();
+</script>
+</body>
+</html>

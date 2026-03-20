@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VoterExcel — PDF to Excel in 24 Hours</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:#060910;color:#e8edf5;overflow-x:hidden;cursor:none}
+a{text-decoration:none;color:inherit}
+#cur{position:fixed;width:10px;height:10px;background:#00ff88;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s,width .2s,height .2s;mix-blend-mode:screen}
+#cur.big{width:40px;height:40px;opacity:.4}
+.kb{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.kb-line{position:absolute;width:1px;background:linear-gradient(180deg,transparent,rgba(0,255,136,.12),transparent);animation:lineRise 4s linear infinite;transform-origin:bottom}
+@keyframes lineRise{0%{transform:scaleY(0) translateY(0);opacity:0}20%{opacity:1}80%{opacity:1}100%{transform:scaleY(1) translateY(-100vh);opacity:0}}
+.kb-orb{position:absolute;border-radius:50%;filter:blur(80px);animation:orbDrift 12s ease-in-out infinite alternate}
+@keyframes orbDrift{0%{transform:translate(0,0) scale(1)}100%{transform:translate(40px,-40px) scale(1.15)}}
+.wrap{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 20px}
+@media(min-width:768px){.wrap{max-width:740px}}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;background:rgba(6,9,16,.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,255,136,.08)}
+.logo{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;letter-spacing:1px;color:#fff}
+.logo span{color:#00ff88}
+.lang-sw{display:flex;gap:2px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:3px}
+.lb{padding:4px 10px;font-size:11px;font-weight:600;border:none;background:none;color:rgba(255,255,255,.5);cursor:pointer;border-radius:4px;font-family:inherit;transition:all .2s}
+.lb.on{background:#00ff88;color:#060910}
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:90px 20px 40px;max-width:480px;margin:0 auto}
+@media(min-width:768px){.hero{max-width:740px;flex-direction:row;align-items:center;gap:40px;padding:90px 20px 60px}.hero-left{flex:1}.hero-right{flex:1}}
+.ktag{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(0,255,136,.3);background:rgba(0,255,136,.06);color:#00ff88;padding:5px 12px;border-radius:4px;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:18px;animation:tagPulse 2s ease-in-out infinite}
+.ktag-dot{width:6px;height:6px;background:#00ff88;border-radius:50%;animation:blink 1s ease-in-out infinite}
+@keyframes tagPulse{0%,100%{box-shadow:0 0 0 0 rgba(0,255,136,0)}50%{box-shadow:0 0 16px 2px rgba(0,255,136,.15)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.hero-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(3rem,10vw,5.5rem);font-weight:900;line-height:.95;letter-spacing:-1px;text-transform:uppercase;margin-bottom:16px}
+.hero-title .slash{color:#00ff88;font-style:italic}
+.hero-title .ghost{-webkit-text-stroke:1px rgba(255,255,255,.25);color:transparent}
+.hero-sub{font-size:14px;color:rgba(255,255,255,.55);line-height:1.65;margin-bottom:24px;max-width:340px}
+.hero-btns{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:6px;font-size:14px;font-weight:600;border:none;cursor:pointer;font-family:inherit;transition:all .18s;position:relative;overflow:hidden}
+.btn::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.1);transform:translateX(-100%);transition:transform .25s}
+.btn:hover::after{transform:translateX(0)}
+.btn:hover{transform:translateY(-2px)}
+.btn-g{background:#00ff88;color:#060910;font-weight:700;box-shadow:0 4px 20px rgba(0,255,136,.35)}
+.btn-g:hover{box-shadow:0 8px 28px rgba(0,255,136,.5)}
+.btn-o{background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.75)}
+.btn-o:hover{border-color:rgba(0,255,136,.5);color:#00ff88}
+.hero-stats{display:flex;gap:20px;padding:14px 16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:8px}
+.hs{text-align:center;flex:1}
+.hs-n{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;color:#00ff88}
+.hs-l{font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.5px;text-transform:uppercase}
+.xcard{background:rgba(255,255,255,.04);border:1px solid rgba(0,255,136,.12);border-radius:10px;overflow:hidden;margin-top:28px;animation:cardFloat 5s ease-in-out infinite}
+@media(min-width:768px){.xcard{margin-top:0}}
+@keyframes cardFloat{0%,100%{transform:translateY(0) rotate(-.5deg)}50%{transform:translateY(-10px) rotate(.5deg)}}
+.xcard-top{padding:10px 14px;background:rgba(0,255,136,.08);border-bottom:1px solid rgba(0,255,136,.1);display:flex;align-items:center;justify-content:space-between}
+.xcard-title{font-size:11px;font-weight:600;color:#00ff88;letter-spacing:.5px}
+.xcard-dots{display:flex;gap:5px}
+.xd{width:8px;height:8px;border-radius:50%}
+.xd-r{background:#ff5f57}.xd-y{background:#febc2e}.xd-g{background:#28c840}
+table.xt{width:100%;border-collapse:collapse;font-size:11px}
+table.xt th{padding:7px 10px;text-align:left;background:rgba(0,255,136,.05);color:rgba(0,255,136,.7);font-weight:600;letter-spacing:.3px;border-bottom:1px solid rgba(0,255,136,.08)}
+table.xt td{padding:7px 10px;border-bottom:1px solid rgba(255,255,255,.04);color:rgba(255,255,255,.7)}
+table.xt tr:hover td{background:rgba(0,255,136,.04)}
+.xbooth{background:rgba(0,255,136,.12);color:#00ff88;padding:2px 7px;border-radius:3px;font-weight:700;font-size:10px}
+.xcard-foot{padding:10px 14px;display:flex;align-items:center;gap:8px;background:rgba(251,191,36,.06);border-top:1px solid rgba(251,191,36,.1)}
+.xcard-foot span{font-size:11px;color:#fbbf24;font-weight:600}
+.section{padding:56px 0}
+.sec-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#00ff88;margin-bottom:10px;display:block}
+.sec-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(2rem,6vw,3.2rem);font-weight:900;line-height:1;text-transform:uppercase;margin-bottom:8px;letter-spacing:-.5px}
+.sec-sub{font-size:13px;color:rgba(255,255,255,.45);line-height:1.65;margin-bottom:28px}
+.kline{height:1px;background:linear-gradient(90deg,transparent,rgba(0,255,136,.2),transparent)}
+.prob-grid{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:480px){.prob-grid{grid-template-columns:repeat(3,1fr)}}
+.prob-card{padding:18px;background:rgba(255,80,80,.04);border:1px solid rgba(255,80,80,.12);border-radius:8px;position:relative;overflow:hidden;transition:transform .2s,border-color .2s}
+.prob-card:hover{transform:translateY(-3px);border-color:rgba(255,80,80,.3)}
+.prob-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#ef4444,#f97316)}
+.prob-em{font-size:22px;margin-bottom:8px}
+.prob-card h3{font-size:13px;font-weight:700;color:#fca5a5;margin-bottom:4px}
+.prob-card p{font-size:11px;color:rgba(255,255,255,.4);line-height:1.5}
+.sol-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:480px){.sol-grid{grid-template-columns:repeat(4,1fr)}}
+.sol-card{padding:18px 14px;background:rgba(0,255,136,.04);border:1px solid rgba(0,255,136,.1);border-radius:8px;text-align:center;transition:all .25s;cursor:default}
+.sol-card:hover{background:rgba(0,255,136,.08);border-color:rgba(0,255,136,.3);transform:translateY(-4px) scale(1.02);box-shadow:0 8px 24px rgba(0,255,136,.12)}
+.sol-em{font-size:24px;margin-bottom:8px;display:block;transition:transform .3s}
+.sol-card:hover .sol-em{transform:scale(1.2) rotate(-5deg)}
+.sol-card h3{font-size:12px;font-weight:700;color:#00ff88;margin-bottom:4px}
+.sol-card p{font-size:10px;color:rgba(255,255,255,.4);line-height:1.5}
+.price-grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:480px){.price-grid{grid-template-columns:repeat(3,1fr)}}
+.price-card{padding:22px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);position:relative;transition:all .25s}
+.price-card:hover{transform:translateY(-4px);border-color:rgba(0,255,136,.2)}
+.price-card.star{border:1px solid rgba(0,255,136,.35);background:rgba(0,255,136,.06);transform:scale(1.02)}
+.price-card.star:hover{transform:scale(1.02) translateY(-4px)}
+.star-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#00ff88;color:#060910;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 12px;border-radius:3px;white-space:nowrap}
+.price-name{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:10px}
+.price-amt{font-family:'Barlow Condensed',sans-serif;font-size:52px;font-weight:900;color:#fff;line-height:1;margin-bottom:2px}
+.price-amt sup{font-size:22px;vertical-align:super}
+.price-unit{font-size:11px;color:rgba(255,255,255,.35);margin-bottom:14px}
+.price-feats{list-style:none;display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.price-feats li{font-size:12px;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:6px}
+.price-feats li::before{content:'→';color:#00ff88;font-size:10px;font-weight:700}
+.urgency{display:flex;align-items:center;gap:6px;margin-bottom:10px;font-size:10px;font-weight:700;color:#fca5a5}
+.u-dot{width:5px;height:5px;background:#ef4444;border-radius:50%;animation:blink 1s infinite}
+.calc-box{margin-top:20px;padding:16px;background:rgba(255,255,255,.03);border:1px solid rgba(0,255,136,.1);border-radius:8px}
+.calc-box label{font-size:11px;color:rgba(255,255,255,.45);display:block;margin-bottom:6px;letter-spacing:.5px;text-transform:uppercase}
+.calc-input{width:100%;padding:10px 12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:6px;color:#fff;font-size:15px;font-family:inherit;outline:none;transition:border-color .2s}
+.calc-input:focus{border-color:#00ff88}
+.calc-result{display:none;margin-top:10px;padding:12px;background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);border-radius:6px}
+.calc-result.show{display:block}
+.cr{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.5);margin-bottom:4px}
+.ct{display:flex;justify-content:space-between;font-size:16px;font-weight:700;color:#00ff88;padding-top:8px;border-top:1px solid rgba(0,255,136,.2);margin-top:6px}
+.form-wrap{background:rgba(255,255,255,.03);border:1px solid rgba(0,255,136,.1);border-radius:10px;padding:24px}
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:11px;font-weight:600;color:rgba(255,255,255,.4);margin-bottom:6px;letter-spacing:.5px;text-transform:uppercase}
+.fg input{width:100%;padding:11px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:6px;color:#fff;font-size:14px;font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s}
+.fg input:focus{border-color:#00ff88;box-shadow:0 0 0 3px rgba(0,255,136,.1)}
+.fg input::placeholder{color:rgba(255,255,255,.25)}
+.f-preview{display:none;padding:12px;margin-bottom:14px;background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);border-radius:6px}
+.f-preview.show{display:block}
+.fp-row{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.5);margin-bottom:3px}
+.fp-total{display:flex;justify-content:space-between;font-weight:700;color:#00ff88;font-size:15px;padding-top:8px;border-top:1px solid rgba(0,255,136,.2);margin-top:6px}
+.trust-strip{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:480px){.trust-strip{grid-template-columns:repeat(4,1fr)}}
+.trust-item{display:flex;align-items:center;gap:10px;padding:12px 14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:8px;transition:border-color .2s}
+.trust-item:hover{border-color:rgba(0,255,136,.2)}
+.ti-icon{font-size:20px;flex-shrink:0}
+.ti-text{font-size:12px;font-weight:600;color:rgba(255,255,255,.75);line-height:1.3}
+.pay-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:20px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:8px}
+.pay-info{flex:1;min-width:200px}
+.pay-label{font-size:10px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,.35);text-transform:uppercase;margin-bottom:4px}
+.pay-upi{font-size:14px;font-weight:700;color:#fff}
+.btn-gpay{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:6px;background:#000;color:#fff;font-size:13px;font-weight:700;border:1px solid rgba(255,255,255,.15);cursor:pointer;font-family:inherit;transition:all .2s;text-decoration:none}
+.btn-gpay:hover{background:#111;transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.4)}
+.g-color{font-size:16px}
+.final-cta{padding:48px 20px;background:linear-gradient(135deg,rgba(0,255,136,.08),rgba(0,255,136,.02));border-top:1px solid rgba(0,255,136,.12);border-bottom:1px solid rgba(0,255,136,.12);text-align:center;position:relative;overflow:hidden}
+.final-cta::before{content:'';position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:200px;height:200px;border-radius:50%;background:rgba(0,255,136,.06);filter:blur(50px);animation:orbDrift 8s ease-in-out infinite alternate}
+.pulse-wrap{position:relative;display:inline-block;margin-bottom:8px}
+.pulse-ring{position:absolute;inset:-10px;border-radius:8px;border:1px solid rgba(0,255,136,.4);animation:ringPulse 2s ease-out infinite}
+@keyframes ringPulse{0%{transform:scale(.95);opacity:1}100%{transform:scale(1.2);opacity:0}}
+footer{padding:20px;text-align:center;border-top:1px solid rgba(255,255,255,.06)}
+footer .logo{margin-bottom:4px;display:inline-block}
+footer p{font-size:11px;color:rgba(255,255,255,.25)}
+.fwa{position:fixed;bottom:20px;right:20px;z-index:98;width:52px;height:52px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.5);transition:all .2s;cursor:pointer;border:none}
+.fwa:hover{transform:scale(1.1);box-shadow:0 8px 28px rgba(37,211,102,.6)}
+.fwa svg{width:26px;height:26px;fill:#fff}
+.cd-bar{background:linear-gradient(90deg,#7f1d1d,#991b1b);padding:8px 20px;text-align:center;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.cd-text{font-size:11px;font-weight:700;color:#fca5a5;letter-spacing:.5px;text-transform:uppercase}
+.cd-timer{display:flex;gap:6px;align-items:center}
+.cd-u{background:rgba(0,0,0,.3);border-radius:4px;padding:3px 8px;text-align:center}
+.cd-n{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;color:#fff;line-height:1}
+.cd-l{font-size:8px;color:rgba(255,255,255,.5);text-transform:uppercase}
+.cd-col{font-size:16px;font-weight:700;color:rgba(255,255,255,.3)}
+.mq{overflow:hidden;padding:10px 0;border-top:1px solid rgba(0,255,136,.08);border-bottom:1px solid rgba(0,255,136,.08)}
+.mq-track{display:flex;gap:32px;animation:mq 18s linear infinite;width:max-content}
+@keyframes mq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.mq-item{font-size:11px;font-weight:700;color:rgba(0,255,136,.6);white-space:nowrap;letter-spacing:1px;text-transform:uppercase}
+.mq-item::before{content:'◆';margin-right:8px;font-size:7px;opacity:.5}
+.sr{opacity:0;transform:translateY(24px) skewY(1deg);transition:all .6s cubic-bezier(.23,1,.32,1)}
+.sr.vis{opacity:1;transform:translateY(0) skewY(0)}
+.sr.d1{transition-delay:.08s}.sr.d2{transition-delay:.16s}.sr.d3{transition-delay:.24s}.sr.d4{transition-delay:.32s}
+[data-ta]{display:none}
+body.ta [data-en]{display:none}
+body.ta [data-ta]{display:block}
+.il [data-ta]{display:none}
+body.ta .il [data-en]{display:none}
+body.ta .il [data-ta]{display:inline}
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<div class="kb" id="kb">
+  <div class="kb-orb" style="width:500px;height:500px;top:-150px;right:-150px;background:radial-gradient(circle,rgba(0,255,136,.07),transparent 70%)"></div>
+  <div class="kb-orb" style="width:400px;height:400px;bottom:-100px;left:-100px;background:radial-gradient(circle,rgba(0,100,255,.05),transparent 70%);animation-delay:-6s"></div>
+</div>
+
+<div class="cd-bar">
+  <div class="cd-text">🔥 Offer Ends In</div>
+  <div class="cd-timer">
+    <div class="cd-u"><div class="cd-n" id="cdH">23</div><div class="cd-l">Hrs</div></div>
+    <div class="cd-col">:</div>
+    <div class="cd-u"><div class="cd-n" id="cdM">59</div><div class="cd-l">Min</div></div>
+    <div class="cd-col">:</div>
+    <div class="cd-u"><div class="cd-n" id="cdS">47</div><div class="cd-l">Sec</div></div>
+  </div>
+  <div class="cd-text" style="color:#f87171">Limited Slots!</div>
+</div>
+
+<nav>
+  <div class="logo">Voter<span>Excel</span></div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="lang-sw">
+      <button class="lb on" onclick="setLang('en')">EN</button>
+      <button class="lb" onclick="setLang('ta')">த</button>
+    </div>
+    <a href="#form" class="btn btn-g" style="padding:9px 16px;font-size:13px">
+      <svg style="width:14px;height:14px;fill:currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.505 3.927 1.395 5.594L.057 23.882l6.474-1.297A11.93 11.93 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.77 9.77 0 01-5.02-1.373l-.36-.213-3.722.745.758-3.624-.234-.373A9.77 9.77 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+      <span class="il"><span data-en>Order</span><span data-ta>ஆர்டர்</span></span>
+    </a>
+    <a href="https://your-link-here.com" target="_blank" class="btn btn-g" style="padding:9px 16px;font-size:13px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; background-color: #f1f1f1; border-radius: 5px; color: black; font-family: sans-serif;">
+  <svg style="width:16px;height:16px;fill:currentColor" viewBox="0 0 24 24">
+    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+  </svg>
+  
+  <span class="il">
+    <span data-en>Demo</span>
+    <span data-ta>டெமோ</span>
+  </span>
+</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="ktag"><div class="ktag-dot"></div><span class="il"><span data-en>24-Hour Guaranteed</span><span data-ta>24 மணி உறுதி</span></span></div>
+    <h1 class="hero-title">
+      <span class="il">
+        <span data-en>PDF<br/>TO<br/><span class="ghost">EXCEL</span><br/><span class="slash">IN 24H</span></span>
+        <span data-ta>PDF<br/>TO<br/><span class="ghost">EXCEL</span><br/><span class="slash">24 மணி</span></span>
+      </span>
+    </h1>
+    <p class="hero-sub">
+      <span data-en>Booth-wise, ward-wise structured Excel — ready for campaign work. Perfect for election agents.</span>
+      <span data-ta>பூத் வாரியான, வார்டு வாரியான Excel — பிரச்சாரத்திற்கு தயார்.</span>
+    </p>
+    <div class="hero-btns">
+      <a href="#form" class="btn btn-g">
+        <svg style="width:16px;height:16px;fill:currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.505 3.927 1.395 5.594L.057 23.882l6.474-1.297A11.93 11.93 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.77 9.77 0 01-5.02-1.373l-.36-.213-3.722.745.758-3.624-.234-.373A9.77 9.77 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+        <span data-en>Order on WhatsApp</span><span data-ta>WhatsApp-ல் ஆர்டர்</span>
+      </a>
+      <a href="#pricing" class="btn btn-o"><span data-en>See Pricing</span><span data-ta>விலை பார்க்க</span></a>
+    </div>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-n">500+</div><div class="hs-l" data-en>Orders</div><div class="hs-l" data-ta>ஆர்டர்கள்</div></div>
+      <div class="hs"><div class="hs-n">24H</div><div class="hs-l" data-en>Delivery</div><div class="hs-l" data-ta>டெலிவரி</div></div>
+      <div class="hs"><div class="hs-n">99%</div><div class="hs-l" data-en>Accurate</div><div class="hs-l" data-ta>துல்லியம்</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="xcard">
+      <div class="xcard-top">
+        <div class="xcard-dots"><div class="xd xd-r"></div><div class="xd xd-y"></div><div class="xd xd-g"></div></div>
+        <div class="xcard-title">VoterData_Booth12.xlsx</div>
+        <div style="font-size:10px;color:rgba(0,255,136,.5)">● Live</div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="xt">
+          <thead><tr><th>#</th><th>Name</th><th>Booth</th><th>Age</th><th>Gender</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Rajan K.</td><td><span class="xbooth">B-12</span></td><td>45</td><td>M</td></tr>
+            <tr><td>2</td><td>Meenakshi</td><td><span class="xbooth">B-12</span></td><td>38</td><td>F</td></tr>
+            <tr><td>3</td><td>Arumugam</td><td><span class="xbooth">B-13</span></td><td>52</td><td>M</td></tr>
+            <tr><td>4</td><td>Selvi M.</td><td><span class="xbooth">B-13</span></td><td>29</td><td>F</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="xcard-foot">
+        <span>⚡</span>
+        <span data-en>Delivered to WhatsApp in 24 hours</span>
+        <span data-ta>24 மணியில் WhatsApp டெலிவரி</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="mq"><div class="mq-track"><span class="mq-item">Booth-Wise Excel</span><span class="mq-item">24hr Delivery</span><span class="mq-item">100% Accurate</span><span class="mq-item">WhatsApp Support</span><span class="mq-item">₹1 Per Voter</span><span class="mq-item">Campaign Ready</span><span class="mq-item">Easy Filtering</span><span class="mq-item">Booth-Wise Excel</span><span class="mq-item">24hr Delivery</span><span class="mq-item">100% Accurate</span><span class="mq-item">WhatsApp Support</span><span class="mq-item">₹1 Per Voter</span><span class="mq-item">Campaign Ready</span><span class="mq-item">Easy Filtering</span></div></div>
+
+<section class="section">
+  <div class="wrap">
+    <span class="sec-label sr" data-en>The Problem</span><span class="sec-label sr" data-ta>சிக்கல்</span>
+    <h2 class="sec-title sr d1"><span data-en>PDF = <span style="color:#ef4444">Useless</span></span><span data-ta>PDF = <span style="color:#ef4444">பயனற்றது</span></span></h2>
+    <div class="prob-grid" style="margin-bottom:32px">
+      <div class="prob-card sr d1"><div class="prob-em">🔒</div><h3 data-en>Unsearchable</h3><h3 data-ta>தேட முடியாது</h3><p data-en>Can't search, sort or filter voter data in a PDF.</p><p data-ta>PDF-ல் வாக்காளர் தரவை தேட முடியாது.</p></div>
+      <div class="prob-card sr d2"><div class="prob-em">⏳</div><h3 data-en>Time Drain</h3><h3 data-ta>நேர விரயம்</h3><p data-en>Hours wasted finding one voter across 500 pages.</p><p data-ta>500 பக்கங்களில் ஒரு வாக்காளரை கண்டுபிடிக்க மணிக்கணக்கு.</p></div>
+      <div class="prob-card sr d3"><div class="prob-em">❌</div><h3 data-en>No Campaign Use</h3><h3 data-ta>பிரச்சாரம் இல்லை</h3><p data-en>Booth targeting, age filtering — impossible with PDF.</p><p data-ta>பூத் இலக்கு, வயது வடிகட்டல் — சாத்தியமில்லை.</p></div>
+    </div>
+    <span class="sec-label sr" style="color:#00ff88" data-en>Our Fix</span><span class="sec-label sr" style="color:#00ff88" data-ta>எங்கள் தீர்வு</span>
+    <h2 class="sec-title sr d1"><span data-en>Excel = <span style="color:#00ff88">Power</span></span><span data-ta>Excel = <span style="color:#00ff88">வலிமை</span></span></h2>
+    <div class="sol-grid">
+      <div class="sol-card sr d1"><span class="sol-em">🏛️</span><h3 data-en>Booth-Wise</h3><h3 data-ta>பூத் வாரியான</h3><p data-en>Separate tabs per booth</p><p data-ta>ஒவ்வொரு பூதுக்கும் தனி தாள்</p></div>
+      <div class="sol-card sr d2"><span class="sol-em">🔍</span><h3 data-en>Filterable</h3><h3 data-ta>வடிகட்டல்</h3><p data-en>Age, gender, ward filters</p><p data-ta>வயது, பாலினம் வடிகட்டல்</p></div>
+      <div class="sol-card sr d3"><span class="sol-em">📊</span><h3 data-en>Clean Data</h3><h3 data-ta>சுத்தமான தரவு</h3><p data-en>Verified accurate records</p><p data-ta>சரிபார்க்கப்பட்ட பதிவுகள்</p></div>
+      <div class="sol-card sr d4"><span class="sol-em">🚀</span><h3 data-en>24hr Ready</h3><h3 data-ta>24 மணி தயார்</h3><p data-en>WhatsApp delivery</p><p data-ta>WhatsApp டெலிவரி</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="kline"></div>
+
+<section class="section" id="pricing">
+  <div class="wrap">
+    <span class="sec-label sr" data-en>Pricing</span><span class="sec-label sr" data-ta>விலை</span>
+    <h2 class="sec-title sr d1"><span data-en>Simple. <span style="color:#00ff88">Affordable.</span></span><span data-ta>எளிய. <span style="color:#00ff88">சரவசதியான.</span></span></h2>
+    <div class="price-grid" style="margin-bottom:20px">
+      <div class="price-card sr d1">
+        <div class="urgency"><div class="u-dot"></div><span data-en>Pay-Per-Voter</span><span data-ta>வாக்காளர் வாரியாக</span></div>
+        <div class="price-name" data-en>Basic Conversion</div><div class="price-name" data-ta>அடிப்படை மாற்றம்</div>
+        <div class="price-amt"><sup>₹</sup>1</div>
+        <div class="price-unit" data-en>per voter record</div><div class="price-unit" data-ta>ஒரு வாக்காளர் பதிவுக்கு</div>
+        <ul class="price-feats">
+          <li data-en>Full Excel conversion</li><li data-ta>முழு Excel மாற்றம்</li>
+          <li data-en>Booth-wise structure</li><li data-ta>பூத் வாரிய கட்டமைப்பு</li>
+          <li data-en>WhatsApp delivery</li><li data-ta>WhatsApp டெலிவரி</li>
+        </ul>
+        <a href="#form" class="btn btn-g" style="width:100%;justify-content:center"><span data-en>Order Now</span><span data-ta>ஆர்டர் செய்</span></a>
+      </div>
+      <div class="price-card star sr">
+        <div class="star-badge" data-en>⭐ Best Value</div><div class="star-badge" data-ta>⭐ சிறந்த மதிப்பு</div>
+        <div class="urgency"><div class="u-dot"></div><span data-en>Limited Offer</span><span data-ta>வரையறுக்கப்பட்ட சலுகை</span></div>
+        <div class="price-name" data-en>Full Package</div><div class="price-name" data-ta>முழு தொகுப்பு</div>
+        <div class="price-amt"><sup>₹</sup>399</div>
+        <div class="price-unit" data-en>+ ₹1/voter · Dashboard included</div><div class="price-unit" data-ta>+ ₹1/வாக்காளர் · டாஷ்போர்டு சேர்க்கப்பட்டது</div>
+        <ul class="price-feats">
+          <li data-en>Everything in Basic</li><li data-ta>அடிப்படையில் உள்ளது அனைத்தும்</li>
+          <li data-en>Dashboard access</li><li data-ta>டாஷ்போர்டு அணுகல்</li>
+          <li data-en>Priority 12hr delivery</li><li data-ta>12 மணி முன்னுரிமை டெலிவரி</li>
+          <li data-en>Dedicated WA support</li><li data-ta>அர்பணிக்கப்பட்ட WA ஆதரவு</li>
+        </ul>
+        <a href="#form" class="btn btn-g" style="width:100%;justify-content:center"><span data-en>Get Full Package</span><span data-ta>முழு தொகுப்பு</span></a>
+      </div>
+      <div class="price-card sr d2">
+        <div class="urgency" style="color:#a5b4fc"><div class="u-dot" style="background:#6366f1"></div><span data-en>Bulk Discount</span><span data-ta>மொத்த தள்ளுபடி</span></div>
+        <div class="price-name" data-en>Bulk (10K+ Voters)</div><div class="price-name" data-ta>மொத்தம் (10K+ வாக்காளர்)</div>
+        <div class="price-amt" style="font-size:38px">Custom</div>
+        <div class="price-unit" data-en>negotiated pricing</div><div class="price-unit" data-ta>பேச்சுவார்த்தை விலை</div>
+        <ul class="price-feats">
+          <li data-en>Volume discounts</li><li data-ta>அளவு தள்ளுபடிகள்</li>
+          <li data-en>Multi-constituency</li><li data-ta>பல தொகுதிகள்</li>
+          <li data-en>Express 6hr delivery</li><li data-ta>6 மணி விரைவு</li>
+        </ul>
+        <a href="https://wa.me/918667491936?text=Hi%2C+I+need+bulk+voter+conversion+for+10000%2B+voters." target="_blank" class="btn btn-o" style="width:100%;justify-content:center"><span data-en>Contact for Quote</span><span data-ta>விலை கேட்க</span></a>
+      </div>
+    </div>
+    <div class="calc-box sr">
+      <label data-en>🧮 Quick Price Estimate</label><label data-ta>🧮 விரைவு விலை மதிப்பீடு</label>
+      <input class="calc-input" type="number" id="calcV" placeholder="Enter number of voters" min="1" oninput="doCalc()"/>
+      <div class="calc-result" id="calcR">
+        <div class="cr"><span data-en>Voter cost (₹1/voter)</span><span data-ta>வாக்காளர் செலவு</span><span id="cV">₹0</span></div>
+        <div class="cr"><span data-en>Dashboard access</span><span data-ta>டாஷ்போர்டு</span><span>₹399</span></div>
+        <div class="ct"><span data-en>Total</span><span data-ta>மொத்தம்</span><span id="cT">₹399</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="kline"></div>
+
+<section class="section">
+  <div class="wrap">
+    <h2 class="sec-title sr" data-en>Why <span style="color:#00ff88">Trust Us</span></h2>
+    <h2 class="sec-title sr" data-ta>ஏன் <span style="color:#00ff88">நம்புகிறோம்</span></h2>
+    <div class="trust-strip">
+      <div class="trust-item sr d1"><div class="ti-icon">⚡</div><div class="ti-text" data-en>24hr Guaranteed</div><div class="ti-text" data-ta>24 மணி உறுதி</div></div>
+      <div class="trust-item sr d2"><div class="ti-icon">🎯</div><div class="ti-text" data-en>99% Accurate Data</div><div class="ti-text" data-ta>99% துல்லியமான</div></div>
+      <div class="trust-item sr d3"><div class="ti-icon">💬</div><div class="ti-text" data-en>WhatsApp Support</div><div class="ti-text" data-ta>WhatsApp ஆதரவு</div></div>
+      <div class="trust-item sr d4"><div class="ti-icon">💰</div><div class="ti-text" data-en>Just ₹1 Per Voter</div><div class="ti-text" data-ta>வெறும் ₹1 ஒருவருக்கு</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="kline"></div>
+
+<section class="section" id="form">
+  <div class="wrap">
+    <span class="sec-label sr" data-en>Order Now</span><span class="sec-label sr" data-ta>இப்போதே ஆர்டர்</span>
+    <h2 class="sec-title sr d1"><span data-en>Get Your <span style="color:#00ff88">Excel File</span></span><span data-ta>உங்கள் <span style="color:#00ff88">Excel கோப்பு</span> பெறுங்கள்</span></h2>
+    <div class="form-wrap sr d2">
+      <div class="fg"><label data-en>Your Name *</label><label data-ta>உங்கள் பெயர் *</label><input type="text" id="fName" placeholder="Full name"/></div>
+      <div class="fg"><label data-en>WhatsApp Number *</label><label data-ta>WhatsApp எண் *</label><input type="tel" id="fPhone" placeholder="10-digit mobile number"/></div>
+      <div class="fg"><label data-en>Number of Voters *</label><label data-ta>வாக்காளர் எண்ணிக்கை *</label><input type="number" id="fVoters" placeholder="e.g. 1200" min="1" oninput="formCalc()"/></div>
+      <div class="fg"><label data-en>Constituency / Area</label><label data-ta>தொகுதி / பகுதி</label><input type="text" id="fArea" placeholder="Optional"/></div>
+      <div class="f-preview" id="fPrev">
+        <div class="fp-row"><span data-en>Voter cost</span><span data-ta>வாக்காளர் செலவு</span><span id="fpV">₹0</span></div>
+        <div class="fp-row"><span data-en>Dashboard</span><span data-ta>டாஷ்போர்டு</span><span>₹399</span></div>
+        <div class="fp-total"><span data-en>Total Payable</span><span data-ta>மொத்தம்</span><span id="fpT">₹399</span></div>
+      </div>
+      <button onclick="sendToWhatsApp()" class="btn btn-g" style="width:100%;justify-content:center;padding:15px;font-size:15px">
+        <svg style="width:18px;height:18px;fill:currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.505 3.927 1.395 5.594L.057 23.882l6.474-1.297A11.93 11.93 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.77 9.77 0 01-5.02-1.373l-.36-.213-3.722.745.758-3.624-.234-.373A9.77 9.77 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+        <span data-en>Send Order on WhatsApp</span><span data-ta>WhatsApp-ல் ஆர்டர் அனுப்பு</span>
+      </button>
+      <p style="text-align:center;font-size:11px;color:rgba(255,255,255,.25);margin-top:10px" data-en>Reply within 30 min · No spam · Data safe</p>
+      <p style="text-align:center;font-size:11px;color:rgba(255,255,255,.25);margin-top:10px" data-ta>30 நிமிடத்தில் பதில் · தரவு பாதுகாப்பு</p>
+    </div>
+  </div>
+</section>
+
+<div class="kline"></div>
+
+<section class="section">
+  <div class="wrap">
+    <span class="sec-label sr" data-en>Pay Securely</span><span class="sec-label sr" data-ta>பாதுகாப்பாக செலுத்துங்கள்</span>
+    <h2 class="sec-title sr d1"><span data-en>Pay via <span style="color:#00ff88">UPI</span></span><span data-ta><span style="color:#00ff88">UPI</span> மூலம் செலுத்துங்கள்</span></h2>
+    <div class="pay-row sr d2">
+      <div class="pay-info">
+        <div class="pay-label" data-en>UPI ID</div><div class="pay-label" data-ta>UPI ID</div>
+        <div class="pay-upi">sherifthe6-1@okaxis</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.35);margin-top:4px" data-en>GPay · PhonePe · Paytm · Any UPI</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.35);margin-top:4px" data-ta>GPay · PhonePe · Paytm · எந்த UPI</div>
+      </div>
+      <a href="upi://pay?pa=sherifthe6-1@okaxis&pn=VoterService&cu=INR" class="btn-gpay">
+        <span class="g-color">G</span>
+        <span data-en>Pay via GPay</span><span data-ta>GPay மூலம் செலுத்து</span>
+      </a>
+    </div>
+    <p style="font-size:11px;color:rgba(255,255,255,.3);margin-top:10px;text-align:center" data-en>After payment, send screenshot to WhatsApp: +91 86674 91936</p>
+    <p style="font-size:11px;color:rgba(255,255,255,.3);margin-top:10px;text-align:center" data-ta>கட்டணத்திற்குப் பிறகு WhatsApp-ல் ஸ்கிரீன்ஷாட்: +91 86674 91936</p>
+  </div>
+</section>
+
+<div class="final-cta">
+  <div class="wrap" style="position:relative;z-index:2;text-align:center">
+    <div class="sr">
+      <div class="sec-label" style="justify-content:center;display:flex;margin-bottom:12px" data-en>Ready for Election Work?</div>
+      <div class="sec-label" style="justify-content:center;display:flex;margin-bottom:12px" data-ta>தேர்தல் பணிக்கு தயாரா?</div>
+      <h2 class="sec-title" style="margin-bottom:16px">
+        <span data-en>Order Now.<br/><span style="color:#00ff88">Win with Data.</span></span>
+        <span data-ta>இப்போதே ஆர்டர்.<br/><span style="color:#00ff88">தரவால் வெற்றி.</span></span>
+      </h2>
+      <div class="pulse-wrap">
+        <div class="pulse-ring"></div>
+        <a href="https://wa.me/918667491936?text=Hi%2C+I+want+voter+list+Excel+conversion+service." target="_blank" class="btn btn-g" style="font-size:16px;padding:16px 32px">
+          <svg style="width:18px;height:18px;fill:currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.505 3.927 1.395 5.594L.057 23.882l6.474-1.297A11.93 11.93 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.77 9.77 0 01-5.02-1.373l-.36-.213-3.722.745.758-3.624-.234-.373A9.77 9.77 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+          <span data-en>Order on WhatsApp</span><span data-ta>WhatsApp-ல் ஆர்டர்</span>
+        </a>
+      </div>
+      <div style="margin-top:16px;font-size:13px;color:rgba(255,255,255,.4)">+91 86674 91936</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="logo" style="margin-bottom:6px">Voter<span>Excel</span></div>
+  <p>+91 86674 91936 · sherifthe6-1@okaxis</p>
+  <p style="margin-top:4px">© 2025 VoterExcel. Tamil Nadu, India.</p>
+</footer>
+
+<a href="https://wa.me/918667491936?text=Hi%2C+I+need+voter+list+Excel+conversion." target="_blank" class="fwa">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.025.505 3.927 1.395 5.594L.057 23.882l6.474-1.297A11.93 11.93 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.77 9.77 0 01-5.02-1.373l-.36-.213-3.722.745.758-3.624-.234-.373A9.77 9.77 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
+</a>
+
+<script>
+const cur=document.getElementById('cur');
+document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'});
+document.querySelectorAll('a,button,.sol-card,.prob-card,.price-card,.trust-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cur.classList.add('big'));
+  el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
+});
+window.addEventListener('touchstart',()=>cur.style.display='none',{once:true});
+
+(function(){
+  const kb=document.getElementById('kb');
+  function makeLine(){
+    const l=document.createElement('div');l.className='kb-line';
+    l.style.height=(80+Math.random()*200)+'px';
+    l.style.left=(Math.random()*100)+'%';l.style.bottom='0';
+    l.style.animationDuration=(3+Math.random()*4)+'s';
+    l.style.animationDelay=(Math.random()*4)+'s';
+    l.style.opacity=.4+Math.random()*.6;
+    kb.appendChild(l);
+    l.addEventListener('animationend',()=>{l.remove();makeLine()});
+  }
+  for(let i=0;i<12;i++)makeLine();
+})();
+
+(function(){
+  const KEY='vex_cd';let exp=localStorage.getItem(KEY);
+  if(!exp||Date.now()>+exp){exp=Date.now()+23*3600000+59*60000+47000;localStorage.setItem(KEY,exp);}
+  function tick(){
+    const d=Math.max(0,+exp-Date.now());
+    const h=Math.floor(d/3600000),m=Math.floor(d%3600000/60000),s=Math.floor(d%60000/1000);
+    document.getElementById('cdH').textContent=String(h).padStart(2,'0');
+    document.getElementById('cdM').textContent=String(m).padStart(2,'0');
+    document.getElementById('cdS').textContent=String(s).padStart(2,'0');
+    if(d>0)setTimeout(tick,1000);
+  }tick();
+})();
+
+let lang='en';
+function setLang(l){
+  lang=l;document.body.classList.toggle('ta',l==='ta');
+  document.querySelectorAll('.lb').forEach(b=>b.classList.remove('on'));
+  document.querySelector(`.lb[onclick="setLang('${l}')"]`).classList.add('on');
+}
+
+function doCalc(){
+  const v=parseInt(document.getElementById('calcV').value)||0;
+  const r=document.getElementById('calcR');
+  if(v>0){r.classList.add('show');document.getElementById('cV').textContent='₹'+v.toLocaleString('en-IN');document.getElementById('cT').textContent='₹'+(v+399).toLocaleString('en-IN');}
+  else r.classList.remove('show');
+}
+
+function formCalc(){
+  const v=parseInt(document.getElementById('fVoters').value)||0;
+  const p=document.getElementById('fPrev');
+  if(v>0){p.classList.add('show');document.getElementById('fpV').textContent='₹'+v.toLocaleString('en-IN');document.getElementById('fpT').textContent='₹'+(v+399).toLocaleString('en-IN');}
+  else p.classList.remove('show');
+}
+
+function sendToWhatsApp(){
+  const name=document.getElementById('fName').value.trim();
+  const phone=document.getElementById('fPhone').value.trim();
+  const voters=document.getElementById('fVoters').value.trim();
+  const area=document.getElementById('fArea').value.trim();
+  if(!name){alert('Please enter your name.');return;}
+  if(!phone){alert('Please enter your mobile number.');return;}
+  if(!voters){alert('Please enter voter count.');return;}
+  const total=parseInt(voters)+399;
+  const msg=lang==='ta'
+    ?`வணக்கம்! வாக்காளர் Excel சேவைக்கு ஆர்டர் செய்கிறேன்.\n\nபெயர்: ${name}\nமொபைல்: ${phone}\nவாக்காளர்கள்: ${voters}\nபகுதி: ${area||'குறிப்பிடவில்லை'}\nமொத்த செலவு: ₹${total}\n\nதயவுசெய்து உறுதிப்படுத்துங்கள்.`
+    :`Hi! I want Voter Excel conversion service.\n\nName: ${name}\nMobile: ${phone}\nVoters: ${voters}\nArea: ${area||'Not specified'}\nEstimated Cost: ₹${total}\n\nPlease confirm and proceed.`;
+  window.open('https://wa.me/918667491936?text='+encodeURIComponent(msg),'_blank');
+}
+
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});},{threshold:.12});
+document.querySelectorAll('.sr').forEach(el=>obs.observe(el));
+window.addEventListener('scroll',()=>{document.querySelector('nav').style.boxShadow=window.scrollY>20?'0 4px 24px rgba(0,255,136,.06)':'none'},{passive:true});
+</script>
+</body>
+</html>
